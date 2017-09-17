@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <include layout="@layout/include_toolbar"/>
+
+    <com.android.rdc.mobilesafe.ch10.widget.SettingView
+        android:id="@+id/sv_blacklist_set"
+        android:layout_width="match_parent"
+        android:layout_height="55dp"
+        app:status_off="黑名单拦截已开启"
+        app:status_on="黑名单拦截已关闭"
+        app:title="黑名单拦截设置"/>
+
+    <com.android.rdc.mobilesafe.ch10.widget.SettingView
+        android:id="@+id/sv_app_lock_set"
+        android:layout_width="match_parent"
+        android:layout_height="55dp"
+        app:status_off="程序锁已开启"
+        app:status_on="程序锁已关闭"
+        app:title="程序锁设置"/>
+</LinearLayout>
