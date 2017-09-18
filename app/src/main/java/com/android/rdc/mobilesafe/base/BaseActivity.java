@@ -11,7 +11,7 @@ import android.view.WindowManager;
 import android.widget.Toast;
 
 import com.android.rdc.mobilesafe.R;
-import com.android.rdc.mobilesafe.ch01.util.UIUtil;
+import com.android.rdc.mobilesafe.util.IOUtil;
 
 import butterknife.ButterKnife;
 
@@ -38,7 +38,7 @@ public abstract class BaseActivity extends AppCompatActivity {
             }
             View statusView = findViewById(R.id.status_view);
             if (statusView != null)
-                statusView.getLayoutParams().height = UIUtil.getStatusBarHeight(this);
+                statusView.getLayoutParams().height = IOUtil.UIUtil.getStatusBarHeight(this);
         }
     }
 

@@ -14,9 +14,9 @@ import android.widget.TextView;
 import com.android.rdc.mobilesafe.R;
 import com.android.rdc.mobilesafe.base.BaseRvAdapter;
 import com.android.rdc.mobilesafe.base.BaseToolBarActivity;
-import com.android.rdc.mobilesafe.ch04appmanager.adapter.AppManagerAdapter;
-import com.android.rdc.mobilesafe.ch04appmanager.entity.AppInfo;
-import com.android.rdc.mobilesafe.ch04appmanager.util.AppInfoParser;
+import com.android.rdc.mobilesafe.adapter.AppManagerAdapter;
+import com.android.rdc.mobilesafe.entity.AppInfo;
+import com.android.rdc.mobilesafe.util.AppInfoParser;
 
 import java.util.ArrayList;
 import java.util.List;

@@ -27,7 +27,7 @@
                 <category android:name="android.intent.category.LAUNCHER"/>
             </intent-filter>
         </activity>
-        <activity android:name=".ch01.SplashActivity">
+        <activity android:name=".ui.SplashActivity">
         </activity>
 
         <!-- 配置APP ID -->
@@ -47,18 +47,20 @@
             android:name="BUGLY_ENABLE_DEBUG"
             android:value="true"/>
 
-        <activity android:name=".ch10.SettingActivityBase">
+        <activity android:name=".ui.SettingActivityBase">
         </activity>
         <activity android:name=".ch09.AppLockActivityBase">
         </activity>
 
         <service
-            android:name=".ch09.service.AppLockService"
+            android:name=".service.AppLockService"
             android:persistent="true"/>
 
         <activity android:name=".ch09.EnterPwdActivity">
         </activity>
         <activity android:name=".ui.AppManagerActivity">
+        </activity>
+        <activity android:name=".ui.VirusScanActivity">
         </activity>
     </application>
 

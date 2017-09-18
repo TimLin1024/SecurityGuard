@@ -9,7 +9,7 @@
 
     <include layout="@layout/include_toolbar"/>
 
-    <com.android.rdc.mobilesafe.ch10.widget.SettingView
+    <com.android.rdc.mobilesafe.ui.widget.SettingView
         android:id="@+id/sv_blacklist_set"
         android:layout_width="match_parent"
         android:layout_height="55dp"
@@ -17,7 +17,7 @@
         app:status_on="黑名单拦截已关闭"
         app:title="黑名单拦截设置"/>
 
-    <com.android.rdc.mobilesafe.ch10.widget.SettingView
+    <com.android.rdc.mobilesafe.ui.widget.SettingView
         android:id="@+id/sv_app_lock_set"
         android:layout_width="match_parent"
         android:layout_height="55dp"

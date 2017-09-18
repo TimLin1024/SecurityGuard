@@ -5,12 +5,13 @@ import android.support.v7.widget.RecyclerView;
 
 import com.android.rdc.mobilesafe.base.BaseActivity;
 import com.android.rdc.mobilesafe.base.BaseRvAdapter;
-import com.android.rdc.mobilesafe.ch01.adapter.HomeRvAdapter;
-import com.android.rdc.mobilesafe.ch01.entitiy.HomeDataModel;
-import com.android.rdc.mobilesafe.ch01.entitiy.HomeItem;
+import com.android.rdc.mobilesafe.adapter.HomeRvAdapter;
+import com.android.rdc.mobilesafe.entity.HomeDataModel;
+import com.android.rdc.mobilesafe.entity.HomeItem;
 import com.android.rdc.mobilesafe.ch09.AppLockActivityBase;
-import com.android.rdc.mobilesafe.ch10.SettingActivityBase;
+import com.android.rdc.mobilesafe.ui.SettingActivityBase;
 import com.android.rdc.mobilesafe.ui.AppManagerActivity;
+import com.android.rdc.mobilesafe.ui.VirusScanActivity;
 
 import java.util.List;
 
@@ -61,13 +62,15 @@ public class HomeActivity extends BaseActivity {
             case R.drawable.callmsgsafe://通讯卫士
                 break;
             case R.drawable.app://软件管家
+                startActivity(AppManagerActivity.class);
                 break;
             case R.drawable.trojan://病毒查杀
+                startActivity(VirusScanActivity.class);
                 break;
             case R.drawable.sysoptimize://缓存优化
                 break;
             case R.drawable.taskmanager://进程管理
-                startActivity(AppManagerActivity.class);
+
                 break;
             case R.drawable.netmanager://流量管理
                 break;

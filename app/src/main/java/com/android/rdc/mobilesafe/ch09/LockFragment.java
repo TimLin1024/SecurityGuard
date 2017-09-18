@@ -10,7 +10,7 @@ import android.widget.TextView;
 import com.android.rdc.mobilesafe.R;
 import com.android.rdc.mobilesafe.base.BaseFragment;
 import com.android.rdc.mobilesafe.base.BaseRvAdapter;
-import com.android.rdc.mobilesafe.ch09.adapter.LockRvAdapter;
+import com.android.rdc.mobilesafe.adapter.LockRvAdapter;
 import com.android.rdc.mobilesafe.ch09.entity.AppInfo;
 
 import java.util.ArrayList;

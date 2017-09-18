@@ -6,7 +6,7 @@ import android.support.v4.view.ViewPager;
 
 import com.android.rdc.mobilesafe.R;
 import com.android.rdc.mobilesafe.base.BaseToolBarActivity;
-import com.android.rdc.mobilesafe.ch09.adapter.ViewPagerAdapter;
+import com.android.rdc.mobilesafe.adapter.ViewPagerAdapter;
 
 import butterknife.BindView;
 
