@@ -1,4 +1,4 @@
-package com.android.rdc.mobilesafe.ch09;
+package com.android.rdc.mobilesafe.ui.fragment;
 
 
 import android.os.Bundle;
@@ -8,10 +8,10 @@ import android.support.v7.widget.RecyclerView;
 import android.widget.TextView;
 
 import com.android.rdc.mobilesafe.R;
+import com.android.rdc.mobilesafe.adapter.LockRvAdapter;
 import com.android.rdc.mobilesafe.base.BaseFragment;
 import com.android.rdc.mobilesafe.base.BaseRvAdapter;
-import com.android.rdc.mobilesafe.adapter.LockRvAdapter;
-import com.android.rdc.mobilesafe.ch09.entity.AppInfo;
+import com.android.rdc.mobilesafe.entity.AppInfo;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -45,9 +45,9 @@ public class LockFragment extends BaseFragment {
         mAppInfoList = new ArrayList<>();
         for (int i = 0; i < 20; i++) {
             AppInfo info = new AppInfo();
-            info.mPackageName = "test" + i;
-            info.mAppName = "t" + i;
-            info.mIcon = getResources().getDrawable(R.drawable.lock);
+            info.setPackageName("test" + i);
+            info.setName("t" + i);
+            info.setIcon(getResources().getDrawable(R.drawable.lock));
             mAppInfoList.add(info);
         }
     }

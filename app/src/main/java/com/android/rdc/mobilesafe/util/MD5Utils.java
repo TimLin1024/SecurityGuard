@@ -7,7 +7,11 @@ import java.io.IOException;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 
-public class MD5Utils {
+public final class MD5Utils {
+
+    private MD5Utils() {
+        throw new UnsupportedOperationException("u can't instantiate me...");
+    }
 
     /**
      * 计算文件的 md5 码

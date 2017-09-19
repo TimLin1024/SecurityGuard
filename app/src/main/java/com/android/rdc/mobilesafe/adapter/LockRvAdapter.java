@@ -9,7 +9,7 @@ import android.widget.TextView;
 
 import com.android.rdc.mobilesafe.R;
 import com.android.rdc.mobilesafe.base.BaseRvAdapter;
-import com.android.rdc.mobilesafe.ch09.entity.AppInfo;
+import com.android.rdc.mobilesafe.entity.AppInfo;
 
 import butterknife.BindView;
 
@@ -42,10 +42,11 @@ public class LockRvAdapter extends BaseRvAdapter<AppInfo> {
 
         @Override
         protected void bindView(AppInfo appInfo) {
-            mIvAppIcon.setImageDrawable(appInfo.mIcon);
-            mTvAppName.setText(appInfo.mAppName);
+            mIvAppIcon.setImageDrawable(appInfo.getIcon());
+            mTvAppName.setText(appInfo.getName());
 
-            if (appInfo.isLock) {
+            // TODO: 2017/9/18 0018  这里应该改为 isLock
+            if (appInfo.isSelected()) {
                 mIvLock.setBackgroundResource(R.drawable.applock_icon);
             } else {
                 mIvLock.setBackgroundResource(R.drawable.app_unlock_icon);

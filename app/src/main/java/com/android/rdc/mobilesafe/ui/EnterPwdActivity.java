@@ -1,4 +1,4 @@
-package com.android.rdc.mobilesafe.ch09;
+package com.android.rdc.mobilesafe.ui;
 
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -64,7 +64,6 @@ public class EnterPwdActivity extends BaseActivity {
     protected void initListener() {
 
     }
-
 
     @OnClick(R.id.iv_btn)
     public void onViewClicked(View view) {

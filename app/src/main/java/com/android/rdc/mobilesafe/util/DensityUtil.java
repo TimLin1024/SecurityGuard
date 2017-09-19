@@ -2,7 +2,10 @@ package com.android.rdc.mobilesafe.util;
 
 import android.content.Context;
 
-public class DensityUtil {
+public final class DensityUtil {
+    private DensityUtil() {
+        throw new UnsupportedOperationException("u can't instantiate me...");
+    }
 
     public static int density2px(Context context, float dpValue) {
         final float scale = context.getResources().getDisplayMetrics().density;

@@ -5,8 +5,9 @@ import android.content.Context;
 
 import java.util.List;
 
-public class SystemInfoUtils {
+public final class SystemInfoUtils {
     private SystemInfoUtils() {
+        throw new UnsupportedOperationException("u can't instantiate me...");
     }
 
     public static boolean isServiceRunning(Context context, String className) {

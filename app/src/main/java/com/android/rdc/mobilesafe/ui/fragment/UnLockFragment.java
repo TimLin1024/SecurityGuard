@@ -1,4 +1,4 @@
-package com.android.rdc.mobilesafe.ch09;
+package com.android.rdc.mobilesafe.ui.fragment;
 
 
 import android.database.ContentObserver;
@@ -12,13 +12,13 @@ import android.support.v7.widget.RecyclerView;
 import android.widget.TextView;
 
 import com.android.rdc.mobilesafe.R;
+import com.android.rdc.mobilesafe.adapter.LockRvAdapter;
 import com.android.rdc.mobilesafe.base.BaseFragment;
 import com.android.rdc.mobilesafe.base.BaseRvAdapter;
-import com.android.rdc.mobilesafe.adapter.LockRvAdapter;
-import com.android.rdc.mobilesafe.dao.AppLockDao;
-import com.android.rdc.mobilesafe.ch09.entity.AppInfo;
-import com.android.rdc.mobilesafe.ch09.util.AppInfoParser;
 import com.android.rdc.mobilesafe.constant.Constant;
+import com.android.rdc.mobilesafe.dao.AppLockDao;
+import com.android.rdc.mobilesafe.entity.AppInfo;
+import com.android.rdc.mobilesafe.util.AppInfoParser;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -95,7 +95,7 @@ public class UnLockFragment extends BaseFragment {
                 if (position == RecyclerView.NO_POSITION) {
                     return;
                 }
-                mAppLockDao.insert(mUnlockList.get(position).mPackageName);
+                mAppLockDao.insert(mUnlockList.get(position).getPackageName());
                 mUnlockList.remove(position);
                 mRvUnlock.setItemAnimator(new DefaultItemAnimator());
                 mLockRvAdapter.notifyItemRemoved(position);
@@ -107,7 +107,7 @@ public class UnLockFragment extends BaseFragment {
     private void fillData() {
         final List<AppInfo> appInfoList = new ArrayList<>();
         for (AppInfo appInfo : mAppInfoList) {
-            if (!mAppLockDao.find(appInfo.mPackageName)) {
+            if (!mAppLockDao.find(appInfo.getPackageName())) {
                 appInfoList.add(appInfo);
             }
         }

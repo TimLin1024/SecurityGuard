@@ -8,7 +8,7 @@ import com.android.rdc.mobilesafe.base.BaseRvAdapter;
 import com.android.rdc.mobilesafe.adapter.HomeRvAdapter;
 import com.android.rdc.mobilesafe.entity.HomeDataModel;
 import com.android.rdc.mobilesafe.entity.HomeItem;
-import com.android.rdc.mobilesafe.ch09.AppLockActivityBase;
+import com.android.rdc.mobilesafe.ui.AppLockActivityBase;
 import com.android.rdc.mobilesafe.ui.SettingActivityBase;
 import com.android.rdc.mobilesafe.ui.AppManagerActivity;
 import com.android.rdc.mobilesafe.ui.VirusScanActivity;
@@ -58,6 +58,7 @@ public class HomeActivity extends BaseActivity {
         HomeItem item = mHomeItemList.get(position);
         switch (item.getImgId()) {
             case R.drawable.safe://防盗
+
                 break;
             case R.drawable.callmsgsafe://通讯卫士
                 break;

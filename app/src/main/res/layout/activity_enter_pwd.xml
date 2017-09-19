@@ -7,7 +7,7 @@
     android:layout_height="match_parent"
     android:gravity="center"
     android:orientation="vertical"
-    tools:context="com.android.rdc.mobilesafe.ch09.EnterPwdActivity">
+    tools:context="com.android.rdc.mobilesafe.ui.EnterPwdActivity">
 
     <LinearLayout
         android:id="@+id/ll_pwd"

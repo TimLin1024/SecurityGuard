@@ -8,7 +8,10 @@ import android.provider.Settings;
 
 import com.android.rdc.mobilesafe.entity.AppInfo;
 
-public class EngineUtils {
+public final class EngineUtils {
+    private EngineUtils() {
+        throw new UnsupportedOperationException("u can't instantiate me...");
+    }
 
     /**
      * 分享应用

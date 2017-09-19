@@ -7,6 +7,7 @@ import java.io.IOException;
 
 public final class IOUtil {
     private IOUtil() {
+        throw new UnsupportedOperationException("u can't instantiate me...");
     }
 
     public static void closeQuietly(Closeable closeable) {

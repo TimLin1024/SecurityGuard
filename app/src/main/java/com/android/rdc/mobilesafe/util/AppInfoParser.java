@@ -11,7 +11,11 @@ import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
-public class AppInfoParser {
+public final class AppInfoParser {
+    private AppInfoParser() {
+        throw new UnsupportedOperationException("u can't instantiate me...");
+    }
+
     public static List<AppInfo> getAppInfos(Context context) {
         PackageManager packageManager = context.getPackageManager();//获取 pms
         List<PackageInfo> packageInfoList = packageManager.getInstalledPackages(0);//获取安装的应用
@@ -19,6 +23,7 @@ public class AppInfoParser {
 
         for (PackageInfo packageInfo : packageInfoList) {
             AppInfo appInfo = new AppInfo();
+            appInfo.setName(packageInfo.applicationInfo.loadLabel(packageManager).toString());
             appInfo.setPackageName(packageInfo.packageName);
             appInfo.setIcon(packageInfo.applicationInfo.loadIcon(packageManager));
             appInfo.setApkPath(packageInfo.applicationInfo.sourceDir);

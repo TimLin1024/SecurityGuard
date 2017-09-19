@@ -49,14 +49,14 @@
 
         <activity android:name=".ui.SettingActivityBase">
         </activity>
-        <activity android:name=".ch09.AppLockActivityBase">
+        <activity android:name=".ui.AppLockActivityBase">
         </activity>
 
         <service
             android:name=".service.AppLockService"
             android:persistent="true"/>
 
-        <activity android:name=".ch09.EnterPwdActivity">
+        <activity android:name=".ui.EnterPwdActivity">
         </activity>
         <activity android:name=".ui.AppManagerActivity">
         </activity>
