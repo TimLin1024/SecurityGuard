@@ -6,7 +6,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context="com.android.rdc.mobilesafe.ui.VirusScanActivity">
+    tools:context="com.android.rdc.mobilesafe.ui.ScanActivity">
 
     <include layout="@layout/include_toolbar"/>
 
@@ -20,7 +20,7 @@
             android:layout_height="wrap_content"
             android:layout_centerInParent="true"
             android:textColor="@color/bright_green"
-            android:textSize="28sp"
+            android:textSize="30sp"
             android:textStyle="bold"
             tools:text="20%"/>
 

@@ -9,9 +9,9 @@ import com.android.rdc.mobilesafe.adapter.HomeRvAdapter;
 import com.android.rdc.mobilesafe.entity.HomeDataModel;
 import com.android.rdc.mobilesafe.entity.HomeItem;
 import com.android.rdc.mobilesafe.ui.AppLockActivityBase;
+import com.android.rdc.mobilesafe.ui.ScanActivity;
 import com.android.rdc.mobilesafe.ui.SettingActivityBase;
 import com.android.rdc.mobilesafe.ui.AppManagerActivity;
-import com.android.rdc.mobilesafe.ui.VirusScanActivity;
 
 import java.util.List;
 
@@ -66,7 +66,7 @@ public class HomeActivity extends BaseActivity {
                 startActivity(AppManagerActivity.class);
                 break;
             case R.drawable.trojan://病毒查杀
-                startActivity(VirusScanActivity.class);
+                startActivity(ScanActivity.class);
                 break;
             case R.drawable.sysoptimize://缓存优化
                 break;

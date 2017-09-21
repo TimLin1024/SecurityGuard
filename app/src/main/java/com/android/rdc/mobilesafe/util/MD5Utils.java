@@ -23,7 +23,7 @@ public final class MD5Utils {
             FileInputStream fileInputStream = new FileInputStream(file);
             byte[] buffer = new byte[1024];
             int len = -1;
-            while ((len = fileInputStream.read(buffer, 0, len)) != -1) {
+            while ((len = fileInputStream.read(buffer)) != -1) {
                 messageDigest.update(buffer, 0, len);
             }
             byte[] result = messageDigest.digest();
