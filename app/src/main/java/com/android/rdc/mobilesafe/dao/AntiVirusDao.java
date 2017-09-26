@@ -16,7 +16,7 @@ public class AntiVirusDao {
     public static String checkVirus(String md5) {
         String desc = null;
         String path = App.getContext().getFilesDir().getPath().concat("/antivirus.db");// "/data/data/com.android.rdc.mobilesafe/files/antivirus.db"
-        Log.d(TAG, "checkVirus: " + path);
+        Log.d(TAG, "checkVirus: " + path);// "/data/data/com.android.rdc.应用名/files/antivirus.db"
         SQLiteDatabase sqLiteDatabase = SQLiteDatabase.openDatabase(path, null,
                 SQLiteDatabase.OPEN_READONLY);
         Cursor cursor = sqLiteDatabase.rawQuery("SELECT desc FROM datable WHERE md5=?", new String[]{md5});
