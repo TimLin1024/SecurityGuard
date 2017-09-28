@@ -9,6 +9,7 @@ import com.android.rdc.mobilesafe.adapter.HomeRvAdapter;
 import com.android.rdc.mobilesafe.entity.HomeDataModel;
 import com.android.rdc.mobilesafe.entity.HomeItem;
 import com.android.rdc.mobilesafe.ui.AppLockActivityBase;
+import com.android.rdc.mobilesafe.ui.ProcessManagerActivity;
 import com.android.rdc.mobilesafe.ui.ScanActivity;
 import com.android.rdc.mobilesafe.ui.SettingActivityBase;
 import com.android.rdc.mobilesafe.ui.AppManagerActivity;
@@ -71,7 +72,7 @@ public class HomeActivity extends BaseActivity {
             case R.drawable.sysoptimize://缓存优化
                 break;
             case R.drawable.taskmanager://进程管理
-
+                startActivity(ProcessManagerActivity.class);
                 break;
             case R.drawable.netmanager://流量管理
                 break;

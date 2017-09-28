@@ -9,7 +9,7 @@ public class TaskInfo {
     private String mAppName;
     private long mMemSize;//占用的内存
     private boolean mIsUserApp;
-
+    private boolean mIsChecked;
 
     public Drawable getIcon() {
         return mIcon;
@@ -51,4 +51,11 @@ public class TaskInfo {
         mAppName = appName;
     }
 
+    public boolean isChecked() {
+        return mIsChecked;
+    }
+
+    public void setChecked(boolean checked) {
+        mIsChecked = checked;
+    }
 }

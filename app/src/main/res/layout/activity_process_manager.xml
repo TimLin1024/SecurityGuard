@@ -5,6 +5,92 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:orientation="vertical"
     tools:context="com.android.rdc.mobilesafe.ui.ProcessManagerActivity">
+
+    <include
+        android:id="@+id/appbar"
+        layout="@layout/include_toolbar"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:layout_editor_absoluteX="8dp"
+        />
+
+    <ImageView
+        android:id="@+id/iv_setting"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:layout_marginRight="10dp"
+        android:layout_marginTop="5dp"
+        android:padding="3dp"
+        android:scaleType="centerCrop"
+        android:src="@drawable/settings"
+        app:layout_constraintRight_toRightOf="parent"/>
+
+    <TextView
+        android:id="@+id/tv_running_process_num"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/appbar"
+        tools:layout_editor_absoluteY="0dp"
+        tools:text="正在运行的进程（10）个"/>
+
+    <TextView
+        android:id="@+id/tv_running_process_mem"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="20dp"
+        app:layout_constraintLeft_toRightOf="@id/tv_running_process_num"
+        app:layout_constraintTop_toBottomOf="@+id/appbar"
+        tools:layout_editor_absoluteY="0dp"
+        tools:text="占用内存 800M/3G"/>
+
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/rv_running_process"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        app:layout_constraintBottom_toTopOf="@+id/btn_clear_process"
+        app:layout_constraintHorizontal_weight="1"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tv_running_process_num"
+        app:layout_constraintVertical_weight="1"/>
+
+    <Button
+        android:id="@+id/btn_clear_process"
+        android:layout_width="0dp"
+        android:layout_height="45dp"
+        android:text="清除进程"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintHorizontal_chainStyle="spread"
+        app:layout_constraintHorizontal_weight="1"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toLeftOf="@+id/btn_select_all"/>
+
+    <Button
+        android:id="@+id/btn_select_all"
+        android:layout_width="0dp"
+        android:layout_height="45dp"
+        android:text="全选"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintHorizontal_weight="1"
+        app:layout_constraintLeft_toRightOf="@+id/btn_clear_process"
+        app:layout_constraintRight_toLeftOf="@+id/btn_reverse"
+        />
+
+    <Button
+        android:id="@+id/btn_reverse"
+        android:layout_width="0dp"
+        android:layout_height="45dp"
+        android:text="反选"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintHorizontal_weight="1"
+        app:layout_constraintLeft_toRightOf="@+id/btn_select_all"
+        app:layout_constraintRight_toRightOf="parent"
+        />
 
 </android.support.constraint.ConstraintLayout>

@@ -18,6 +18,9 @@ public final class TaskInfoParser {
         throw new UnsupportedOperationException("u can't instantiate me");
     }
 
+    /**
+     * 获取所有正在运行的进程
+     * */
     public static List<TaskInfo> parseTaskInfo(Context context) {
         ActivityManager am = (ActivityManager) context.getSystemService(Context.ACTIVITY_SERVICE);
         PackageManager pm = context.getPackageManager();

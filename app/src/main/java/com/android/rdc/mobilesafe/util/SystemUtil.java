@@ -44,6 +44,7 @@ public final class SystemUtil {
                     stringBuilder.append(c);
                 }
             }
+//            Formatter.formatFileSize()
             return Long.parseLong(stringBuilder.toString()) * 1024;
         } catch (FileNotFoundException e) {
             e.printStackTrace();
