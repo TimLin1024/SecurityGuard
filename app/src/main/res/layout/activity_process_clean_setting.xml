@@ -44,26 +44,26 @@
         android:padding="5dp"
         android:scaleType="centerCrop"
         android:src="@drawable/processmanager_showsysapps"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/appbar"/>
+        tools:layout_editor_absoluteY="56dp"
+        tools:layout_editor_absoluteX="0dp"/>
 
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="10dp"
         android:text="显示系统进程"
-        app:layout_constraintBottom_toTopOf="@id/guideline_h1"
         app:layout_constraintLeft_toRightOf="@+id/iv_icon"
-        app:layout_constraintTop_toBottomOf="@id/appbar"
-        app:layout_constraintVertical_bias="90"/>
+        app:layout_constraintBottom_toBottomOf="@id/iv_show_sys_process_icon"
+        app:layout_constraintTop_toTopOf="@id/iv_show_sys_process_icon"
+        app:layout_constraintVertical_bias="0"/>
 
     <Switch
         android:id="@+id/switch_show_sys_process"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        app:layout_constraintBottom_toTopOf="@id/guideline_h1"
+        app:layout_constraintBottom_toBottomOf="@id/iv_show_sys_process_icon"
         app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/appbar"/>
+        app:layout_constraintTop_toTopOf="@id/iv_show_sys_process_icon"/>
 
 
     <ImageView
@@ -80,16 +80,17 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="锁屏自动清理"
-        app:layout_constraintBottom_toTopOf="@id/guideline_h3"
+        app:layout_constraintBottom_toBottomOf="@id/iv_icon"
         app:layout_constraintLeft_toRightOf="@+id/iv_icon"
-        app:layout_constraintTop_toBottomOf="@id/guideline_h2"/>
+        app:layout_constraintTop_toTopOf="@id/iv_icon"/>
 
     <Switch
         android:id="@+id/switch_auto_clean"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        app:layout_constraintBottom_toTopOf="@id/guideline_h3"
+        app:layout_constraintBottom_toBottomOf="@id/iv_icon"
         app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/guideline_h2"/>
+        app:layout_constraintTop_toTopOf="@id/iv_icon"
+        />
 
 </android.support.constraint.ConstraintLayout>

@@ -27,19 +27,19 @@ dependencies {
         exclude group: 'com.android.support', module: 'support-annotations'
     })
     //其中latest.release指代最新Bugly SDK版本号，也可以指定明确的版本号，例如2.2.0
+    //butterknife
+    //在线 crash 分析
+    //方便查看数据库
+    //方便查看数据库
     compile 'com.android.support:appcompat-v7:25.3.1'
     compile 'com.android.support:design:25.3.1'
     compile 'com.android.support:support-v4:25.3.1'
     compile 'com.android.support:recyclerview-v7:25.3.1'
     compile 'com.android.support.constraint:constraint-layout:1.0.2'
-    testCompile 'junit:junit:4.12'
-    //butterknife
     compile 'com.jakewharton:butterknife:8.6.0'
     compile 'com.jakewharton:butterknife-compiler:8.6.0'
-    //在线 crash 分析
     compile 'com.tencent.bugly:crashreport:latest.release'
-    //方便查看数据库
-    debugCompile 'com.amitshekhar.android:debug-db:1.0.0'
-    //方便查看数据库
     compile 'com.facebook.stetho:stetho:1.5.0'
+    testCompile 'junit:junit:4.12'
+    debugCompile 'com.amitshekhar.android:debug-db:1.0.0'
 }
