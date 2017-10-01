@@ -16,7 +16,9 @@
     <!-- 缓存模块需要该权限 -->
     <uses-permission android:name="android.permission.GET_PACKAGE_SIZE"/>
     <uses-permission android:name="android.permission.CLEAR_APP_CACHE"/>
-
+    <!-- <instrumentation -->
+    <!-- android:name="android.test.InstrumentationTestRunner" -->
+    <!-- android:targetPackage="com.android.rdc.securitymax"/> -->
     <application
         android:name=".app.App"
         android:allowBackup="true"
@@ -80,6 +82,10 @@
         <activity android:name=".ui.CacheListActivity">
         </activity>
         <activity android:name=".ui.CleanCacheActivity">
+        </activity>
+
+        <!-- <uses-library android:name="android.test.Runner"/> -->
+        <activity android:name=".ui.SecurityPhoneActivity">
         </activity>
     </application>
 

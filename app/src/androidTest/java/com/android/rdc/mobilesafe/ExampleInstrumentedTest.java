@@ -4,10 +4,11 @@ import android.content.Context;
 import android.support.test.InstrumentationRegistry;
 import android.support.test.runner.AndroidJUnit4;
 
+import com.android.rdc.mobilesafe.dao.BlackNumberDao;
+import com.android.rdc.mobilesafe.entity.BlackContactInfo;
+
 import org.junit.Test;
 import org.junit.runner.RunWith;
-
-import static org.junit.Assert.*;
 
 /**
  * Instrumentation test, which will execute on an Android device.
@@ -20,7 +21,15 @@ public class ExampleInstrumentedTest {
     public void useAppContext() throws Exception {
         // Context of the app under test.
         Context appContext = InstrumentationRegistry.getTargetContext();
-
-        assertEquals("com.android.rdc.securitymax", appContext.getPackageName());
+//        assert 1 == 1;
+//        assertEquals("com.android.rdc.securitymax", appContext.getPackageName());
+        BlackNumberDao blackNumberDao = new BlackNumberDao(appContext);
+        for (int i = 0; i < 30; i++) {
+            BlackContactInfo contactInfo = new BlackContactInfo();
+            contactInfo.setContractName("  ");
+            contactInfo.setMode(1);
+            contactInfo.setPhoneNumber("7612878192");
+            blackNumberDao.add(contactInfo);
+        }
     }
 }
