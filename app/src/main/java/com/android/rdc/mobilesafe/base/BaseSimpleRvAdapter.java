@@ -16,6 +16,7 @@ public abstract class BaseSimpleRvAdapter<T> extends RecyclerView.Adapter {
     protected OnRvItemClickListener mOnRvItemClickListener;
     protected OnRvItemLongClickListener mOnRvItemLongClickListener;
 
+
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View v = LayoutInflater.from(parent.getContext()).inflate(setLayoutId(), parent, false);
@@ -51,6 +52,7 @@ public abstract class BaseSimpleRvAdapter<T> extends RecyclerView.Adapter {
     @Override
     public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
         ((BaseRvHolder) holder).bindView(mDataList.get(position));
+        ((BaseRvHolder) holder).bindView(position,mDataList.get(position));
     }
 
     @Override
@@ -86,6 +88,10 @@ public abstract class BaseSimpleRvAdapter<T> extends RecyclerView.Adapter {
         public boolean onLongClick(View v) {
             //使用了 getAdapterPosition() 如果实时性要求高的话，需要改用 getLayoutPosition
             return mOnRvItemLongClickListener != null && mOnRvItemLongClickListener.onLongClick(getAdapterPosition());
+        }
+
+        public void bindView(int position, T t) {
+
         }
     }
 

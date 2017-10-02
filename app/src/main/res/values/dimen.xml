@@ -8,4 +8,11 @@
     <dimen name="textSize_sidebar_padding">20sp</dimen>
     <dimen name="radius_sidebar">20dp</dimen>
     <dimen name="ball_radius_sidebar">24dp</dimen>
+
+
+    <dimen name="turbo_dp_22">22dp</dimen>
+    <dimen name="turbo_dp_4">4dp</dimen>
+    <dimen name="turbo_dp_48">48dp</dimen>
+    <dimen name="turbo_sp_14">14sp</dimen>
+
 </resources>

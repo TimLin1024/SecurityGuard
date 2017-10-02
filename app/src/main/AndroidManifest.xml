@@ -16,8 +16,14 @@
     <!-- 缓存模块需要该权限 -->
     <uses-permission android:name="android.permission.GET_PACKAGE_SIZE"/>
     <uses-permission android:name="android.permission.CLEAR_APP_CACHE"/>
-    <!--获取联系人列表-->
+
+    <!-- 读联系人权限 -->
     <uses-permission android:name="android.permission.READ_CONTACTS"/>
+    <!-- 拨号权限 -->
+    <uses-permission android:name="android.permission.CALL_PHONE"/>
+    <!-- 读短信权限 -->
+    <uses-permission android:name="android.permission.READ_SMS"/>
+
     <!-- <instrumentation -->
     <!-- android:name="android.test.InstrumentationTestRunner" -->
     <!-- android:targetPackage="com.android.rdc.securitymax"/> -->
@@ -122,7 +128,9 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.android.rdc.mobilesafe.ui.ItemListActivity"/>
         </activity>
-        <activity android:name=".ui.ContactListActivity">
+        <activity
+            android:name=".ui.ContactListActivity"
+            android:exported="true">
         </activity>
     </application>
 
