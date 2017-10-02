@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.android.rdc.mobilesafe.ui.AddBlackNumberActivity">
+
+
+    <include
+        android:id="@+id/appbar"
+        layout="@layout/include_toolbar"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="0dp"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="parent"/>
+
+
+    <EditText
+        android:id="@+id/et_black_number"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:background="@drawable/coner_white_rec"
+        android:hint="请输入要添加的号码"
+        android:inputType="phone"
+        android:paddingLeft="5dp"
+        android:textColor="@color/bright_purple"
+        android:textSize="16sp"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/appbar"
+        />
+
+    <EditText
+        android:id="@+id/et_black_name"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:background="@drawable/coner_white_rec"
+        android:hint="请输入名称"
+        android:textColor="@color/bright_purple"
+        android:textSize="16sp"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/et_black_number"/>
+
+    <CheckBox
+        android:id="@+id/cb_black_number_tel"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:button="@drawable/checkbox_selector"
+        android:checked="true"
+        android:paddingLeft="40dp"
+        android:text="电话拦截"
+        android:textColor="@color/bright_purple"
+        android:textScaleX="1.1"
+        app:layout_constraintHorizontal_weight="1"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/et_black_name"
+        />
+
+    <CheckBox
+        android:id="@+id/cb_black_number_sms"
+        style="@style/Widget.AppCompat.CompoundButton.CheckBox"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:button="@drawable/checkbox_selector"
+        android:checked="true"
+        android:text="短信拦截"
+        android:textColor="@color/bright_purple"
+        android:textScaleX="1.1"
+        android:textSize="16sp"
+        app:layout_constraintHorizontal_weight="1"
+        app:layout_constraintLeft_toRightOf="@+id/cb_black_number_tel"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/et_black_name"/>
+
+
+    <TextView
+        android:id="@+id/tv_confirm"
+        android:layout_width="65dp"
+        android:layout_height="45dp"
+        android:layout_marginEnd="10dp"
+        android:background="@color/blue"
+        android:elevation="100dp"
+        android:gravity="center"
+        android:padding="5dp"
+        android:text="确定"
+        android:textColor="@color/white"
+        android:textSize="18sp"
+        app:layout_constraintBottom_toBottomOf="@+id/appbar"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/appbar"/>
+</android.support.constraint.ConstraintLayout>

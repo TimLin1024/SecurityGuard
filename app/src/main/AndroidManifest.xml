@@ -16,6 +16,8 @@
     <!-- 缓存模块需要该权限 -->
     <uses-permission android:name="android.permission.GET_PACKAGE_SIZE"/>
     <uses-permission android:name="android.permission.CLEAR_APP_CACHE"/>
+    <!--获取联系人列表-->
+    <uses-permission android:name="android.permission.READ_CONTACTS"/>
     <!-- <instrumentation -->
     <!-- android:name="android.test.InstrumentationTestRunner" -->
     <!-- android:targetPackage="com.android.rdc.securitymax"/> -->
@@ -86,6 +88,41 @@
 
         <!-- <uses-library android:name="android.test.Runner"/> -->
         <activity android:name=".ui.SecurityPhoneActivity">
+        </activity>
+        <activity android:name=".ui.AddBlackNumberActivity">
+        </activity>
+
+        <receiver android:name=".receiver.InterceptSmsReceiver">
+            <intent-filter android:priority="2147483647">
+                <action android:name="android.intent.action.provider.Telephony.SMS_RECEIVED"/>
+            </intent-filter>
+        </receiver>
+        <receiver android:name=".receiver.InterceptCallReceiver">
+            <intent-filter android:priority="2147483647">
+                <action android:name="android.intent.action.NEW_OUTGOING_CALL"/>
+                <action android:name="android.intent.action.PHONE_STATE"/>
+            </intent-filter>
+        </receiver>
+
+        <activity
+            android:name=".ui.BottomActivity"
+            android:label="@string/title_activity_bottom">
+        </activity>
+        <activity
+            android:name=".ui.ItemListActivity"
+            android:label="@string/title_item_list"
+            android:theme="@style/AppTheme">
+        </activity>
+        <activity
+            android:name=".ui.ItemDetailActivity"
+            android:label="@string/title_item_detail"
+            android:parentActivityName=".ui.ItemListActivity"
+            android:theme="@style/AppTheme">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.android.rdc.mobilesafe.ui.ItemListActivity"/>
+        </activity>
+        <activity android:name=".ui.ContactListActivity">
         </activity>
     </application>
 

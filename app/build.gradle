@@ -6,12 +6,13 @@ android {
     aaptOptions.cruncherEnabled = false
     aaptOptions.useNewCruncher = false
     defaultConfig {
-        applicationId "com.android.rdc.securitymax"
+        applicationId "com.android.rdc.mobilesafe"
         minSdkVersion 17
         targetSdkVersion 25
         versionCode 1
         versionName "1.0"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+        vectorDrawables.useSupportLibrary = true
     }
     buildTypes {
         release {
@@ -27,7 +28,7 @@ dependencies {
         exclude group: 'com.android.support', module: 'support-annotations'
     })
     //其中latest.release指代最新Bugly SDK版本号，也可以指定明确的版本号，例如2.2.0
-    //butterknife
+    //butter knife
     //在线 crash 分析
     //方便查看数据库
     //方便查看数据库
@@ -40,6 +41,7 @@ dependencies {
     compile 'com.jakewharton:butterknife-compiler:8.6.0'
     compile 'com.tencent.bugly:crashreport:latest.release'
     compile 'com.facebook.stetho:stetho:1.5.0'
+    compile 'com.android.support:support-vector-drawable:25.3.1'
     testCompile 'junit:junit:4.12'
     debugCompile 'com.amitshekhar.android:debug-db:1.0.0'
 }

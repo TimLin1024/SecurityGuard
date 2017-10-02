@@ -3,17 +3,18 @@ package com.android.rdc.mobilesafe;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 
+import com.android.rdc.mobilesafe.adapter.HomeRvAdapter;
 import com.android.rdc.mobilesafe.base.BaseActivity;
 import com.android.rdc.mobilesafe.base.BaseRvAdapter;
-import com.android.rdc.mobilesafe.adapter.HomeRvAdapter;
 import com.android.rdc.mobilesafe.entity.HomeDataModel;
 import com.android.rdc.mobilesafe.entity.HomeItem;
 import com.android.rdc.mobilesafe.ui.AppLockActivityBase;
+import com.android.rdc.mobilesafe.ui.AppManagerActivity;
 import com.android.rdc.mobilesafe.ui.CacheListActivity;
 import com.android.rdc.mobilesafe.ui.ProcessManagerActivity;
 import com.android.rdc.mobilesafe.ui.ScanActivity;
+import com.android.rdc.mobilesafe.ui.SecurityPhoneActivity;
 import com.android.rdc.mobilesafe.ui.SettingActivityBase;
-import com.android.rdc.mobilesafe.ui.AppManagerActivity;
 
 import java.util.List;
 
@@ -63,6 +64,7 @@ public class HomeActivity extends BaseActivity {
 
                 break;
             case R.drawable.callmsgsafe://通讯卫士
+                startActivity(SecurityPhoneActivity.class);
                 break;
             case R.drawable.app://软件管家
                 startActivity(AppManagerActivity.class);
@@ -86,5 +88,7 @@ public class HomeActivity extends BaseActivity {
                 break;
         }
     }
+
+
 
 }

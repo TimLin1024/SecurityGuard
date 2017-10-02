@@ -69,7 +69,7 @@ public class BlackNumberDao {
         return false;
     }
 
-    public int getBlackContractMode(String number) {
+    public int getBlackContactMode(String number) {
         SQLiteDatabase db = mSQLiteOpenHelper.getReadableDatabase();
         Cursor cursor = db.query(TABLE_NAME, new String[]{"mode"}, "number=?",
                 new String[]{number}, null, null, null);
