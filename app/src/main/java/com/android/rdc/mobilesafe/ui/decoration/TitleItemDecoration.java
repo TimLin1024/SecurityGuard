@@ -7,7 +7,6 @@ import android.graphics.Paint;
 import android.graphics.Rect;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.util.TypedValue;
 import android.view.View;
 
@@ -24,12 +23,13 @@ public class TitleItemDecoration extends RecyclerView.ItemDecoration {
     private static final int COLOR_TITLE_BG = Color.parseColor("#FFDFDFDF");
     private static final int COLOR_TITLE_FONT = Color.parseColor("#FF000000");
     private static int mTitleFontSize;
+    private static final int TITLE_PADDING = 20;
 
     public TitleItemDecoration(Context context, List<? extends BaseTagBean> datas) {
         mDatas = datas;
         mBounds = new Rect();
         mTitleHeight = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 30, context.getResources().getDisplayMetrics());
-        mTitleFontSize = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_SP, 18, context.getResources().getDisplayMetrics());
+        mTitleFontSize = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_SP, 16, context.getResources().getDisplayMetrics());
         mPaint = new Paint();
         mPaint.setTextSize(mTitleFontSize);
         mPaint.setAntiAlias(true);
@@ -90,11 +90,12 @@ public class TitleItemDecoration extends RecyclerView.ItemDecoration {
         int baseline = (getMeasuredHeight() - fontMetrics.bottom + fontMetrics.top) / 2 - fontMetrics.top;*/
 
         mPaint.getTextBounds(mDatas.get(position).getTag(), 0, mDatas.get(position).getTag().length(), mBounds);
-        c.drawText(mDatas.get(position).getTag(), child.getPaddingLeft(), child.getTop() - params.topMargin - (mTitleHeight / 2 - mBounds.height() / 2), mPaint);
+        c.drawText(mDatas.get(position).getTag(), child.getPaddingLeft() + TITLE_PADDING, child.getTop() - params.topMargin - (mTitleHeight / 2 - mBounds.height() / 2), mPaint);
     }
 
     @Override
     public void onDrawOver(Canvas c, RecyclerView parent, RecyclerView.State state) {
+//        super.onDrawOver(c, parent, state);
         int pos = ((LinearLayoutManager) (parent.getLayoutManager())).findFirstVisibleItemPosition();//通过获取 rv 的布局管理器，进而或第一个可视布局
 
         String tag = mDatas.get(pos).getTag();//获取 tag
@@ -104,8 +105,7 @@ public class TitleItemDecoration extends RecyclerView.ItemDecoration {
         boolean flag = false;//定义一个flag，Canvas是否位移过的标志
         if ((pos + 1) < mDatas.size()) {//防止数组越界（一般情况不会出现）
             if (null != tag && !tag.equals(mDatas.get(pos + 1).getTag())) {//当前第一个可见的Item的tag，不等于其后一个item的tag，说明悬浮的View要切换了
-                Log.d("zxt", "onDrawOver() called with: c = [" + child.getTop());//当getTop开始变负，它的绝对值，是第一个可见的Item移出屏幕的距离，
-                if (child.getBottom() <= mTitleHeight) {//当第一个可见的item在屏幕中还剩的高度小于title区域的高度时，我们也该开始做悬浮Title的“交换动画”
+                if (child.getHeight() + child.getTop() <= mTitleHeight) {//当第一个可见的item在屏幕中还剩的高度小于title区域的高度时，我们也该开始做悬浮Title的“交换动画”
                     c.save();//每次绘制前 保存当前Canvas的坐标状态，
                     flag = true;
 
@@ -116,7 +116,7 @@ public class TitleItemDecoration extends RecyclerView.ItemDecoration {
 
                     //上滑时，将canvas上移 （y为负数） ,所以后面 canvas 画出来的Rect和Text都上移了，有种切换的“动画”感觉
                     //绘制的位置不用改变，改变的是坐标系
-                    c.translate(0, child.getHeight() + child.getTop() - mTitleHeight);//相当于 getBottom - mTitleHeight
+                    c.translate(0, child.getHeight() + child.getTop() - mTitleHeight);
                 }
             }
         }
@@ -127,12 +127,11 @@ public class TitleItemDecoration extends RecyclerView.ItemDecoration {
         mPaint.setColor(COLOR_TITLE_FONT);
         mPaint.getTextBounds(tag, 0, tag.length(), mBounds);
 
-        c.drawText(tag, child.getPaddingLeft(),
+        c.drawText(tag, child.getPaddingLeft() + TITLE_PADDING,
                 parent.getPaddingTop() + mTitleHeight - (mTitleHeight / 2 - mBounds.height() / 2),
                 mPaint);
-        if (flag) {
+        if (flag)
             c.restore();//恢复画布到之前保存的状态
-        }
 
     }
 }

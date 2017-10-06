@@ -15,6 +15,7 @@ import com.android.rdc.mobilesafe.ui.ProcessManagerActivity;
 import com.android.rdc.mobilesafe.ui.ScanActivity;
 import com.android.rdc.mobilesafe.ui.SecurityPhoneActivity;
 import com.android.rdc.mobilesafe.ui.SettingActivityBase;
+import com.android.rdc.mobilesafe.ui.TrafficMonitoringActivity;
 
 import java.util.List;
 
@@ -79,6 +80,7 @@ public class HomeActivity extends BaseActivity {
                 startActivity(ProcessManagerActivity.class);
                 break;
             case R.drawable.netmanager://流量管理
+                startActivity(TrafficMonitoringActivity.class);
                 break;
             case R.drawable.atools://高级工具
                 startActivity(AppLockActivityBase.class);
@@ -88,7 +90,6 @@ public class HomeActivity extends BaseActivity {
                 break;
         }
     }
-
 
 
 }

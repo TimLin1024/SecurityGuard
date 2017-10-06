@@ -9,6 +9,7 @@ public class ContactInfo extends BaseTagBean implements Comparable<ContactInfo> 
     private String mName;
     private String mPhoneNum;
     private String mFirstLetter;
+    private boolean mIsChecked;
 
     public String getId() {
         return mId;
@@ -40,6 +41,14 @@ public class ContactInfo extends BaseTagBean implements Comparable<ContactInfo> 
 
     public void setFirstLetter(String firstLetter) {
         mFirstLetter = firstLetter;
+    }
+
+    public boolean isChecked() {
+        return mIsChecked;
+    }
+
+    public void setChecked(boolean checked) {
+        mIsChecked = checked;
     }
 
     @Override

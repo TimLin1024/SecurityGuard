@@ -4,6 +4,7 @@
 
     <uses-permission android:name="android.permission.READ_PHONE_STATE"/>
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
     <!-- 网络状态 -->
     <uses-permission android:name="android.permission.INTERNET"/>
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
@@ -134,6 +135,10 @@
         <activity
             android:name=".ui.ContactListActivity"
             android:exported="true">
+        </activity>
+        <activity android:name=".ui.OperatorSettingActivity">
+        </activity>
+        <activity android:name=".ui.TrafficMonitoringActivity">
         </activity>
     </application>
 

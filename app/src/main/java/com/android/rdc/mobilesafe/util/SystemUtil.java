@@ -2,7 +2,10 @@ package com.android.rdc.mobilesafe.util;
 
 import android.app.ActivityManager;
 import android.content.Context;
+import android.telephony.TelephonyManager;
 import android.util.Log;
+
+import com.android.rdc.mobilesafe.app.App;
 
 import java.io.BufferedReader;
 import java.io.File;
@@ -98,6 +101,26 @@ public final class SystemUtil {
     public static int getRunningProcessCount(Context context) {
         ActivityManager am = (ActivityManager) context.getSystemService(Context.ACTIVITY_SERVICE);
         return am.getRunningAppProcesses().size();
+    }
+
+    /**
+     * 判断是否包含SIM卡
+     */
+    public static boolean hasSimCard() {
+        Context context = App.getAppContext();
+        TelephonyManager telMgr = (TelephonyManager)
+                context.getSystemService(Context.TELEPHONY_SERVICE);
+        int simState = telMgr.getSimState();
+        boolean result = true;
+        switch (simState) {
+            case TelephonyManager.SIM_STATE_ABSENT:
+                result = false; // 没有SIM卡
+                break;
+            case TelephonyManager.SIM_STATE_UNKNOWN:
+                result = false;
+                break;
+        }
+        return result;
     }
 
 

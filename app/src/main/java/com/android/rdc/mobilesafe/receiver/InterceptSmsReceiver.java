@@ -33,8 +33,6 @@ public class InterceptSmsReceiver extends BroadcastReceiver {
                 //阻止广播传递
                 abortBroadcast();
             }
-
         }
-
     }
 }

@@ -2,6 +2,7 @@ package com.android.rdc.mobilesafe.adapter;
 
 import android.view.View;
 import android.widget.CheckBox;
+import android.widget.CompoundButton;
 import android.widget.TextView;
 
 import com.android.rdc.mobilesafe.R;
@@ -23,10 +24,8 @@ public class ContactAdapter extends BaseSimpleRvAdapter<ContactInfo> {
         return new ContactVH(view);
     }
 
-    class ContactVH extends BaseRvHolder {
+    class ContactVH extends BaseRvHolder implements CompoundButton.OnCheckedChangeListener {
 
-//        @BindView(R.id.tv_alphabet)
-//        TextView mTvAlphabet;
         @BindView(R.id.tv_name)
         TextView mTvName;
         @BindView(R.id.tv_phone_num)
@@ -34,52 +33,50 @@ public class ContactAdapter extends BaseSimpleRvAdapter<ContactInfo> {
         @BindView(R.id.cb_selected)
         CheckBox mCbSelected;
 
+        ContactInfo mContactInfo;
+
         public ContactVH(View itemView) {
             super(itemView);
         }
 
         @Override
         public void bindView(int position, ContactInfo contactInfo) {
-            mTvName.setText(contactInfo.getName());
-            mTvPhoneNum.setText(contactInfo.getPhoneNum());
 
-            String firstLetter = contactInfo.getFirstLetter();
-            if (firstLetter == null) {
-                firstLetter = "#";
-            }
-//            if (position == 0) {
-//                mTvAlphabet.setVisibility(View.VISIBLE);
-//                mTvAlphabet.setText(String.valueOf(firstLetter.charAt(0)));
-//                return;
-//            }
-
-//            if (mDataList.get(position - 1).getFirstLetter() != null &&
-//                    firstLetter.charAt(0) != mDataList.get(position - 1).getFirstLetter().charAt(0)) {
-//                mTvAlphabet.setVisibility(View.VISIBLE);
-//                mTvAlphabet.setText(String.valueOf(firstLetter.charAt(0)));
-//            } else {
-//                mTvAlphabet.setVisibility(View.GONE);
-//            }
         }
 
         @Override
         protected void bindView(ContactInfo contactInfo) {
+            mContactInfo = contactInfo;
+            mTvName.setText(contactInfo.getName());
+            mTvPhoneNum.setText(contactInfo.getPhoneNum());
+            mCbSelected.setChecked(contactInfo.isChecked());
+            mCbSelected.setOnCheckedChangeListener(this);
+        }
 
+        @Override
+        public void onClick(View v) {
+//            super.onClick(v);
+            mCbSelected.setChecked(!mContactInfo.isChecked());
+        }
+
+        @Override
+        public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+            mContactInfo.setChecked(isChecked);
         }
     }
 
-    /**
-     * 获取catalog首次出现位置
-     */
-    public int getPositionForSection(String catalog) {
-        for (int i = 0; i < getItemCount(); i++) {
-            String sortStr = mDataList.get(i).getFirstLetter();
-            if (catalog.equalsIgnoreCase(sortStr)) {
-                return i;
-            }
-        }
-        return -1;
-    }
+//    /**
+//     * 获取catalog首次出现位置
+//     */
+//    public int getPositionForSection(String catalog) {
+//        for (int i = 0; i < getItemCount(); i++) {
+//            String sortStr = mDataList.get(i).getFirstLetter();
+//            if (catalog.equalsIgnoreCase(sortStr)) {
+//                return i;
+//            }
+//        }
+//        return -1;
+//    }
 
 
 }

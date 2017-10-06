@@ -54,7 +54,7 @@ public class IndexBar extends View {
 
     private void init(Context context, @Nullable AttributeSet attrs, int defStyleAttr) {
         int textSize = (int) TypedValue.applyDimension(
-                TypedValue.COMPLEX_UNIT_SP, 16, getResources().getDisplayMetrics());
+                TypedValue.COMPLEX_UNIT_SP, 12, getResources().getDisplayMetrics());
         mPressedBg = Color.BLACK;
         TypedArray typedArray = context.getTheme().obtainStyledAttributes(attrs, R.styleable.IndexBar, defStyleAttr, 0);
         int n = typedArray.getIndexCount();

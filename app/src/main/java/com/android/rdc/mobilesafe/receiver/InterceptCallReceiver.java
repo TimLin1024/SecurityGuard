@@ -99,6 +99,7 @@ public class InterceptCallReceiver extends BroadcastReceiver {
     /** {@hide} */
     public void endCall(Context context) {
         try {
+
             Class clazz = context.getClassLoader().loadClass(
                     "android.os.ServiceManager");
             Method method = clazz.getDeclaredMethod("getService", String.class);
