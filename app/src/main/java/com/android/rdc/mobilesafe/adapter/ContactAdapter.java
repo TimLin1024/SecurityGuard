@@ -25,8 +25,8 @@ public class ContactAdapter extends BaseSimpleRvAdapter<ContactInfo> {
 
     class ContactVH extends BaseRvHolder {
 
-        @BindView(R.id.tv_alphabet)
-        TextView mTvAlphabet;
+//        @BindView(R.id.tv_alphabet)
+//        TextView mTvAlphabet;
         @BindView(R.id.tv_name)
         TextView mTvName;
         @BindView(R.id.tv_phone_num)
@@ -47,19 +47,19 @@ public class ContactAdapter extends BaseSimpleRvAdapter<ContactInfo> {
             if (firstLetter == null) {
                 firstLetter = "#";
             }
-            if (position == 0) {
-                mTvAlphabet.setVisibility(View.VISIBLE);
-                mTvAlphabet.setText(String.valueOf(firstLetter.charAt(0)));
-                return;
-            }
+//            if (position == 0) {
+//                mTvAlphabet.setVisibility(View.VISIBLE);
+//                mTvAlphabet.setText(String.valueOf(firstLetter.charAt(0)));
+//                return;
+//            }
 
-            if (mDataList.get(position - 1).getFirstLetter() != null &&
-                    firstLetter.charAt(0) != mDataList.get(position - 1).getFirstLetter().charAt(0)) {
-                mTvAlphabet.setVisibility(View.VISIBLE);
-                mTvAlphabet.setText(String.valueOf(firstLetter.charAt(0)));
-            } else {
-                mTvAlphabet.setVisibility(View.GONE);
-            }
+//            if (mDataList.get(position - 1).getFirstLetter() != null &&
+//                    firstLetter.charAt(0) != mDataList.get(position - 1).getFirstLetter().charAt(0)) {
+//                mTvAlphabet.setVisibility(View.VISIBLE);
+//                mTvAlphabet.setText(String.valueOf(firstLetter.charAt(0)));
+//            } else {
+//                mTvAlphabet.setVisibility(View.GONE);
+//            }
         }
 
         @Override

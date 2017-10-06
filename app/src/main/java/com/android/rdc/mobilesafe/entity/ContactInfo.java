@@ -2,7 +2,9 @@ package com.android.rdc.mobilesafe.entity;
 
 import android.support.annotation.NonNull;
 
-public class ContactInfo implements Comparable<ContactInfo> {
+import com.android.rdc.mobilesafe.ui.widget.BaseTagBean;
+
+public class ContactInfo extends BaseTagBean implements Comparable<ContactInfo> {
     private String mId;
     private String mName;
     private String mPhoneNum;

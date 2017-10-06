@@ -19,6 +19,7 @@
 
     <!-- 读联系人权限 -->
     <uses-permission android:name="android.permission.READ_CONTACTS"/>
+    <uses-permission android:name="android.permission.WRITE_CONTACTS"/>
     <!-- 拨号权限 -->
     <uses-permission android:name="android.permission.CALL_PHONE"/>
     <!-- 读短信权限 -->
@@ -95,7 +96,9 @@
         <!-- <uses-library android:name="android.test.Runner"/> -->
         <activity android:name=".ui.SecurityPhoneActivity">
         </activity>
-        <activity android:name=".ui.AddBlackNumberActivity">
+        <activity
+            android:name=".ui.AddBlackNumberActivity"
+            android:exported="true">
         </activity>
 
         <receiver android:name=".receiver.InterceptSmsReceiver">

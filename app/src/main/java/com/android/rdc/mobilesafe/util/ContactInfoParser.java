@@ -21,6 +21,7 @@ public final class ContactInfoParser {
         Uri uri = Uri.parse("content://com.android.contacts/raw_contacts");
         Uri dataUri = Uri.parse("content://com.android.contacts/data");
         List<ContactInfo> contactInfoList = new ArrayList<>(32);
+
         Cursor cursor = contentResolver.query(uri, new String[]{"contact_id"}, null, null, null);
         while (cursor != null && cursor.moveToNext()) {
             String id = cursor.getString(0);
@@ -39,7 +40,8 @@ public final class ContactInfoParser {
                 if (ContactsContract.CommonDataKinds.StructuredName.CONTENT_ITEM_TYPE.equals(mimetype)) {
                     contactInfo.setName(data1);
                     HanziToPinyin.Token token = HanziToPinyin.getInstance().get(data1).get(0);
-                    contactInfo.setFirstLetter(token.target == null ? "#" : token.target);
+                    contactInfo.setFirstLetter(token.target == null ? "#" : token.target.substring(0, 1));
+                    contactInfo.setTag(token.target == null ? "#" : token.target.substring(0, 1));
                 } else if (ContactsContract.CommonDataKinds.Phone.CONTENT_ITEM_TYPE.equals(mimetype)) {
                     contactInfo.setPhoneNum(data1);
                 }

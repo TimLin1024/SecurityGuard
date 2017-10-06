@@ -103,6 +103,6 @@ public class SecurityPhoneActivity extends BaseToolBarActivity {
 
     @OnClick(R.id.btn_add_black_number)
     public void onViewClicked() {
-        startActivity(AddBlackNumberActivity.class);
+        startActivity(ContactListActivity.class);
     }
 }
