@@ -15,14 +15,14 @@ public final class MD5Utils {
 
     /**
      * 计算文件的 md5 码
-     * */
+     */
     public static String getFileMD5(String path) {
         try {
             MessageDigest messageDigest = MessageDigest.getInstance("MD5");
             File file = new File(path);
             FileInputStream fileInputStream = new FileInputStream(file);
             byte[] buffer = new byte[1024];
-            int len = -1;
+            int len;
             while ((len = fileInputStream.read(buffer)) != -1) {
                 messageDigest.update(buffer, 0, len);
             }
@@ -56,14 +56,14 @@ public final class MD5Utils {
      */
     public static String encode(String text) {
         try {
-            MessageDigest digest = MessageDigest.getInstance("md5");
-            byte[] result = digest.digest(text.getBytes());
+            MessageDigest digest = MessageDigest.getInstance("MD5");
+            byte[] result = digest.digest(text.getBytes());//将字节
             StringBuilder sb = new StringBuilder();
             for (byte b : result) {
-                int number = b & 0xff;
-                String hex = Integer.toHexString(number);
+                int number = b & 0xff;//b 与 1111 1111 相与
+                String hex = Integer.toHexString(number);//转换为 16 进制
                 if (hex.length() == 1) {
-                    sb.append("0" + hex);
+                    sb.append("0").append(hex);
                 } else {
                     sb.append(hex);
                 }

@@ -12,7 +12,7 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 
 import com.android.rdc.mobilesafe.R;
-import com.android.rdc.mobilesafe.base.BaseActivity;
+import com.android.rdc.mobilesafe.base.BaseScrollTbActivity;
 import com.android.rdc.mobilesafe.constant.Constant;
 import com.android.rdc.mobilesafe.util.MD5Utils;
 
@@ -20,7 +20,7 @@ import butterknife.BindView;
 import butterknife.OnClick;
 
 
-public class EnterPwdActivity extends BaseActivity {
+public class EnterPwdActivity extends BaseScrollTbActivity {
 
 
     @BindView(R.id.et_pwd)
@@ -101,5 +101,15 @@ public class EnterPwdActivity extends BaseActivity {
     private void startAnim() {
         Animation animation = AnimationUtils.loadAnimation(this, R.anim.shake);
         mLlPwd.startAnimation(animation);
+    }
+
+    @Override
+    public void showPre() {
+        startActivityAndFinishSelf(OperatorSettingActivity.class);
+    }
+
+    @Override
+    public void showNext() {
+        showToast("已经是最后一个了");
     }
 }

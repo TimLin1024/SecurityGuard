@@ -87,7 +87,7 @@ public class InterceptCallReceiver extends BroadcastReceiver {
         Uri uri = Uri.parse("content://call_log/calls");
         Cursor cursor = resolver.query(uri, new String[]{"_id"}, "number=?",
                 new String[]{incomingNumber}, "_id desc limit 1");
-        if (cursor.moveToNext()) {
+        if (cursor != null && cursor.moveToNext()) {
             String id = cursor.getString(0);
             resolver.delete(uri, "_id=?", new String[]{id});
         }

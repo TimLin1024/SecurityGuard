@@ -11,10 +11,10 @@ import com.android.rdc.mobilesafe.entity.HomeItem;
 import com.android.rdc.mobilesafe.ui.AppLockActivityBase;
 import com.android.rdc.mobilesafe.ui.AppManagerActivity;
 import com.android.rdc.mobilesafe.ui.CacheListActivity;
+import com.android.rdc.mobilesafe.ui.OperatorSettingActivity;
 import com.android.rdc.mobilesafe.ui.ProcessManagerActivity;
 import com.android.rdc.mobilesafe.ui.ScanActivity;
 import com.android.rdc.mobilesafe.ui.SecurityPhoneActivity;
-import com.android.rdc.mobilesafe.ui.SettingActivityBase;
 import com.android.rdc.mobilesafe.ui.TrafficMonitoringActivity;
 
 import java.util.List;
@@ -28,7 +28,7 @@ public class HomeActivity extends BaseActivity {
     RecyclerView mRvHome;
 
     private List<HomeItem> mHomeItemList;
-    private HomeRvAdapter homeRvAdapter;
+    private HomeRvAdapter mHomeRvAdapter;
 
     @Override
     protected int setResId() {
@@ -42,15 +42,15 @@ public class HomeActivity extends BaseActivity {
 
     @Override
     protected void initView() {
-        homeRvAdapter = new HomeRvAdapter();
-        homeRvAdapter.setDataList(mHomeItemList);
-        mRvHome.setAdapter(homeRvAdapter);
+        mHomeRvAdapter = new HomeRvAdapter();
+        mHomeRvAdapter.setDataList(mHomeItemList);
+        mRvHome.setAdapter(mHomeRvAdapter);
         mRvHome.setLayoutManager(new GridLayoutManager(this, 3));
     }
 
     @Override
     protected void initListener() {
-        homeRvAdapter.setOnRvItemClickListener(new BaseRvAdapter.OnRvItemClickListener() {
+        mHomeRvAdapter.setOnRvItemClickListener(new BaseRvAdapter.OnRvItemClickListener() {
             @Override
             public void onClick(int position) {
                 handleClick(position);
@@ -70,7 +70,7 @@ public class HomeActivity extends BaseActivity {
             case R.drawable.app://软件管家
                 startActivity(AppManagerActivity.class);
                 break;
-            case R.drawable.trojan://病毒查杀
+            case R.drawable.menu_icon_virus_save_normal://病毒查杀
                 startActivity(ScanActivity.class);
                 break;
             case R.drawable.sysoptimize://缓存优化
@@ -79,14 +79,14 @@ public class HomeActivity extends BaseActivity {
             case R.drawable.taskmanager://进程管理
                 startActivity(ProcessManagerActivity.class);
                 break;
-            case R.drawable.netmanager://流量管理
+            case R.drawable.menu_icon_net_safe_normal://流量管理
                 startActivity(TrafficMonitoringActivity.class);
                 break;
             case R.drawable.atools://高级工具
                 startActivity(AppLockActivityBase.class);
                 break;
             case R.drawable.settings://设置
-                startActivity(SettingActivityBase.class);
+                startActivity(OperatorSettingActivity.class);
                 break;
         }
     }

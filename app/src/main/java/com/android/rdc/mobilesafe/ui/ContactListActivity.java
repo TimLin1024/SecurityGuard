@@ -12,6 +12,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Button;
+import android.widget.CheckBox;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -19,6 +20,8 @@ import android.widget.Toast;
 import com.android.rdc.mobilesafe.R;
 import com.android.rdc.mobilesafe.adapter.ContactAdapter;
 import com.android.rdc.mobilesafe.base.BaseToolBarActivity;
+import com.android.rdc.mobilesafe.dao.BlackNumberDao;
+import com.android.rdc.mobilesafe.entity.BlackContactInfo;
 import com.android.rdc.mobilesafe.entity.ContactInfo;
 import com.android.rdc.mobilesafe.ui.decoration.TitleItemDecoration;
 import com.android.rdc.mobilesafe.ui.widget.IndexBar;
@@ -35,33 +38,40 @@ public class ContactListActivity extends BaseToolBarActivity {
     private static final String TAG = "ContactListActivity";
     private static final int PERMISSIONS_REQUEST_READ_CONTACTS = 101;
 
+    @BindView(R.id.btn_confirm)
+    Button mBtnConfirm;
+    @BindView(R.id.index_bar)
+    IndexBar mIndexBar;
+    @BindView(R.id.tv_dialog)
+    TextView mTvDialog;
+    @BindView(R.id.btn_select_all)
+    Button mBtnSelectAll;
+    @BindView(R.id.ll)
+    LinearLayout mLl;
     @BindView(R.id.rv)
     RecyclerView mRv;
 
-    @BindView(R.id.tv_dialog)
-    TextView mTvDialog;
-    @BindView(R.id.index_bar)
-    IndexBar mIndexBar;
-
-    @BindView(R.id.btn_select_all)
-    Button mBtnSelectAll;
-    @BindView(R.id.tv_select_hint)
-    TextView mTvSelectHint;
-    @BindView(R.id.btn_confirm)
-    Button mBtnConfirm;
-    @BindView(R.id.ll)
-    LinearLayout mLl;
-
-//    @BindView(R.id.wave_side_bar_view)
-//    WaveSideBarView mWaveSideBarView;
-
+//    @BindView(R.id.rv)
+//    RecyclerView mRv;
+//    @BindView(R.id.tv_dialog)
+//    TextView mTvDialog;
+//    @BindView(R.id.index_bar)
+//    IndexBar mIndexBar;
+//    @BindView(R.id.btn_select_all)
+//    Button mBtnSelectAll;
+//    @BindView(R.id.tv_select_hint)
+//    TextView mTvSelectHint;
+//    @BindView(R.id.btn_confirm)
+//    Button mBtnConfirm;
+//    @BindView(R.id.ll)
+//    LinearLayout mLl;
 
     private ContactAdapter mAdapter;
     private LinearLayoutManager mLinearLayoutManager;
     private CountDownLatch mCountDownLatch;
 
     private List<ContactInfo> mContactInfoList;
-
+    private BottomSheetDialog mBottomSheetDialog;
 
     @Override
     protected int setResId() {
@@ -127,7 +137,6 @@ public class ContactListActivity extends BaseToolBarActivity {
         }
     }
 
-
     @OnClick({R.id.btn_confirm, R.id.btn_select_all})
     public void onViewClicked(View view) {
         switch (view.getId()) {
@@ -144,19 +153,21 @@ public class ContactListActivity extends BaseToolBarActivity {
     }
 
     private void showSharedDialog() {
-        BottomSheetDialog bottomSheetDialog = null;
-        if (bottomSheetDialog == null) {
-            bottomSheetDialog = new BottomSheetDialog(this);
-            bottomSheetDialog.setCancelable(true);
-            bottomSheetDialog.setCanceledOnTouchOutside(true);
+        if (mBottomSheetDialog == null) {
+            mBottomSheetDialog = new BottomSheetDialog(this);
+            mBottomSheetDialog.setCancelable(true);
+            mBottomSheetDialog.setCanceledOnTouchOutside(true);
             //这里的layout是要显示的布局内容，里面可以放RecyclerView等
             View view = LayoutInflater.from(this).inflate(R.layout.dialog_bottom_sheet, null);
-            bottomSheetDialog.setContentView(view);
-            bottomSheetDialog.show();
+            mBottomSheetDialog.setContentView(view);
+            mBottomSheetDialog.show();
 
             Button btnCancel = (Button) view.findViewById(R.id.btn_cancel);
             Button btnSure = (Button) view.findViewById(R.id.btn_sure);
-            final BottomSheetDialog finalBottomSheetDialog1 = bottomSheetDialog;
+            final CheckBox cbInterceptPhone = (CheckBox) view.findViewById(R.id.cb_intercept_phone);
+            final CheckBox cbInterceptSms = (CheckBox) view.findViewById(R.id.cb_intercept_sms);
+
+            final BottomSheetDialog finalBottomSheetDialog1 = mBottomSheetDialog;
             btnCancel.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
@@ -166,7 +177,31 @@ public class ContactListActivity extends BaseToolBarActivity {
             btnSure.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    // TODO: 2017/10/6 0006 获取选中的 item 列表
+                    int mode = 0;
+                    if (cbInterceptPhone.isChecked()) {
+                        if (cbInterceptSms.isChecked()) {
+                            mode = 3;
+                        } else {
+                            mode = 1;
+                        }
+                    } else {
+                        if (cbInterceptSms.isChecked()) {
+                            mode = 2;
+                        } else {
+                            finalBottomSheetDialog1.dismiss();
+                            return;
+                        }
+                    }
+                    BlackNumberDao blackNumberDao = new BlackNumberDao(ContactListActivity.this);
+                    BlackContactInfo blackContactInfo = new BlackContactInfo();
+                    for (ContactInfo contactInfo : mContactInfoList) {
+                        if (contactInfo.isChecked()) {
+                            blackContactInfo.setContractName(contactInfo.getName());
+                            blackContactInfo.setMode(mode);
+                            blackContactInfo.setPhoneNumber(contactInfo.getPhoneNum());
+                            blackNumberDao.add(blackContactInfo);
+                        }
+                    }
 
                     finalBottomSheetDialog1.dismiss();
                 }
@@ -174,9 +209,9 @@ public class ContactListActivity extends BaseToolBarActivity {
 
 
             //以下设置是为了解决：下滑隐藏dialog后，再次调用show方法显示时，不能弹出Dialog----在真机测试时不写下面的方法也未发现问题
-            View delegateView = bottomSheetDialog.getDelegate().findViewById(android.support.design.R.id.design_bottom_sheet);
+            View delegateView = mBottomSheetDialog.getDelegate().findViewById(android.support.design.R.id.design_bottom_sheet);
             final BottomSheetBehavior<View> sheetBehavior = BottomSheetBehavior.from(delegateView);
-            final BottomSheetDialog finalBottomSheetDialog = bottomSheetDialog;
+            final BottomSheetDialog finalBottomSheetDialog = mBottomSheetDialog;
             sheetBehavior.setBottomSheetCallback(new BottomSheetBehavior.BottomSheetCallback() {
                 //在下滑隐藏结束时才会触发
                 @Override
@@ -190,11 +225,11 @@ public class ContactListActivity extends BaseToolBarActivity {
                 //每次滑动都会触发
                 @Override
                 public void onSlide(@NonNull View bottomSheet, float slideOffset) {
-                    System.out.println("onSlide = [" + bottomSheet + "], slideOffset = [" + slideOffset + "]");
+
                 }
             });
         } else {
-            bottomSheetDialog.show();
+            mBottomSheetDialog.show();
         }
     }
 

@@ -28,7 +28,6 @@ public abstract class BaseToolBarActivity extends BaseActivity {
         getSupportActionBar().setDisplayShowHomeEnabled(true);
 //        getSupportActionBar().setTitle("");
         getSupportActionBar().setDisplayShowTitleEnabled(false);//不显示默认标题
-
     }
 
     protected Toolbar getToolbar() {

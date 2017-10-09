@@ -5,6 +5,7 @@
     <file url="file://G:/编程/项目源码/手机卫士demo/android_advanced/手机安全卫士/src/cn/itcast/mobliesafe/chapter03/SecurityPhoneActivity.java" charset="GBK" />
     <file url="file://G:/编程/项目源码/手机卫士demo/android_advanced/手机安全卫士/src/cn/itcast/mobliesafe/chapter03/reciever/InterceptCallReciever.java" charset="GBK" />
     <file url="file://G:/编程/项目源码/手机卫士demo/android_advanced/手机安全卫士/src/cn/itcast/mobliesafe/chapter08/TrafficMonitoringActivity.java" charset="GBK" />
+    <file url="file://G:/编程/项目源码/手机卫士demo/android_advanced/手机安全卫士/src/cn/itcast/mobliesafe/chapter08/service/TrafficMonitoringService.java" charset="GBK" />
     <file url="PROJECT" charset="UTF-8" />
   </component>
 </project>

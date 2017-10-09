@@ -9,6 +9,8 @@
     android:orientation="vertical"
     tools:context="com.android.rdc.mobilesafe.ui.EnterPwdActivity">
 
+    <include layout="@layout/include_toolbar"/>
+
     <LinearLayout
         android:id="@+id/ll_pwd"
         android:layout_width="match_parent"

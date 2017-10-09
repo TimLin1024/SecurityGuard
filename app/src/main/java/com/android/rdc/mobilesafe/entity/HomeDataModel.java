@@ -8,8 +8,8 @@ import java.util.List;
 public class HomeDataModel {
     private static int[] sImgId = {
             R.drawable.safe, R.drawable.callmsgsafe, R.drawable.app,
-            R.drawable.trojan, R.drawable.sysoptimize, R.drawable.taskmanager,
-            R.drawable.netmanager, R.drawable.atools, R.drawable.settings};
+            R.drawable.menu_icon_virus_save_normal, R.drawable.sysoptimize, R.drawable.taskmanager,
+            R.drawable.menu_icon_net_safe_normal, R.drawable.atools, R.drawable.settings};
 
     private static String[] sItemName = {
             "手机防盗", "通讯卫士", "软件管家",
