@@ -16,9 +16,14 @@ import com.android.rdc.mobilesafe.R;
 import com.android.rdc.mobilesafe.adapter.ScanAppVirusAdapter;
 import com.android.rdc.mobilesafe.base.BaseToolBarActivity;
 import com.android.rdc.mobilesafe.dao.AntiVirusDao;
+import com.android.rdc.mobilesafe.entity.CustomEvent;
 import com.android.rdc.mobilesafe.entity.ScanAppInfo;
 import com.android.rdc.mobilesafe.util.IOUtil;
 import com.android.rdc.mobilesafe.util.MD5Utils;
+
+import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
+import org.greenrobot.eventbus.ThreadMode;
 
 import java.io.File;
 import java.io.FileOutputStream;
@@ -107,6 +112,7 @@ public class ScanActivity extends BaseToolBarActivity {
     protected void initData() {
         copyDB("antivirus.db");
         mPackageManager = getPackageManager();
+        EventBus.getDefault().register(this);//注册
 
     }
 
@@ -215,6 +221,8 @@ public class ScanActivity extends BaseToolBarActivity {
     @Override
     protected void onDestroy() {
         mHandler.removeCallbacksAndMessages(null);//清空消息，防止内存泄漏
+        EventBus.getDefault().unregister(this);//解除注册
+
         super.onDestroy();
     }
 
@@ -232,4 +240,10 @@ public class ScanActivity extends BaseToolBarActivity {
         //扫描未完成，点击后停止扫描
         //
     }
+
+    @Subscribe(threadMode = ThreadMode.MAIN, sticky = true, priority = 1000)
+    public void onMessage(CustomEvent event) {
+        Log.d(TAG, "onMessage: " + event.getEventName());
+    }
+
 }
