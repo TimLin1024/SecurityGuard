@@ -5,14 +5,14 @@ import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
 
 import com.android.rdc.mobilesafe.R;
-import com.android.rdc.mobilesafe.base.BaseToolBarActivity;
 import com.android.rdc.mobilesafe.adapter.ViewPagerAdapter;
-import com.android.rdc.mobilesafe.ui.fragment.LockFragment;
-import com.android.rdc.mobilesafe.ui.fragment.UnLockFragment;
+import com.android.rdc.mobilesafe.base.BaseToolBarActivity;
+import com.android.rdc.mobilesafe.ui.fragment.SoftwareManagerFragment;
 
 import butterknife.BindView;
 
-public class AppLockActivityBase extends BaseToolBarActivity {
+public class SoftwareManagerActivity2 extends BaseToolBarActivity {
+
 
     @BindView(R.id.tab_layout)
     TabLayout mTabLayout;
@@ -20,21 +20,22 @@ public class AppLockActivityBase extends BaseToolBarActivity {
     ViewPager mViewPager;
 
 
-    private String[] mTitles = {"未加锁", "已加锁"};
+    private String[] mTitles = {"用户应用", "系统应用"};
     private Fragment[] mFragments = new Fragment[2];
 
     @Override
     protected int setResId() {
-        return R.layout.activity_app_lock;
+        return R.layout.activity_software_manager2;
     }
 
     @Override
     protected void initData() {
         mTabLayout.addTab(mTabLayout.newTab()/*.setText(mTitles[0])*/);
         mTabLayout.addTab(mTabLayout.newTab()/*.setText(mTitles[1])*/);
-        mFragments[0] = UnLockFragment.newInstance();
-        mFragments[1] = LockFragment.newInstance();
+        mFragments[0] = SoftwareManagerFragment.newInstance(SoftwareManagerFragment.DISPLAY_USER_APP);
+        mFragments[1] = SoftwareManagerFragment.newInstance(SoftwareManagerFragment.DISPLAY_SYSTEM_APP);
 
+        mViewPager.setOffscreenPageLimit(0);
     }
 
     @Override

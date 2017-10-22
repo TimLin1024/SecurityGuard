@@ -2,6 +2,7 @@ package com.android.rdc.mobilesafe.util;
 
 import android.app.ProgressDialog;
 import android.content.Context;
+import android.os.Build;
 
 public final class ProgressDialogUtil {
     private ProgressDialogUtil() {
@@ -12,22 +13,31 @@ public final class ProgressDialogUtil {
 
 
     public static void showDefaultDialog(Context context) {
-        showDialog(context, "正在加载数据，请稍候...");
+        if (sProgressDialog == null) {//避免重复创建
+            showDialog(context, "正在加载数据，请稍候...");
+        }
     }
 
     public static void showDialog(Context context, CharSequence msg) {
-        sProgressDialog = new ProgressDialog(context);
-        sProgressDialog.setMessage(msg);
-        sProgressDialog.setCanceledOnTouchOutside(false);
-        sProgressDialog.setCancelable(true);
-        sProgressDialog.show();
+        if (sProgressDialog != null) {//避免重复创建
+            setMsg(msg);
+            return;
+        }
+        showDialog(context, null, msg);
     }
 
     public static void showDialog(Context context, String title, CharSequence msg) {
+        if (sProgressDialog != null) {//避免重复创建
+            setMsg(msg);
+            return;
+        }
         sProgressDialog = new ProgressDialog(context);
         sProgressDialog.setTitle(title);
         sProgressDialog.setMessage(msg);
-        sProgressDialog.setCanceledOnTouchOutside(false);
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            sProgressDialog.setProgressStyle(android.R.style.Widget_Material_ProgressBar);
+        }
+//        sProgressDialog.setCanceledOnTouchOutside(false);
         sProgressDialog.setCancelable(true);
         sProgressDialog.show();
     }

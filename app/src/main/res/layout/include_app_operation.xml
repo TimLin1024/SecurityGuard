@@ -1,49 +1,31 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout
-    android:id="@+id/ll_operation"
     xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/ll_operation"
     android:layout_width="match_parent"
-    android:layout_height="45dp"
-    android:gravity="center"
+    android:layout_height="40dp"
+    android:gravity="bottom"
     android:orientation="horizontal">
 
-    <LinearLayout
-        android:id="@+id/ll_start_app"
-        style="@style/llStyle">
+    <TextView
+        android:id="@+id/tv_start_app"
+        style="@style/TvAppOperation"
+        android:text="启动"/>
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="启动"/>
-    </LinearLayout>
+    <TextView
+        android:id="@+id/tv_uninstall_app"
+        style="@style/TvAppOperation"
+        android:text="卸载"/>
 
-    <LinearLayout
-        android:id="@+id/ll_uninstall_app"
-        style="@style/llStyle">
+    <TextView
+        android:id="@+id/tv_setting_app"
+        style="@style/TvAppOperation"
+        android:text="设置"/>
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="卸载"/>
-    </LinearLayout>
+    <TextView
+        android:id="@+id/tv_share_app"
+        style="@style/TvAppOperation"
+        android:text="分享"/>
 
-    <LinearLayout
-        android:id="@+id/ll_setting_app"
-        style="@style/llStyle">
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="设置"/>
-    </LinearLayout>
-
-    <LinearLayout
-        android:id="@+id/ll_share_app"
-        style="@style/llStyle">
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="分享"/>
-    </LinearLayout>
 </LinearLayout>

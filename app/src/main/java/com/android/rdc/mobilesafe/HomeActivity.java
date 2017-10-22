@@ -13,13 +13,13 @@ import com.android.rdc.mobilesafe.base.BaseRvAdapter;
 import com.android.rdc.mobilesafe.entity.CustomEvent;
 import com.android.rdc.mobilesafe.entity.HomeDataModel;
 import com.android.rdc.mobilesafe.entity.HomeItem;
-import com.android.rdc.mobilesafe.ui.AppLockActivityBase;
-import com.android.rdc.mobilesafe.ui.AppManagerActivity;
+import com.android.rdc.mobilesafe.ui.AppLockActivity;
 import com.android.rdc.mobilesafe.ui.CacheListActivity;
 import com.android.rdc.mobilesafe.ui.OperatorSettingActivity;
 import com.android.rdc.mobilesafe.ui.ProcessManagerActivity;
 import com.android.rdc.mobilesafe.ui.ScanActivity;
 import com.android.rdc.mobilesafe.ui.SecurityPhoneActivity;
+import com.android.rdc.mobilesafe.ui.SoftwareManagerActivity2;
 import com.android.rdc.mobilesafe.ui.TrafficMonitoringActivity;
 import com.android.rdc.mobilesafe.ui.widget.GridDividerItemDecoration;
 import com.android.rdc.mobilesafe.ui.widget.RoundProgress;
@@ -106,7 +106,7 @@ public class HomeActivity extends BaseActivity {
                 startActivity(SecurityPhoneActivity.class);
                 break;
             case R.drawable.app://软件管家
-                startActivity(AppManagerActivity.class);
+                startActivity(SoftwareManagerActivity2.class);
                 break;
             case R.drawable.menu_icon_virus_save_normal://病毒查杀
                 startActivity(ScanActivity.class);
@@ -121,7 +121,7 @@ public class HomeActivity extends BaseActivity {
                 startActivity(TrafficMonitoringActivity.class);
                 break;
             case R.drawable.atools://高级工具
-                startActivity(AppLockActivityBase.class);
+                startActivity(AppLockActivity.class);
                 break;
             case R.drawable.settings://设置
                 startActivity(OperatorSettingActivity.class);

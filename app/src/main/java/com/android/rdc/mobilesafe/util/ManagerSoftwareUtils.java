@@ -8,8 +8,8 @@ import android.provider.Settings;
 
 import com.android.rdc.mobilesafe.entity.AppInfo;
 
-public final class EngineUtils {
-    private EngineUtils() {
+public final class ManagerSoftwareUtils {
+    private ManagerSoftwareUtils() {
         throw new UnsupportedOperationException("u can't instantiate me...");
     }
 
@@ -54,17 +54,26 @@ public final class EngineUtils {
      * 卸载应用
      */
     public static void uninstallApp(Context context, AppInfo appInfo) {
+
+
         //非系统应用
-        if (!appInfo.isUserApp()) {
+        if (appInfo.isUserApp()) {
             Intent intent = new Intent();
             intent.setAction(Intent.ACTION_DELETE);
+            intent.addCategory("android.intent.category.DEFAULT");
             intent.setData(Uri.parse("package:" + appInfo.getPackageName()));
             context.startActivity(intent);
         } else {
+            ToastUtil.showToast(context, "卸载系统应用需要 Root 权限");
             // TODO: 2017/9/17 0017 删除系统应用
             /**
              * 需要 root 权限，利用 linux 命令删除文件
              * */
+            Intent intent = new Intent();
+            intent.setAction(Intent.ACTION_DELETE);
+            intent.addCategory("android.intent.category.DEFAULT");
+            intent.setData(Uri.parse("package:" + appInfo.getPackageName()));
+            context.startActivity(intent);
 
         }
     }

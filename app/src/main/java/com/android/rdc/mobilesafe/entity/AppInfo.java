@@ -15,8 +15,8 @@ public class AppInfo {
     private boolean isSelected;//是否被选中
 
 
-    public String getAppLocation(boolean isInRom) {
-        return isInRom ? "手机内存" : "外部存储卡";
+    public String getAppLocation() {
+        return mIsInRom ? "手机内存" : "外部存储卡";
     }
 
     public String getApkPath() {

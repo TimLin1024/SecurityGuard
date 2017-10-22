@@ -28,7 +28,7 @@ public final class AppInfoParser {
             appInfo.setIcon(packageInfo.applicationInfo.loadIcon(packageManager));
             appInfo.setApkPath(packageInfo.applicationInfo.sourceDir);
             File file = new File(appInfo.getApkPath());
-            appInfo.setAppSize(file.length());
+            appInfo.setAppSize(file.length());//单位为字节
 
             int flags = packageInfo.applicationInfo.flags;//二进制映射
             /*是否存在内存中*/

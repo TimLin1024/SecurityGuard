@@ -29,10 +29,10 @@
     <uses-permission android:name="android.permission.READ_SMS"/>
     <uses-permission android:name="android.permission.SEND_SMS"/>
     <uses-permission android:name="android.permission.RECEIVE_SMS"/>
-    <uses-permission android:name="android.permission.RECEIVE_MMS"/>
     <uses-permission
         android:name="android.permission.BROADCAST_SMS"
         tools:ignore="ProtectedPermissions"/>
+    <!-- 开机广播 -->
     <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED"/>
 
     <!-- <instrumentation -->
@@ -76,7 +76,7 @@
 
         <activity android:name=".ui.SettingActivityBase">
         </activity>
-        <activity android:name=".ui.AppLockActivityBase">
+        <activity android:name=".ui.AppLockActivity">
         </activity>
 
         <service
@@ -85,7 +85,7 @@
 
         <activity android:name=".ui.EnterPwdActivity">
         </activity>
-        <activity android:name=".ui.AppManagerActivity">
+        <activity android:name=".ui.SoftwareManagerActivity">
         </activity>
         <activity android:name=".ui.ScanActivity">
         </activity>
@@ -124,24 +124,6 @@
         </receiver>
 
         <activity
-            android:name=".ui.BottomActivity"
-            android:label="@string/title_activity_bottom">
-        </activity>
-        <activity
-            android:name=".ui.ItemListActivity"
-            android:label="@string/title_item_list"
-            android:theme="@style/AppTheme">
-        </activity>
-        <activity
-            android:name=".ui.ItemDetailActivity"
-            android:label="@string/title_item_detail"
-            android:parentActivityName=".ui.ItemListActivity"
-            android:theme="@style/AppTheme">
-            <meta-data
-                android:name="android.support.PARENT_ACTIVITY"
-                android:value="com.android.rdc.mobilesafe.ui.ItemListActivity"/>
-        </activity>
-        <activity
             android:name=".ui.ContactListActivity"
             android:exported="true">
         </activity>
@@ -150,22 +132,28 @@
         <activity android:name=".ui.TrafficMonitoringActivity">
         </activity>
 
-        <!--<receiver-->
-        <!--android:name=".ui.TrafficMonitoringActivity$CorrectFlowReceiver"-->
-        <!--android:permission="android.permission.BROADCAST_SMS">-->
-        <!--<intent-filter android:priority="2147483647">-->
-        <!--<action android:name="android.provider.Telephony.SMS_DELIVER"/>-->
-        <!--<action android:name="android.provider.Telephony.SMS_RECEIVED"/>-->
-        <!--</intent-filter>-->
-        <!--</receiver>-->
+        <!-- <receiver -->
+        <!-- android:name=".ui.TrafficMonitoringActivity$CorrectFlowReceiver" -->
+        <!-- android:permission="android.permission.BROADCAST_SMS"> -->
+        <!-- <intent-filter android:priority="2147483647"> -->
+        <!-- <action android:name="android.provider.Telephony.SMS_DELIVER"/> -->
+        <!-- <action android:name="android.provider.Telephony.SMS_RECEIVED"/> -->
+        <!-- </intent-filter> -->
+        <!-- </receiver> -->
         <service
             android:name=".service.TrafficMonitoringService"
             android:persistent="true"/>
+
         <receiver android:name=".receiver.BootCompleteReceiver">
             <intent-filter>
                 <action android:name="android.intent.action.BOOT_COMPLETED"/>
             </intent-filter>
         </receiver>
+
+        <activity
+            android:name=".ui.SoftwareManagerActivity2"
+            android:exported="true">
+        </activity>
     </application>
 
 </manifest>
