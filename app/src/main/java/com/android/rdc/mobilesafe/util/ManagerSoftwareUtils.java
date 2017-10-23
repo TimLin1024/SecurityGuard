@@ -7,6 +7,8 @@ import android.net.Uri;
 import android.provider.Settings;
 
 import com.android.rdc.mobilesafe.entity.AppInfo;
+import com.jaredrummler.android.shell.CommandResult;
+import com.jaredrummler.android.shell.Shell;
 
 public final class ManagerSoftwareUtils {
     private ManagerSoftwareUtils() {
@@ -58,22 +60,46 @@ public final class ManagerSoftwareUtils {
 
         //非系统应用
         if (appInfo.isUserApp()) {
+            if (appInfo.getPackageName().equals(context.getPackageName())) {
+                ToastUtil.showToast(context, "您没有权限卸载此应用");//不允许删除本应用
+            }
+
+
             Intent intent = new Intent();
             intent.setAction(Intent.ACTION_DELETE);
             intent.addCategory("android.intent.category.DEFAULT");
             intent.setData(Uri.parse("package:" + appInfo.getPackageName()));
             context.startActivity(intent);
         } else {
-            ToastUtil.showToast(context, "卸载系统应用需要 Root 权限");
-            // TODO: 2017/9/17 0017 删除系统应用
             /**
              * 需要 root 权限，利用 linux 命令删除文件
              * */
-            Intent intent = new Intent();
-            intent.setAction(Intent.ACTION_DELETE);
-            intent.addCategory("android.intent.category.DEFAULT");
-            intent.setData(Uri.parse("package:" + appInfo.getPackageName()));
-            context.startActivity(intent);
+//            if (!RootShell.isRootAvailable()) {
+//                ToastUtil.showToast(context, "卸载系统应用需要 Root 权限");
+//                return;
+//            }
+//            Shell shell = null;
+//            try {
+//                shell = RootShell.getShell(true);
+//            Command command = new Command(1, 3000, "mount -o remount ,rw /system");
+//            Command command2 = new Command(1, 3000, "rm -r " + appInfo.getApkPath());
+//                Shell.runRootCommand(command);
+//                Shell.runRootCommand(command2);
+//            } catch (IOException e) {
+//                e.printStackTrace();
+//            } catch (TimeoutException e) {
+//                e.printStackTrace();
+//            } catch (RootDeniedException e) {
+//                e.printStackTrace();
+//            }
+            if (CheckRootUtil.isRooted()) {
+                CommandResult re = Shell.SU.run("mount -o remount ,rw /system", "rm -r " + appInfo.getApkPath());
+                ToastUtil.showToast(context, re.getStdout());
+            } else {
+                ToastUtil.showToast(context, "删除系统应用需要 Root 权限");
+
+            }
+
 
         }
     }

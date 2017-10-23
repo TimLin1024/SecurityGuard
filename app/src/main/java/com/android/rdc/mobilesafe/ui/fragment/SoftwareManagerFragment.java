@@ -36,19 +36,20 @@ public class SoftwareManagerFragment extends BaseFragment {
     public static final int DISPLAY_USER_APP = 0;
     public static final int DISPLAY_SYSTEM_APP = 1;
     private static final String KEY_DISPLAY_TYPE = "DISPLAY_TYPE";
-    private int mDisplayType;
-    private String mLastDeletePackage;//上一个被删除的应用的包名
-    private ExecutorService mExecutorService;
 
+    private int mDisplayType;
+    private ExecutorService mExecutorService;
 
     @BindView(R.id.rv)
     RecyclerView mRv;
+//    @BindView(R.id.tv_free_mem)
+//    TextView mTvFreeMemory;
 
+    private SoftwareManagerAdapter mSoftwareManagerAdapter;
     private List<AppInfo> mSystemAppInfoList = new ArrayList<>(32);
     private List<AppInfo> mUserAppInfoList = new ArrayList<>(32);
     private List<AppInfo> mAllAppInfoList = new ArrayList<>(64);
     private UninstallReceiver mUninstallReceiver;
-    private SoftwareManagerAdapter mSoftwareManagerAdapter;
 
 
     public static SoftwareManagerFragment newInstance(int displayType) {
@@ -94,7 +95,7 @@ public class SoftwareManagerFragment extends BaseFragment {
 
     @Override
     protected void initData(Bundle bundle) {
-        mExecutorService = Executors.newFixedThreadPool(5);
+        mExecutorService = Executors.newFixedThreadPool(5);//初始化线程池
         mDisplayType = bundle.getInt(KEY_DISPLAY_TYPE);//显示用户应用还是系统应用
         fetchAppInfoAsync(FETCH_APP_SUCCESS);
 
@@ -143,6 +144,8 @@ public class SoftwareManagerFragment extends BaseFragment {
         }
     }
 
+
+
     private void fetchAppInfoAsync(final int fetchSuccessType) {
         mAllAppInfoList.clear();
         ProgressDialogUtil.showDefaultDialog(mBaseActivity);
@@ -174,6 +177,7 @@ public class SoftwareManagerFragment extends BaseFragment {
         }
         super.onDestroyView();
     }
+
 
     private class UninstallReceiver extends BroadcastReceiver {
         @Override

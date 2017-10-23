@@ -19,7 +19,7 @@ import com.android.rdc.mobilesafe.ui.OperatorSettingActivity;
 import com.android.rdc.mobilesafe.ui.ProcessManagerActivity;
 import com.android.rdc.mobilesafe.ui.ScanActivity;
 import com.android.rdc.mobilesafe.ui.SecurityPhoneActivity;
-import com.android.rdc.mobilesafe.ui.SoftwareManagerActivity2;
+import com.android.rdc.mobilesafe.ui.SoftwareManagerActivity;
 import com.android.rdc.mobilesafe.ui.TrafficMonitoringActivity;
 import com.android.rdc.mobilesafe.ui.widget.GridDividerItemDecoration;
 import com.android.rdc.mobilesafe.ui.widget.RoundProgress;
@@ -106,7 +106,7 @@ public class HomeActivity extends BaseActivity {
                 startActivity(SecurityPhoneActivity.class);
                 break;
             case R.drawable.app://软件管家
-                startActivity(SoftwareManagerActivity2.class);
+                startActivity(SoftwareManagerActivity.class);
                 break;
             case R.drawable.menu_icon_virus_save_normal://病毒查杀
                 startActivity(ScanActivity.class);

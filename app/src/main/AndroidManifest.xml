@@ -85,8 +85,6 @@
 
         <activity android:name=".ui.EnterPwdActivity">
         </activity>
-        <activity android:name=".ui.SoftwareManagerActivity">
-        </activity>
         <activity android:name=".ui.ScanActivity">
         </activity>
         <activity android:name=".ui.ProcessManagerActivity">
@@ -151,7 +149,7 @@
         </receiver>
 
         <activity
-            android:name=".ui.SoftwareManagerActivity2"
+            android:name=".ui.SoftwareManagerActivity"
             android:exported="true">
         </activity>
     </application>

@@ -1,6 +1,8 @@
 package com.android.rdc.mobilesafe.adapter;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
+import android.os.Environment;
 import android.support.v7.widget.RecyclerView;
 import android.text.format.Formatter;
 import android.view.LayoutInflater;
@@ -26,8 +28,31 @@ public class SoftwareManagerAdapter extends BaseRvAdapter<AppInfo> {
         if (mContext == null) {
             mContext = parent.getContext();
         }
-        View v = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_software_manager, parent, false);
-        return new AppManagerHolder(v);
+        if (viewType == 0) {
+            View v = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_tv, parent, false);
+            return new TvHolder(v);
+        } else {
+            View v = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_software_manager, parent, false);
+            return new AppManagerHolder(v);
+        }
+    }
+
+    @Override
+    public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
+        if (position != 0) {
+            super.onBindViewHolder(holder, position - 1);//当前位置减一才是
+//            ((BaseRvHolder) holder).bindView(mDataList.get(position - 1));
+        }
+    }
+
+    @Override
+    public int getItemViewType(int position) {
+        return position;//直接返回位置，位置为 0 创建 TextView
+    }
+
+    @Override
+    public int getItemCount() {
+        return mDataList.size() + 1;
     }
 
     class AppManagerHolder extends BaseRvHolder {
@@ -47,7 +72,7 @@ public class SoftwareManagerAdapter extends BaseRvAdapter<AppInfo> {
         private LinearLayout mLlOperation;
 
 
-        public AppManagerHolder(View itemView) {
+        AppManagerHolder(View itemView) {
             super(itemView);
         }
 
@@ -62,22 +87,30 @@ public class SoftwareManagerAdapter extends BaseRvAdapter<AppInfo> {
                 mTvAppName.setText(appInfo.getName());
                 mTvAppSize.setText(Formatter.formatFileSize(mContext, appInfo.getAppSize()));
                 mTvInstallArea.setText(appInfo.getAppLocation());
-                if (appInfo.isSelected() && mLlOperation == null) {//显示下方的「操作栏」
-                    View v = mViewStub.inflate();
-                    mLlOperation = (LinearLayout) v.findViewById(R.id.ll_operation);
-                    TextView tvStartApp = (TextView) v.findViewById(R.id.tv_start_app);
-                    TextView tvUninstallApp = (TextView) v.findViewById(R.id.tv_uninstall_app);
-                    TextView tvShareApp = (TextView) v.findViewById(R.id.tv_share_app);
-                    TextView tvSettingApp = (TextView) v.findViewById(R.id.tv_setting_app);
+                if (appInfo.isSelected()) {
+                    if (mLlOperation == null) {
+                        View v = mViewStub.inflate();
+                        mLlOperation = (LinearLayout) v.findViewById(R.id.ll_operation);
+                        TextView tvStartApp = (TextView) v.findViewById(R.id.tv_start_app);
+                        TextView tvUninstallApp = (TextView) v.findViewById(R.id.tv_uninstall_app);
+                        TextView tvShareApp = (TextView) v.findViewById(R.id.tv_share_app);
+                        TextView tvSettingApp = (TextView) v.findViewById(R.id.tv_setting_app);
 
-                    tvStartApp.setOnClickListener(this);
-                    tvUninstallApp.setOnClickListener(this);
-                    tvShareApp.setOnClickListener(this);
-                    tvSettingApp.setOnClickListener(this);
+                        tvStartApp.setOnClickListener(this);
+                        tvUninstallApp.setOnClickListener(this);
+                        tvShareApp.setOnClickListener(this);
+                        tvSettingApp.setOnClickListener(this);
+                    } else {
+                        mLlOperation.setVisibility(View.VISIBLE);
+                    }
                 } else if (mLlOperation != null) {
                     mLlOperation.setVisibility(View.GONE);
                 }
-
+//                if (appInfo.isSelected() && mLlOperation == null) {//显示下方的「操作栏」
+//
+//                } else if (mLlOperation != null) {
+//
+//                }
             }
         }
 
@@ -98,9 +131,39 @@ public class SoftwareManagerAdapter extends BaseRvAdapter<AppInfo> {
                     ManagerSoftwareUtils.uninstallApp(context, mAppInfo);
                     break;
                 default:
-                    super.onClick(v);//整个列表项的默认点击，定义在父类
+                    if (mOnRvItemClickListener != null) {
+                        mOnRvItemClickListener.onClick(getLayoutPosition() - 1);
+                    }
+
+//                    super.onClick(v);//整个列表项的默认点击，定义在父类
             }
+        }
+
+    }
+
+    private class TvHolder extends BaseRvHolder {
+
+        TextView mTextView;
+
+        TvHolder(View itemView) {
+            super(itemView);
+            mTextView = (TextView) itemView.findViewById(R.id.tv_free_mem);
+            updateFreeMemoryOnPhone();
+        }
+
+        @Override
+        protected void bindView(AppInfo appInfo) {
 
         }
+
+
+        @SuppressLint("SetTextI18n")
+        private void updateFreeMemoryOnPhone() {
+            long freeSpace = Environment.getDataDirectory().getFreeSpace();
+            mTextView.setText("剩余：" + Formatter.formatFileSize(mContext, freeSpace));
+        }
+
     }
+
+
 }
