@@ -46,7 +46,7 @@ public class SettingView extends RelativeLayout {
 
 
     private void init(Context context) {
-        View view = View.inflate(context,R.layout.ui_setting_view,null);
+        View view = View.inflate(context,R.layout.setting_view,null);
         this.addView(view);
         mTvSettingStatus = $(R.id.tv_setting_status);
         mTvSettingTitle = $(R.id.tv_setting_title);

@@ -40,8 +40,7 @@ public class SoftwareManagerAdapter extends BaseRvAdapter<AppInfo> {
     @Override
     public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
         if (position != 0) {
-            super.onBindViewHolder(holder, position - 1);//当前位置减一才是
-//            ((BaseRvHolder) holder).bindView(mDataList.get(position - 1));
+            super.onBindViewHolder(holder, position - 1);//当前位置减一，对应里列表数据
         }
     }
 
@@ -70,7 +69,6 @@ public class SoftwareManagerAdapter extends BaseRvAdapter<AppInfo> {
 
         private AppInfo mAppInfo;
         private LinearLayout mLlOperation;
-
 
         AppManagerHolder(View itemView) {
             super(itemView);
@@ -106,11 +104,6 @@ public class SoftwareManagerAdapter extends BaseRvAdapter<AppInfo> {
                 } else if (mLlOperation != null) {
                     mLlOperation.setVisibility(View.GONE);
                 }
-//                if (appInfo.isSelected() && mLlOperation == null) {//显示下方的「操作栏」
-//
-//                } else if (mLlOperation != null) {
-//
-//                }
             }
         }
 
@@ -134,7 +127,6 @@ public class SoftwareManagerAdapter extends BaseRvAdapter<AppInfo> {
                     if (mOnRvItemClickListener != null) {
                         mOnRvItemClickListener.onClick(getLayoutPosition() - 1);
                     }
-
 //                    super.onClick(v);//整个列表项的默认点击，定义在父类
             }
         }
@@ -162,7 +154,6 @@ public class SoftwareManagerAdapter extends BaseRvAdapter<AppInfo> {
             long freeSpace = Environment.getDataDirectory().getFreeSpace();
             mTextView.setText("剩余：" + Formatter.formatFileSize(mContext, freeSpace));
         }
-
     }
 
 

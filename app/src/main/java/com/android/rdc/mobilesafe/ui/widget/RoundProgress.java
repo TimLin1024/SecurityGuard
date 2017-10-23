@@ -81,7 +81,7 @@ public class RoundProgress extends View {
     protected void onDraw(final Canvas canvas) {
         super.onDraw(canvas);
         mPaint.setStyle(Paint.Style.STROKE);
-        mPaint.setStrokeWidth(20);
+        mPaint.setStrokeWidth(35);
         mPaint.setAntiAlias(true);
         canvas.translate(mWidth / 2, mHeight / 2);
         float radius = (float) (Math.min(mWidth, mHeight) / 2);

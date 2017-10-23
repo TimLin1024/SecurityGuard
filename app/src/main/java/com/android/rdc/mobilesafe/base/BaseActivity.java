@@ -10,9 +10,6 @@ import android.view.View;
 import android.view.WindowManager;
 import android.widget.Toast;
 
-import com.android.rdc.mobilesafe.R;
-import com.android.rdc.mobilesafe.util.IOUtil;
-
 import butterknife.ButterKnife;
 
 public abstract class BaseActivity extends AppCompatActivity {
@@ -38,9 +35,6 @@ public abstract class BaseActivity extends AppCompatActivity {
                     getWindow().addFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
                 }
             }
-            View statusView = findViewById(R.id.status_view);
-            if (statusView != null)
-                statusView.getLayoutParams().height = IOUtil.UIUtil.getStatusBarHeight(this);
         }
     }
 
@@ -51,7 +45,6 @@ public abstract class BaseActivity extends AppCompatActivity {
     protected abstract void initView();
 
     protected abstract void initListener();
-
 
     protected void showToast(String msg) {
         Toast.makeText(this, msg, Toast.LENGTH_SHORT).show();

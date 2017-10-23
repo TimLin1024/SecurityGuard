@@ -74,7 +74,7 @@
             android:name="BUGLY_ENABLE_DEBUG"
             android:value="true"/>
 
-        <activity android:name=".ui.SettingActivityBase">
+        <activity android:name=".ui.SettingActivity">
         </activity>
         <activity android:name=".ui.AppLockActivity">
         </activity>
@@ -102,7 +102,7 @@
         </activity>
 
         <!-- <uses-library android:name="android.test.Runner"/> -->
-        <activity android:name=".ui.SecurityPhoneActivity">
+        <activity android:name=".ui.InterceptActivity">
         </activity>
         <activity
             android:name=".ui.AddBlackNumberActivity"

@@ -131,7 +131,6 @@ public class UnLockFragment extends BaseFragment {
 //    private void fillData() {
 //        final List<AppInfo> appInfoList = new ArrayList<>();
 //
-//        // TODO: 2017/7/5 0005 为什么要开多线程？
 //        new Thread(new Runnable() {
 //            @Override
 //            public void run() {

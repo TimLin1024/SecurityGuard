@@ -31,6 +31,8 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 
 import butterknife.BindView;
 import butterknife.OnClick;
@@ -56,6 +58,8 @@ public class ScanActivity extends BaseToolBarActivity {
     private boolean mIsStop;
     private boolean mFlag;
     private ScanAppVirusAdapter mAdapter;
+
+    private ExecutorService mExecutorService;//线程池
 
     private List<ScanAppInfo> mScanAppInfoList = new ArrayList<>(32);
 
@@ -85,7 +89,7 @@ public class ScanActivity extends BaseToolBarActivity {
 //                    mScanAppInfoList.add(scanAppInfo);
                     mAdapter.getDataList().add(scanAppInfo);
                     mAdapter.notifyDataSetChanged();
-                    mRv.smoothScrollToPosition(mAdapter.getDataList().size() - 1);
+                    mRv.scrollToPosition(mAdapter.getDataList().size() - 1);
                     break;
                 case COMPLETE_SCANNING:
 //                    mScanningIcon.clearAnimation();
@@ -110,6 +114,7 @@ public class ScanActivity extends BaseToolBarActivity {
 
     @Override
     protected void initData() {
+        mExecutorService = Executors.newFixedThreadPool(3);
         copyDB("antivirus.db");
         mPackageManager = getPackageManager();
         EventBus.getDefault().register(this);//注册
@@ -130,7 +135,7 @@ public class ScanActivity extends BaseToolBarActivity {
         mIsStop = false;
         mFlag = true;
         mProcess = 0;
-        new Thread(new Runnable() {
+        mExecutorService.execute(new Runnable() {
             @Override
             public void run() {
                 //获取所有安装的应用
@@ -178,7 +183,7 @@ public class ScanActivity extends BaseToolBarActivity {
                 Message message = mHandler.obtainMessage(COMPLETE_SCANNING);
                 mHandler.sendMessage(message);
             }
-        }).start();
+        });
     }
 
     @Override
@@ -190,7 +195,7 @@ public class ScanActivity extends BaseToolBarActivity {
      * 将 asset 目录下的文件复制到 data 目录下
      */
     private void copyDB(final String dbName) {
-        new Thread(new Runnable() {
+        mExecutorService.execute(new Runnable() {
             @Override
             public void run() {
                 File file = new File(getFilesDir(), dbName);
@@ -215,7 +220,7 @@ public class ScanActivity extends BaseToolBarActivity {
                     IOUtil.closeQuietly(outputStream);
                 }
             }
-        }).start();
+        });
     }
 
     @Override

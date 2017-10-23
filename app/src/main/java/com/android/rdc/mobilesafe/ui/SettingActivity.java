@@ -14,7 +14,7 @@ import com.android.rdc.mobilesafe.ui.widget.SettingView;
 import butterknife.BindView;
 
 
-public class SettingActivityBase extends BaseToolBarActivity implements SettingView.OnCheckStatusChanged {
+public class SettingActivity extends BaseToolBarActivity implements SettingView.OnCheckStatusChanged {
 
     @BindView(R.id.sv_blacklist_set)
     SettingView mSvBlacklistSet;

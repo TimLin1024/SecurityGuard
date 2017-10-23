@@ -68,7 +68,7 @@
         android:id="@+id/iv_animation"
         android:layout_width="80dp"
         android:layout_height="80dp"
-        android:background="@drawable/broom_animation"
+        android:background="@drawable/animation_broom"
         app:layout_constraintLeft_toLeftOf="@+id/view"
         app:layout_constraintRight_toRightOf="@+id/view"
         app:layout_constraintTop_toTopOf="@+id/view"/>

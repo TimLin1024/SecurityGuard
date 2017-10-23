@@ -3,6 +3,7 @@ package com.android.rdc.mobilesafe.ui.fragment;
 
 import android.os.Bundle;
 import android.support.v7.widget.DefaultItemAnimator;
+import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.widget.TextView;
@@ -58,7 +59,7 @@ public class LockFragment extends BaseFragment {
         mLockRvAdapter.setDataList(mAppInfoList);
         mRvLock.setAdapter(mLockRvAdapter);
         mRvLock.setLayoutManager(new LinearLayoutManager(mBaseActivity));
-
+        mRvLock.addItemDecoration(new DividerItemDecoration(mBaseActivity, DividerItemDecoration.VERTICAL));
     }
 
     @Override

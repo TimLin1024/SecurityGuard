@@ -6,15 +6,17 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class HomeDataModel {
+
     private static int[] sImgId = {
-            R.drawable.safe, R.drawable.callmsgsafe, R.drawable.app,
-            R.drawable.menu_icon_virus_save_normal, R.drawable.sysoptimize, R.drawable.taskmanager,
-            R.drawable.menu_icon_net_safe_normal, R.drawable.atools, R.drawable.settings};
+            R.drawable.ic_scan_virus, R.drawable.ic_intercept, R.drawable.ic_software_manager,
+            R.drawable.ic_traffic, R.drawable.ic_clean_cache, R.drawable.ic_task_manager,
+            R.drawable.safe, R.drawable.atools, R.drawable.settings
+    };
 
     private static String[] sItemName = {
-            "手机防盗", "通讯卫士", "软件管家",
-            "手机杀毒", "缓存清理", "进程管理",
-            "流量统计", "高级工具", "设置中心"};
+            "安全扫描", "骚扰拦截", "应用管理",
+            "流量统计", "缓存清理", "进程管理",
+            "手机防盗", "程序锁", "设置中心"};
 
 
     public static List<HomeItem> getItemList() {

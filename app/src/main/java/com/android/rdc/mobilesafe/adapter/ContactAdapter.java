@@ -13,7 +13,6 @@ import butterknife.BindView;
 
 public class ContactAdapter extends BaseSimpleRvAdapter<ContactInfo> {
 
-
     @Override
     protected int setLayoutId() {
         return R.layout.item_contact;

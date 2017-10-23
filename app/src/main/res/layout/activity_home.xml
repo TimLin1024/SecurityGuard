@@ -13,18 +13,20 @@
         android:layout_height="256dp"
         android:fitsSystemWindows="true">
 
+
         <android.support.design.widget.CollapsingToolbarLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            app:contentScrim="#30469b"
+            app:contentScrim="@color/bg_green"
             app:expandedTitleMarginStart="48dp"
             app:layout_scrollFlags="scroll|exitUntilCollapsed"
             app:title="">
 
+
             <com.android.rdc.mobilesafe.ui.widget.RoundProgress
                 android:id="@+id/round_progress"
-                android:layout_width="200dp"
-                android:layout_height="200dp"
+                android:layout_width="280dp"
+                android:layout_height="280dp"
                 android:layout_gravity="center"/>
 
 
@@ -36,6 +38,15 @@
                 android:theme="@style/ToolbarStyle"
                 app:layout_collapseMode="parallax"/>
 
+            <ImageView
+                android:id="@+id/iv_setting"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:layout_gravity="end"
+                android:background="?attr/selectableItemBackground"
+                android:padding="3dp"
+                android:scaleType="centerCrop"
+                android:src="@drawable/ic_setting"/>
             <!--android:layout_height="?android:attr/actionBarSize"-->
 
         </android.support.design.widget.CollapsingToolbarLayout>

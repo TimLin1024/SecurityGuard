@@ -47,9 +47,9 @@ public class LockRvAdapter extends BaseRvAdapter<AppInfo> {
 
             // TODO: 2017/9/18 0018  这里应该改为 isLock
             if (appInfo.isSelected()) {
-                mIvLock.setBackgroundResource(R.drawable.applock_icon);
+                mIvLock.setBackgroundResource(R.drawable.ic_lock);
             } else {
-                mIvLock.setBackgroundResource(R.drawable.app_unlock_icon);
+                mIvLock.setBackgroundResource(R.drawable.ic_unlock);
             }
         }
     }

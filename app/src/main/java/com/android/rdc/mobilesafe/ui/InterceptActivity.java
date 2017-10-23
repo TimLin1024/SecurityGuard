@@ -19,8 +19,10 @@ import java.util.List;
 
 import butterknife.BindView;
 import butterknife.OnClick;
-
-public class SecurityPhoneActivity extends BaseToolBarActivity {
+/**
+ * 骚扰拦截
+ * */
+public class InterceptActivity extends BaseToolBarActivity {
 
     @BindView(R.id.iv_no_black_number)
     ImageView mIvNoBlackNumber;
