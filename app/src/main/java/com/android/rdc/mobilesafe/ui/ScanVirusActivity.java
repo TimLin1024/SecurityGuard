@@ -2,25 +2,30 @@ package com.android.rdc.mobilesafe.ui;
 
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
-import android.os.Bundle;
+import android.graphics.Color;
 import android.os.Handler;
 import android.os.Message;
+import android.support.design.widget.Snackbar;
 import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
+import android.view.View;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import android.widget.Button;
 import android.widget.ImageView;
-import android.widget.ProgressBar;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.android.rdc.mobilesafe.R;
 import com.android.rdc.mobilesafe.adapter.ScanAppVirusAdapter;
-import com.android.rdc.mobilesafe.base.BaseToolBarActivity;
 import com.android.rdc.mobilesafe.base.BaseSafeActivityHandler;
+import com.android.rdc.mobilesafe.base.BaseToolBarActivity;
 import com.android.rdc.mobilesafe.dao.AntiVirusDao;
 import com.android.rdc.mobilesafe.entity.CustomEvent;
 import com.android.rdc.mobilesafe.entity.ScanAppInfo;
+import com.android.rdc.mobilesafe.ui.widget.RadarScanView;
 import com.android.rdc.mobilesafe.util.IOUtil;
 import com.android.rdc.mobilesafe.util.MD5Utils;
 
@@ -38,13 +43,10 @@ import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
 import butterknife.BindView;
-import butterknife.ButterKnife;
 import butterknife.OnClick;
 
 public class ScanVirusActivity extends BaseToolBarActivity {
     private static final String TAG = "ScanVirusActivity";
-    @BindView(R.id.tv_scan_process)
-    TextView mTvScanProcess;
     @BindView(R.id.iv_scanning_app_icon)
     ImageView mIvScanningAppIcon;
     @BindView(R.id.tv_scanning_app_name)
@@ -53,29 +55,32 @@ public class ScanVirusActivity extends BaseToolBarActivity {
     RecyclerView mRv;
     @BindView(R.id.btn_cancel_scanning)
     Button mBtnCancelScanning;
-    @BindView(R.id.progressbar)
-    ProgressBar mProgressbar;
+    @BindView(R.id.radar_scan_view)
+    RadarScanView mRadarScanView;
+    @BindView(R.id.ll_root)
+    LinearLayout mLlRoot;
 
-    private ImageView mScanningIcon;
 
     private int mTotal;
+    private int mVirusAppCount;
     private int mProcess;
     private PackageManager mPackageManager;
     private boolean mIsStop;
     private boolean mFlag;
     private ScanAppVirusAdapter mAdapter;
-
     private ExecutorService mExecutorService;//线程池
-
     private List<ScanAppInfo> mScanAppInfoList = new ArrayList<>(32);
+
 
     public static final int BEGIN_SCANNING = 101;
     public static final int SCANNING = 102;
     public static final int COMPLETE_SCANNING = 103;
+    public static final int STOP_SCANNING = 104;
 
-    private static class ProgressHandlerBaseActivity extends BaseSafeActivityHandler<ScanVirusActivity> {
 
-        public ProgressHandlerBaseActivity(ScanVirusActivity activityReference) {
+    private static class ProgressHandler extends BaseSafeActivityHandler<ScanVirusActivity> {
+
+        ProgressHandler(ScanVirusActivity activityReference) {
             super(activityReference);
         }
 
@@ -94,7 +99,8 @@ public class ScanVirusActivity extends BaseToolBarActivity {
                     //设置进度，
                     int currentProcess = process * 100 / activity.mTotal;
                     String str = currentProcess + "%";
-                    activity.mTvScanProcess.setText(str);
+//                    activity.mTvScanProcess.setText(str);
+                    activity.mRadarScanView.setCenterText(str);
                     activity.mTvScanningAppName.setText(scanAppInfo.getAppName());
                     // 设置选中项最新扫描完成的项
 //                    mScanAppInfoList.add(scanAppInfo);
@@ -102,10 +108,25 @@ public class ScanVirusActivity extends BaseToolBarActivity {
                     activity.mAdapter.notifyDataSetChanged();
                     activity.mRv.scrollToPosition(activity.mAdapter.getDataList().size() - 1);
                     break;
+                case STOP_SCANNING:
+
+
                 case COMPLETE_SCANNING:
-//                    mScanningIcon.clearAnimation();
-                    activity.mBtnCancelScanning.setText("扫描完成");
-                    activity.mProgressbar.setProgress(100);
+                    if (activity.mVirusAppCount > 0) {
+                        activity.mRadarScanView.setCircleColor(Color.RED);
+                        activity.mRadarScanView.setCenterText("发现威胁");
+                        // TODO: 2017/10/30 0030 删除应用？
+                    } else {
+                        activity.mRadarScanView.setCenterText("手机安全");
+                    }
+                    activity.mRadarScanView.stopScan();//设置雷达停止扫描
+                    activity.mIvScanningAppIcon.clearAnimation();//停止动画
+                    activity.mTvScanningAppName.setVisibility(View.GONE);
+                    if (activity.mIsStop) {
+                        activity.mBtnCancelScanning.setText("重新扫描");
+                    } else {
+                        activity.mBtnCancelScanning.setText("扫描完成");
+                    }
                     activity.mIsStop = true;
                     break;
                 default:
@@ -113,11 +134,12 @@ public class ScanVirusActivity extends BaseToolBarActivity {
             }
         }
     }
-    private Handler mHandler = new ProgressHandlerBaseActivity(this);
+
+    private Handler mHandler = new ProgressHandler(this);
 
     private void startAnim() {
-//        Animation animation = mScanningIcon.getAnimation();
-
+        Animation animation = AnimationUtils.loadAnimation(this, R.anim.ainmation_rotate);
+        mIvScanningAppIcon.startAnimation(animation);//开始动画
     }
 
     @Override
@@ -129,9 +151,9 @@ public class ScanVirusActivity extends BaseToolBarActivity {
     protected void initData() {
         mExecutorService = Executors.newFixedThreadPool(3);
         copyDB("antivirus.db");
-        mPackageManager = getPackageManager();
+        mPackageManager = getApplicationContext().getPackageManager();//使用 App Context，获取 PMS，防止内存泄漏
         EventBus.getDefault().register(this);//注册
-
+        mRadarScanView.startScan();
     }
 
     @Override
@@ -160,7 +182,8 @@ public class ScanVirusActivity extends BaseToolBarActivity {
 
                 //遍历应用，计算应用文件的特征码，与病毒库中的数据进行比较
                 for (PackageInfo packageInfo : scanAppInfoList) {
-                    if (mIsStop) {
+                    if (mIsStop) {//用户点击了停止扫描
+                        mHandler.sendEmptyMessage(STOP_SCANNING);
                         return;
                     }
                     String apkPath = packageInfo.applicationInfo.sourceDir;
@@ -178,6 +201,7 @@ public class ScanVirusActivity extends BaseToolBarActivity {
                     } else {
                         scanAppInfo.setDescription(result);
                         scanAppInfo.setVirus(true);
+                        mVirusAppCount++;
                     }
                     // 每次循环中，发送一个消息到主线程，状态为正在扫描，同时发送正在被扫描的应用信息 ，以及扫描的进度
                     Message message = mHandler.obtainMessage(SCANNING);
@@ -249,14 +273,21 @@ public class ScanVirusActivity extends BaseToolBarActivity {
      */
     @OnClick(R.id.btn_cancel_scanning)
     public void onViewClicked() {
-        if (mProcess == mTotal && mProcess > 0) {//注意 process 要 > 0,该比较才有意义
-            finish();
-        } else {
-
-        }
         //扫描已完成，点击后回退
         //扫描未完成，点击后停止扫描
-        //
+        if (mProcess > 0 && mProcess >= mTotal) {//注意 process 要 > 0,该比较才有意义
+            finish();//回到上级
+        } else {
+            Snackbar.make(mLlRoot, "确定停止扫描？", Snackbar.LENGTH_SHORT)
+                    .setAction("确定", new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            mIsStop = true;//设置停止扫描
+                        }
+                    })
+                    .show();
+
+        }
     }
 
     @Subscribe(threadMode = ThreadMode.MAIN, sticky = true, priority = 1000)
@@ -264,10 +295,4 @@ public class ScanVirusActivity extends BaseToolBarActivity {
         Log.d(TAG, "onMessage: " + event.getEventName());
     }
 
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        // TODO: add setContentView(...) invocation
-        ButterKnife.bind(this);
-    }
 }

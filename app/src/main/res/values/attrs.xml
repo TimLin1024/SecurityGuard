@@ -23,6 +23,18 @@
         <attr name="indexBarTextSize"/>
         <attr name="indexBarPressBackground" format="color"/>
     </declare-styleable>
+    <declare-styleable name="RadarScanView">
+        <attr name="circleColor" format="color"/>
+        <attr name="innerCircleColor" format="color"/>
+        <attr name="layerColor" format="color"/>
+        <attr name="innerTextColor" format="color"/>
+        <attr name="innerTextSize" format="dimension"/>
 
+        <attr name="radarShaderColor1" format="color"/>
+        <attr name="radarShaderColor2" format="color"/>
+        <attr name="radarLineColor" format="color"/>
+
+        <attr name="radarBorderWidth" format="dimension"/>
+    </declare-styleable>
 
 </resources>

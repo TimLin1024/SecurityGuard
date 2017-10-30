@@ -1,8 +1,6 @@
 package com.android.rdc.mobilesafe.adapter;
 
 import android.graphics.Color;
-import android.os.Handler;
-import android.os.Message;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -16,10 +14,9 @@ import butterknife.BindView;
 public class ScanAppVirusAdapter extends BaseSimpleRvAdapter<ScanAppInfo> {
 
 
-
     @Override
     protected int setLayoutId() {
-        return R.layout.item_list_applock;
+        return R.layout.item_scan_virus;
     }
 
     @Override
@@ -48,9 +45,9 @@ public class ScanAppVirusAdapter extends BaseSimpleRvAdapter<ScanAppInfo> {
 
             if (scanAppInfo.isVirus()) {
                 mTvAppName.setTextColor(Color.RED);
-                mTvAppName.setText(scanAppInfo.getAppName() + "(" + scanAppInfo.getDescription() + ")");
+                mTvAppName.setText(String.format("%s(%s)", scanAppInfo.getAppName(), scanAppInfo.getDescription()));
             } else {
-                mIvLock.setImageResource(R.drawable.blue_right_icon);
+                mIvLock.setImageResource(R.drawable.ic_safe);
                 mTvAppName.setText(scanAppInfo.getAppName());
             }
         }

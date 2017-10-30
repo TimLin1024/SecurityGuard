@@ -87,9 +87,12 @@ public class ProcessManagerActivity extends BaseToolBarActivity {
                     public void run() {
                         //更新显示内容
                         mRunningProcessCount = mRunningTaskInfoList.size();
-                        mTvRunningProcessMem.setText("可用/总内存："
-                                + Formatter.formatFileSize(ProcessManagerActivity.this, SystemUtil.getAvailableMem(ProcessManagerActivity.this)) + "/"
-                                + Formatter.formatFileSize(ProcessManagerActivity.this, SystemUtil.getTotalMem()));
+                        mTvRunningProcessMem.setText(
+                                String.format("可用/总内存：%s/%s",
+                                        Formatter.formatFileSize(ProcessManagerActivity.this, SystemUtil.getAvailableMem(ProcessManagerActivity.this)),
+                                        Formatter.formatFileSize(ProcessManagerActivity.this, SystemUtil.getTotalMem()))
+                        );
+
                         mTvRunningProcessNum.setText(String.format(Locale.CHINA, "运行中的进程：%d 个", mRunningProcessCount));
                         mAdapter = new ProcessManageAdapter(mSystemTaskList, mUserTaskList, getApplicationContext());
                         mRvRunningProcess.setLayoutManager(new LinearLayoutManager(ProcessManagerActivity.this));
@@ -146,7 +149,11 @@ public class ProcessManagerActivity extends BaseToolBarActivity {
             }
         }
         mRunningProcessCount -= count;
-        mTvRunningProcessMem.setText("可用/总内存：" + Formatter.formatFileSize(this, SystemUtil.getAvailableMem(this)) + "/" + Formatter.formatFileSize(this, SystemUtil.getTotalMem()));
+        mTvRunningProcessMem.setText(
+                String.format("可用/总内存：%s/%s",
+                        Formatter.formatFileSize(this, SystemUtil.getAvailableMem(this)),
+                        Formatter.formatFileSize(this, SystemUtil.getTotalMem()))
+        );
         mTvRunningProcessNum.setText(String.format(Locale.CHINA, "运行中的进程：%d", mRunningProcessCount));
         showToast("清理了 " + count + " 个进程," + "回收了 " + Formatter.formatFileSize(this, saveMem) + "内存");
 

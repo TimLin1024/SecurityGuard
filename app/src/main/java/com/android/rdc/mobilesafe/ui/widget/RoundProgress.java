@@ -12,6 +12,8 @@ import android.util.Log;
 import android.util.TypedValue;
 import android.view.View;
 
+import com.android.rdc.mobilesafe.R;
+
 import java.util.Locale;
 
 public class RoundProgress extends View {
@@ -30,7 +32,7 @@ public class RoundProgress extends View {
 
     public RoundProgress(Context context, @Nullable AttributeSet attrs) {
         super(context, attrs);
-        mCenterFontSize = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_SP, 18, context.getResources().getDisplayMetrics());//使用带单位的字体大小
+        mCenterFontSize = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_SP, 20, context.getResources().getDisplayMetrics());//使用带单位的字体大小
     }
 
     @Override
@@ -96,6 +98,7 @@ public class RoundProgress extends View {
         //绘制已经加载的进度
         if (mCurrentProcess >= 100) {
             mPaint.setColor(Color.GREEN);
+            mPaint.setColor(getResources().getColor(R.color.bright_green));
         } else {
             mPaint.setColor(Color.CYAN);
         }
@@ -104,7 +107,7 @@ public class RoundProgress extends View {
         //绘制中间的文字
         mPaint.setTextSize(mCenterFontSize);
         mPaint.setStyle(Paint.Style.FILL);
-        mPaint.setColor(Color.BLACK);
+        mPaint.setColor(Color.WHITE);
 
 
         String str = String.format(Locale.CHINA, "%d%%", (int) mCurrentProcess);
