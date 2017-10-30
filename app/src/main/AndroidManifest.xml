@@ -85,7 +85,7 @@
 
         <activity android:name=".ui.EnterPwdActivity">
         </activity>
-        <activity android:name=".ui.ScanActivity">
+        <activity android:name=".ui.ScanVirusActivity">
         </activity>
         <activity android:name=".ui.ProcessManagerActivity">
         </activity>
@@ -151,6 +151,8 @@
         <activity
             android:name=".ui.SoftwareManagerActivity"
             android:exported="true">
+        </activity>
+        <activity android:name=".ui.OkHttpNetworkInterceptActivity">
         </activity>
     </application>
 

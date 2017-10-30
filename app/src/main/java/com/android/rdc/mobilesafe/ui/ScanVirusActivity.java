@@ -2,6 +2,7 @@ package com.android.rdc.mobilesafe.ui;
 
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
+import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.support.v7.widget.DividerItemDecoration;
@@ -10,11 +11,13 @@ import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.android.rdc.mobilesafe.R;
 import com.android.rdc.mobilesafe.adapter.ScanAppVirusAdapter;
 import com.android.rdc.mobilesafe.base.BaseToolBarActivity;
+import com.android.rdc.mobilesafe.base.BaseSafeActivityHandler;
 import com.android.rdc.mobilesafe.dao.AntiVirusDao;
 import com.android.rdc.mobilesafe.entity.CustomEvent;
 import com.android.rdc.mobilesafe.entity.ScanAppInfo;
@@ -35,10 +38,11 @@ import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
 import butterknife.BindView;
+import butterknife.ButterKnife;
 import butterknife.OnClick;
 
-public class ScanActivity extends BaseToolBarActivity {
-    private static final String TAG = "ScanActivity";
+public class ScanVirusActivity extends BaseToolBarActivity {
+    private static final String TAG = "ScanVirusActivity";
     @BindView(R.id.tv_scan_process)
     TextView mTvScanProcess;
     @BindView(R.id.iv_scanning_app_icon)
@@ -49,6 +53,8 @@ public class ScanActivity extends BaseToolBarActivity {
     RecyclerView mRv;
     @BindView(R.id.btn_cancel_scanning)
     Button mBtnCancelScanning;
+    @BindView(R.id.progressbar)
+    ProgressBar mProgressbar;
 
     private ImageView mScanningIcon;
 
@@ -67,40 +73,47 @@ public class ScanActivity extends BaseToolBarActivity {
     public static final int SCANNING = 102;
     public static final int COMPLETE_SCANNING = 103;
 
-    private Handler mHandler = new Handler() {
-        @Override
+    private static class ProgressHandlerBaseActivity extends BaseSafeActivityHandler<ScanVirusActivity> {
+
+        public ProgressHandlerBaseActivity(ScanVirusActivity activityReference) {
+            super(activityReference);
+        }
+
         public void handleMessage(Message msg) {
+            ScanVirusActivity activity = getActivity();
+            if (activity == null) return;
             switch (msg.what) {
                 case BEGIN_SCANNING:
-                    mTvScanningAppName.setText("初始化杀毒引擎...");
-                    startAnim();
+                    activity.mTvScanningAppName.setText("初始化杀毒引擎...");
+                    activity.startAnim();
                     break;
                 case SCANNING:
                     ScanAppInfo scanAppInfo = (ScanAppInfo) msg.obj;
-                    mTvScanningAppName.setText("正在扫描：" + scanAppInfo.getAppName());
+                    activity.mTvScanningAppName.setText(String.format("正在扫描：%s", scanAppInfo.getAppName()));
                     int process = msg.arg1;
                     //设置进度，
-                    int currentProcess = process * 100 / mTotal;
+                    int currentProcess = process * 100 / activity.mTotal;
                     String str = currentProcess + "%";
-                    mTvScanProcess.setText(str);
-                    mTvScanningAppName.setText(scanAppInfo.getAppName());
+                    activity.mTvScanProcess.setText(str);
+                    activity.mTvScanningAppName.setText(scanAppInfo.getAppName());
                     // 设置选中项最新扫描完成的项
-
 //                    mScanAppInfoList.add(scanAppInfo);
-                    mAdapter.getDataList().add(scanAppInfo);
-                    mAdapter.notifyDataSetChanged();
-                    mRv.scrollToPosition(mAdapter.getDataList().size() - 1);
+                    activity.mAdapter.getDataList().add(scanAppInfo);
+                    activity.mAdapter.notifyDataSetChanged();
+                    activity.mRv.scrollToPosition(activity.mAdapter.getDataList().size() - 1);
                     break;
                 case COMPLETE_SCANNING:
 //                    mScanningIcon.clearAnimation();
-                    mBtnCancelScanning.setText("扫描完成");
-                    mIsStop = true;
+                    activity.mBtnCancelScanning.setText("扫描完成");
+                    activity.mProgressbar.setProgress(100);
+                    activity.mIsStop = true;
                     break;
                 default:
                     super.handleMessage(msg);
             }
         }
-    };
+    }
+    private Handler mHandler = new ProgressHandlerBaseActivity(this);
 
     private void startAnim() {
 //        Animation animation = mScanningIcon.getAnimation();
@@ -251,4 +264,10 @@ public class ScanActivity extends BaseToolBarActivity {
         Log.d(TAG, "onMessage: " + event.getEventName());
     }
 
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        // TODO: add setContentView(...) invocation
+        ButterKnife.bind(this);
+    }
 }

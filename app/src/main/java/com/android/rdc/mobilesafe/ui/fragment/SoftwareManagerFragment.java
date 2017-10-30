@@ -15,6 +15,7 @@ import com.android.rdc.mobilesafe.R;
 import com.android.rdc.mobilesafe.adapter.SoftwareManagerAdapter;
 import com.android.rdc.mobilesafe.base.BaseFragment;
 import com.android.rdc.mobilesafe.base.BaseRvAdapter;
+import com.android.rdc.mobilesafe.base.BaseSafeFragmentHandler;
 import com.android.rdc.mobilesafe.entity.AppInfo;
 import com.android.rdc.mobilesafe.util.AppInfoParser;
 import com.android.rdc.mobilesafe.util.ProgressDialogUtil;
@@ -60,33 +61,43 @@ public class SoftwareManagerFragment extends BaseFragment {
         return fragment;
     }
 
-    private Handler mHandler = new Handler() {
+    private static class SafeFragmentHandler extends BaseSafeFragmentHandler<SoftwareManagerFragment> {
+
+        public SafeFragmentHandler(SoftwareManagerFragment fragment) {
+            super(fragment);
+        }
+
         @Override
         public void handleMessage(Message msg) {
             ProgressDialogUtil.dismiss();
+            SoftwareManagerFragment fragment = getFragment();
+            if (fragment == null) {
+                return;
+            }
             switch (msg.what) {
                 case REMOVE_APP_SUCCESS:
-                    mSoftwareManagerAdapter.notifyDataSetChanged();
+                    fragment.mSoftwareManagerAdapter.notifyDataSetChanged();
                     break;
                 case FETCH_APP_SUCCESS:
-                    switch (mDisplayType) {
+                    switch (fragment.mDisplayType) {
                         case DISPLAY_USER_APP:
-                            mSoftwareManagerAdapter.setDataList(mUserAppInfoList);
+                            fragment.mSoftwareManagerAdapter.setDataList(fragment.mUserAppInfoList);
                             break;
                         case DISPLAY_SYSTEM_APP:
-                            mSoftwareManagerAdapter.setDataList(mSystemAppInfoList);
+                            fragment.mSoftwareManagerAdapter.setDataList(fragment.mSystemAppInfoList);
                             break;
                     }
-                    mSoftwareManagerAdapter.notifyDataSetChanged();
+                    fragment.mSoftwareManagerAdapter.notifyDataSetChanged();
                     break;
                 case UPDATE_APP_SELECT_STATE:
-                    mSoftwareManagerAdapter.notifyDataSetChanged();
+                    fragment.mSoftwareManagerAdapter.notifyDataSetChanged();
                     break;
                 default:
             }
         }
-    };
+    }
 
+    private Handler mHandler = new SafeFragmentHandler(this);
 
     @Override
     protected int setLayoutResourceId() {
@@ -143,7 +154,6 @@ public class SoftwareManagerFragment extends BaseFragment {
             mBaseActivity.registerReceiver(mUninstallReceiver, intentFilter);
         }
     }
-
 
 
     private void fetchAppInfoAsync(final int fetchSuccessType) {

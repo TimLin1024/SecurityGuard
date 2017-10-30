@@ -12,8 +12,8 @@ public class App extends Application {
     @Override
     public void onCreate() {
         super.onCreate();
-        Stetho.initializeWithDefaults(this);
-        CrashReport.initCrashReport(getApplicationContext());
+        Stetho.initializeWithDefaults(this);//初始化 Stetho
+        CrashReport.initCrashReport(getApplicationContext());//初始化 bugly
 
         sContext = getApplicationContext();
     }

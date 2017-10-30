@@ -6,7 +6,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context="com.android.rdc.mobilesafe.ui.ScanActivity">
+    tools:context="com.android.rdc.mobilesafe.ui.ScanVirusActivity">
 
     <include layout="@layout/include_toolbar"/>
 
@@ -23,6 +23,13 @@
             android:textSize="30sp"
             android:textStyle="bold"
             tools:text="20%"/>
+
+        <ProgressBar
+            android:id="@+id/progressbar"
+            android:layout_width="300dp"
+            android:layout_height="300dp"
+            android:layout_centerInParent="true"/>
+
 
         <LinearLayout
             android:layout_width="match_parent"

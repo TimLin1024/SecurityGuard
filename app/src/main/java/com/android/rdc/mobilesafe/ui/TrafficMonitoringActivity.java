@@ -209,8 +209,8 @@ public class TrafficMonitoringActivity extends BaseToolBarActivity {
                         .putLong(KEY_TOTAL_FLOW, total)
                         .putLong(KEY_USED_FLOW, totalUsed)
                         .apply();
-                mTvMonthTotalTraffic.setText("本月流量：" + Formatter.formatFileSize(context, (total)));
-                mTvMonthUsedTraffic.setText("本月已用：" + Formatter.formatFileSize(context, totalUsed));
+                mTvMonthTotalTraffic.setText(String.format("本月流量：%s", Formatter.formatFileSize(context, (total))));
+                mTvMonthUsedTraffic.setText(String.format("本月已用：%s", Formatter.formatFileSize(context, totalUsed)));
 
             }
         }

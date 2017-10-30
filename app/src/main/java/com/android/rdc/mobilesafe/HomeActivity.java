@@ -10,15 +10,17 @@ import android.widget.ImageView;
 import com.android.rdc.mobilesafe.adapter.HomeRvAdapter;
 import com.android.rdc.mobilesafe.base.BaseActivity;
 import com.android.rdc.mobilesafe.base.BaseRvAdapter;
+import com.android.rdc.mobilesafe.base.BaseSafeActivityHandler;
 import com.android.rdc.mobilesafe.entity.CustomEvent;
 import com.android.rdc.mobilesafe.entity.HomeDataModel;
 import com.android.rdc.mobilesafe.entity.HomeItem;
 import com.android.rdc.mobilesafe.ui.AppLockActivity;
 import com.android.rdc.mobilesafe.ui.CacheListActivity;
 import com.android.rdc.mobilesafe.ui.InterceptActivity;
+import com.android.rdc.mobilesafe.ui.OkHttpNetworkInterceptActivity;
 import com.android.rdc.mobilesafe.ui.OperatorSettingActivity;
 import com.android.rdc.mobilesafe.ui.ProcessManagerActivity;
-import com.android.rdc.mobilesafe.ui.ScanActivity;
+import com.android.rdc.mobilesafe.ui.ScanVirusActivity;
 import com.android.rdc.mobilesafe.ui.SettingActivity;
 import com.android.rdc.mobilesafe.ui.SoftwareManagerActivity;
 import com.android.rdc.mobilesafe.ui.TrafficMonitoringActivity;
@@ -46,24 +48,37 @@ public class HomeActivity extends BaseActivity {
 
     private List<HomeItem> mHomeItemList;
     private HomeRvAdapter mHomeRvAdapter;
-    private Handler mHandler = new Handler() {
+
+    private static class SafeActivityHandler extends BaseSafeActivityHandler<HomeActivity> {
+
+        SafeActivityHandler(HomeActivity activityReference) {
+            super(activityReference);
+        }
+
         @Override
         public void handleMessage(Message msg) {
+            HomeActivity activity = getActivity();
+            if (activity == null) {
+                return;
+            }
+
             switch (msg.what) {
                 case MSG_UPDATE_PROGRESS:
-                    if (mCurrentProgress < 100) {
-                        mCurrentProgress += 5;
-                        if (mCurrentProgress > 100) {
-                            mCurrentProgress = 100;
+                    if (activity.mCurrentProgress < 100) {
+                        activity.mCurrentProgress += 5;
+                        if (activity.mCurrentProgress > 100) {
+                            activity.mCurrentProgress = 100;
                         }
 
-                        mRoundProgress.updateProcess(mCurrentProgress);
+                        activity.mRoundProgress.updateProcess(activity.mCurrentProgress);
                         this.sendEmptyMessageAtTime(MSG_UPDATE_PROGRESS, 200);
                     }
                     break;
             }
         }
-    };
+
+    }
+    private Handler mHandler = new SafeActivityHandler(this);
 
     @Override
     protected int setResId() {
@@ -103,6 +118,9 @@ public class HomeActivity extends BaseActivity {
         HomeItem item = mHomeItemList.get(position);
         switch (item.getImgId()) {
             case R.drawable.safe://防盗
+
+                startActivity(OkHttpNetworkInterceptActivity.class);
+
                 break;
             case R.drawable.ic_intercept://通讯卫士,骚扰拦截
                 startActivity(InterceptActivity.class);
@@ -111,7 +129,7 @@ public class HomeActivity extends BaseActivity {
                 startActivity(SoftwareManagerActivity.class);
                 break;
             case R.drawable.ic_scan_virus://病毒查杀
-                startActivity(ScanActivity.class);
+                startActivity(ScanVirusActivity.class);
                 break;
             case R.drawable.ic_clean_cache://缓存清理
                 startActivity(CacheListActivity.class);
