@@ -5,6 +5,7 @@ import android.content.Context;
 import android.database.Cursor;
 import android.net.Uri;
 import android.provider.ContactsContract;
+import android.util.Log;
 
 import com.android.rdc.mobilesafe.entity.ContactInfo;
 
@@ -16,6 +17,7 @@ public final class ContactInfoParser {
         throw new UnsupportedOperationException("u can't instantiate me...");
     }
 
+    // TODO: 2017/11/1 0001 7.0 小米 查询缓慢，换一种方式
     public static List<ContactInfo> getSystemContact(Context context) {
         ContentResolver contentResolver = context.getContentResolver();
         Uri uri = Uri.parse("content://com.android.contacts/raw_contacts");
@@ -56,5 +58,27 @@ public final class ContactInfoParser {
         }
         return contactInfoList;
     }
+
+    private void readContacts(Context context) {
+        Cursor cursor = null;
+        try { //获取内容提供器
+            ContentResolver resolver = context.getApplicationContext().getContentResolver(); //查询联系人数据
+            cursor = resolver.query(ContactsContract.CommonDataKinds.Phone.CONTENT_URI, null, null, null, null, null); //遍历联系人列表
+            while (cursor.moveToNext()) {
+                //获取联系人姓名
+                String name = cursor.getString(cursor.getColumnIndex(ContactsContract.CommonDataKinds.Phone.DISPLAY_NAME));
+                //获取联系人手机号
+                String number = cursor.getString(cursor.getColumnIndex(ContactsContract.CommonDataKinds.Phone.NUMBER));
+                Log.v("woider", "Name:" + name + "\tPhone:" + number);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            if (cursor != null) {
+                cursor.close();
+            }
+        }
+    }
+
 
 }

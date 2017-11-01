@@ -71,12 +71,10 @@ public class ScanVirusActivity extends BaseToolBarActivity {
     private ExecutorService mExecutorService;//线程池
     private List<ScanAppInfo> mScanAppInfoList = new ArrayList<>(32);
 
-
     public static final int BEGIN_SCANNING = 101;
     public static final int SCANNING = 102;
     public static final int COMPLETE_SCANNING = 103;
     public static final int STOP_SCANNING = 104;
-
 
     private static class ProgressHandler extends BaseSafeActivityHandler<ScanVirusActivity> {
 
@@ -99,7 +97,6 @@ public class ScanVirusActivity extends BaseToolBarActivity {
                     //设置进度，
                     int currentProcess = process * 100 / activity.mTotal;
                     String str = currentProcess + "%";
-//                    activity.mTvScanProcess.setText(str);
                     activity.mRadarScanView.setCenterText(str);
                     activity.mTvScanningAppName.setText(scanAppInfo.getAppName());
                     // 设置选中项最新扫描完成的项
@@ -109,6 +106,7 @@ public class ScanVirusActivity extends BaseToolBarActivity {
                     activity.mRv.scrollToPosition(activity.mAdapter.getDataList().size() - 1);
                     break;
                 case STOP_SCANNING:
+
 
 
                 case COMPLETE_SCANNING:
@@ -123,7 +121,7 @@ public class ScanVirusActivity extends BaseToolBarActivity {
                     activity.mIvScanningAppIcon.clearAnimation();//停止动画
                     activity.mTvScanningAppName.setVisibility(View.GONE);
                     if (activity.mIsStop) {
-                        activity.mBtnCancelScanning.setText("重新扫描");
+                        activity.mBtnCancelScanning.setText("返回");
                     } else {
                         activity.mBtnCancelScanning.setText("扫描完成");
                     }
@@ -275,7 +273,7 @@ public class ScanVirusActivity extends BaseToolBarActivity {
     public void onViewClicked() {
         //扫描已完成，点击后回退
         //扫描未完成，点击后停止扫描
-        if (mProcess > 0 && mProcess >= mTotal) {//注意 process 要 > 0,该比较才有意义
+        if (mProcess > 0 && mProcess >= mTotal || mIsStop) {//注意 process 要 > 0,该比较才有意义
             finish();//回到上级
         } else {
             Snackbar.make(mLlRoot, "确定停止扫描？", Snackbar.LENGTH_SHORT)
@@ -286,7 +284,6 @@ public class ScanVirusActivity extends BaseToolBarActivity {
                         }
                     })
                     .show();
-
         }
     }
 

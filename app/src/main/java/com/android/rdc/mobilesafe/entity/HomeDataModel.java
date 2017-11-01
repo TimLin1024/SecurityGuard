@@ -21,7 +21,8 @@ public class HomeDataModel {
 
     public static List<HomeItem> getItemList() {
         List<HomeItem> homeItemList = new ArrayList<>();
-        for (int i = 0; i < 9; i++) {
+        // TODO: 2017/11/1 0001 下面三项暂时不显示
+        for (int i = 0; i < 6; i++) {
             HomeItem homeItem = new HomeItem();
             homeItem.setImgId(sImgId[i]);
             homeItem.setItemName(sItemName[i]);

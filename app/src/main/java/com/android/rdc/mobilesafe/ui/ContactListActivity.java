@@ -29,7 +29,6 @@ import com.android.rdc.mobilesafe.util.ContactInfoParser;
 
 import java.util.Collections;
 import java.util.List;
-import java.util.concurrent.CountDownLatch;
 
 import butterknife.BindView;
 import butterknife.OnClick;
@@ -37,7 +36,6 @@ import butterknife.OnClick;
 public class ContactListActivity extends BaseToolBarActivity {
     private static final String TAG = "ContactListActivity";
     private static final int PERMISSIONS_REQUEST_READ_CONTACTS = 101;
-
     @BindView(R.id.btn_confirm)
     Button mBtnConfirm;
     @BindView(R.id.index_bar)
@@ -46,29 +44,15 @@ public class ContactListActivity extends BaseToolBarActivity {
     TextView mTvDialog;
     @BindView(R.id.btn_select_all)
     Button mBtnSelectAll;
+    @BindView(R.id.tv_select_hint)
+    TextView mTvSelectHint;
     @BindView(R.id.ll)
     LinearLayout mLl;
     @BindView(R.id.rv)
     RecyclerView mRv;
 
-//    @BindView(R.id.rv)
-//    RecyclerView mRv;
-//    @BindView(R.id.tv_dialog)
-//    TextView mTvDialog;
-//    @BindView(R.id.index_bar)
-//    IndexBar mIndexBar;
-//    @BindView(R.id.btn_select_all)
-//    Button mBtnSelectAll;
-//    @BindView(R.id.tv_select_hint)
-//    TextView mTvSelectHint;
-//    @BindView(R.id.btn_confirm)
-//    Button mBtnConfirm;
-//    @BindView(R.id.ll)
-//    LinearLayout mLl;
-
     private ContactAdapter mAdapter;
-    private LinearLayoutManager mLinearLayoutManager;
-    private CountDownLatch mCountDownLatch;
+    //    private CountDownLatch mCountDownLatch;
 
     private List<ContactInfo> mContactInfoList;
     private BottomSheetDialog mBottomSheetDialog;
@@ -86,32 +70,38 @@ public class ContactListActivity extends BaseToolBarActivity {
     protected void initView() {
 
         //6.0 以上动态申请权限
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M && checkSelfPermission(Manifest.permission.READ_CONTACTS) != PackageManager.PERMISSION_GRANTED) {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M
+                && checkSelfPermission(Manifest.permission.READ_CONTACTS) != PackageManager.PERMISSION_GRANTED) {
             requestPermissions(new String[]{Manifest.permission.READ_CONTACTS}, PERMISSIONS_REQUEST_READ_CONTACTS);
             //After this point you wait for callback in onRequestPermissionsResult(int, String[], int[]) overriden method
-            mCountDownLatch = new CountDownLatch(1);
-            try {
-                mCountDownLatch.await();
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            }
+//            mCountDownLatch = new CountDownLatch(1);
+//            try {
+//                mCountDownLatch.await();
+//            } catch (InterruptedException e) {
+//                e.printStackTrace();
+//            }
+        } else {
+            initUi();
         }
 
-        mContactInfoList = ContactInfoParser.getSystemContact(this);
+
+    }
+
+    private void initUi() {
+        mContactInfoList = ContactInfoParser.getSystemContact(getApplicationContext());
         mAdapter = new ContactAdapter();
         Collections.sort(mContactInfoList);
         mAdapter.setDataList(mContactInfoList);
         mRv.setAdapter(mAdapter);
-        mLinearLayoutManager = new LinearLayoutManager(this);
-        mRv.setLayoutManager(mLinearLayoutManager);
+        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this);
+        mRv.setLayoutManager(linearLayoutManager);
         mRv.addItemDecoration(new DividerItemDecoration(this, DividerItemDecoration.VERTICAL));
         mRv.addItemDecoration(new TitleItemDecoration(this, mContactInfoList));
 
         mIndexBar.setPressedBg(getResources().getColor(R.color.graye5));
-        mIndexBar.setLayoutManager(mLinearLayoutManager);
+        mIndexBar.setLayoutManager(linearLayoutManager);
         mIndexBar.setHintTextView(mTvDialog);
         mIndexBar.setSourceData(mContactInfoList);
-
     }
 
     @Override
@@ -129,9 +119,10 @@ public class ContactListActivity extends BaseToolBarActivity {
         if (requestCode == PERMISSIONS_REQUEST_READ_CONTACTS) {
             if (grantResults[0] == PackageManager.PERMISSION_GRANTED) {
                 // Permission is granted
-                mCountDownLatch.countDown();
+//                mCountDownLatch.countDown();
+                initUi();
             } else {
-                Toast.makeText(this, "Until you grant the permission, we canot display the names", Toast.LENGTH_SHORT).show();
+                Toast.makeText(this, "Until you grant the permission, we cannot display the names", Toast.LENGTH_SHORT).show();
                 finish();
             }
         }
@@ -232,5 +223,6 @@ public class ContactListActivity extends BaseToolBarActivity {
             mBottomSheetDialog.show();
         }
     }
+
 
 }

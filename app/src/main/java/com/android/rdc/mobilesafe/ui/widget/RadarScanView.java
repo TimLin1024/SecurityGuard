@@ -340,7 +340,6 @@ public class RadarScanView extends View {
             canvas.drawCircle(mCenterX, mCenterY, mRadarRadius, mPaintRadar);
         }
 
-        canvas.restore();
     }
 
     private String getShowNum() {

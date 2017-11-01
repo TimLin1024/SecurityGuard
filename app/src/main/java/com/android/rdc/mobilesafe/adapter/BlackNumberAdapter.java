@@ -1,7 +1,7 @@
 package com.android.rdc.mobilesafe.adapter;
 
 import android.view.View;
-import android.widget.ImageView;
+import android.widget.CheckBox;
 import android.widget.TextView;
 
 import com.android.rdc.mobilesafe.R;
@@ -35,10 +35,12 @@ public class BlackNumberAdapter extends BaseSimpleRvAdapter<BlackContactInfo> {
 
         @BindView(R.id.tv_black_name)
         TextView mTvBlackName;
+        @BindView(R.id.tv_phone_num)
+        TextView mTvPhoneNum;
         @BindView(R.id.tv_black_mode)
         TextView mTvBlackMode;
-        @BindView(R.id.iv_black_delete)
-        ImageView mIvBlackDelete;
+        @BindView(R.id.cb)
+        CheckBox mCb;
 
         BlackNumberVH(View itemView) {
             super(itemView);
@@ -47,15 +49,13 @@ public class BlackNumberAdapter extends BaseSimpleRvAdapter<BlackContactInfo> {
         @Override
         protected void bindView(BlackContactInfo contactInfo) {
             mTvBlackName.setText(contactInfo.getContractName());
-            mTvBlackMode.setText(String.valueOf(contactInfo.getMode()));
-            mIvBlackDelete.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    if (mOnIvClickListener != null) {
-                        mOnIvClickListener.onIvClick(getAdapterPosition());
-                    }
-                }
-            });
+            mTvPhoneNum.setText(contactInfo.getPhoneNumber());
+            mTvBlackMode.setText(contactInfo.getStringMode());
+        }
+
+        @Override
+        public boolean onLongClick(View v) {
+            return super.onLongClick(v);
         }
     }
 }

@@ -1,41 +1,40 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:background="?attr/selectableItemBackground"
-    android:orientation="vertical">
+    android:orientation="vertical"
+    android:paddingBottom="10dp"
+    android:paddingLeft="10dp"
+    android:paddingRight="10dp"
+    android:paddingTop="10dp">
 
-    <ImageView
-        android:id="@+id/iv_black_icon"
-        android:layout_width="60dp"
-        android:layout_height="60dp"
-        android:layout_centerVertical="true"
-        android:layout_margin="15dp"
-        android:background="@drawable/ic_bright_purple_contact"/>
 
     <TextView
         android:id="@+id/tv_black_name"
         style="@style/Tv14sp"
-        android:layout_alignTop="@+id/iv_black_icon"
-        android:layout_toEndOf="@+id/iv_black_icon"
-        android:textColor="@color/purple"/>
+        tools:text="Leo 黄先生"/>
+
+    <TextView
+        android:id="@+id/tv_phone_num"
+        style="@style/Tv14sp"
+        android:layout_below="@+id/tv_black_name"
+        tools:text="13700891212"
+        tools:textColor="@color/purple"/>
 
     <TextView
         android:id="@+id/tv_black_mode"
         style="@style/Tv14sp"
-        android:layout_below="@+id/tv_black_name"
+        android:layout_alignParentEnd="true"
         android:layout_marginTop="10dp"
-        android:layout_toEndOf="@+id/iv_black_icon"
-        android:textColor="@color/purple"/>
+        tools:text="拦截短信和号码"/>
 
-    <ImageView
-        android:id="@+id/iv_black_delete"
-        android:layout_width="34dp"
+    <CheckBox
+        android:id="@+id/cb"
+        android:layout_width="40dp"
         android:layout_height="40dp"
         android:layout_alignParentEnd="true"
-        android:layout_centerVertical="true"
-        android:layout_marginEnd="20dp"
-        android:background="@drawable/delete_icon"/>
-
+        android:visibility="gone"/>
 </RelativeLayout>

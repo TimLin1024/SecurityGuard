@@ -33,11 +33,11 @@ public class BlackContactInfo {
     public String getStringMode() {
         switch (mMode) {
             case 1:
-                return "电话拦截";
+                return "拦截来电";
             case 2:
-                return "短信拦截";
+                return "拦截短信";
             case 3:
-                return "电话拦截、短信拦截";
+                return "拦截来电和短信";
         }
         return "";
     }
