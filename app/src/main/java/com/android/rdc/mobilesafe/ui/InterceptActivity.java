@@ -25,7 +25,6 @@ import butterknife.OnClick;
  * 骚扰拦截
  */
 public class InterceptActivity extends BaseToolBarActivity {
-
     @BindView(R.id.iv_no_black_number)
     ImageView mIvNoBlackNumber;
     @BindView(R.id.tv_indicator)
@@ -36,6 +35,7 @@ public class InterceptActivity extends BaseToolBarActivity {
     private BlackNumberDao mBlackNumberDao;
     private List<BlackContactInfo> mBlackContactInfoList = new ArrayList<>();
     private BlackNumberAdapter mAdapter;
+    private int mLastTotalNum;//
 
     @Override
     protected int setResId() {
@@ -45,52 +45,54 @@ public class InterceptActivity extends BaseToolBarActivity {
     @Override
     protected void initData() {
         mBlackNumberDao = new BlackNumberDao(getApplicationContext());
-
-        for (int i = 0; i < 100; i++) {
-            BlackContactInfo blackContactInfo = new BlackContactInfo();
-            blackContactInfo.setContractName(String.valueOf(i));
-            blackContactInfo.setMode(1);
-            blackContactInfo.setPhoneNumber(String.valueOf(i * 1024));
-            mBlackNumberDao.add(blackContactInfo);
-        }
-
-        int totalNum = mBlackNumberDao.getTotalNumber();
+        mLastTotalNum = mBlackNumberDao.getTotalNumber();
         mBlackContactInfoList.addAll(mBlackNumberDao.getPagesBlackNumber(0, 150));
         //如有黑名单，则显示黑名单列表，没有就显示黑名单为空
-        if (totalNum > 0) {
-            mRvBlack.setVisibility(View.VISIBLE);
-            mTvIndicator.setVisibility(View.GONE);
-            mIvNoBlackNumber.setVisibility(View.GONE);
+        if (mLastTotalNum > 0) {
+            showBlackNumList(true);
             if (mAdapter == null) {
-                mAdapter = new BlackNumberAdapter();
-                mAdapter.setDataList(mBlackContactInfoList);
-                final LinearLayoutManager layoutManager = new LinearLayoutManager(this);
-                mRvBlack.setLayoutManager(layoutManager);
-                mRvBlack.addItemDecoration(new DividerItemDecoration(this, DividerItemDecoration.VERTICAL));
-                mRvBlack.setAdapter(mAdapter);
-
-                mRvBlack.addOnScrollListener(new RecyclerView.OnScrollListener() {
-                    @Override
-                    public void onScrollStateChanged(RecyclerView recyclerView, int newState) {
-                        if (newState == RecyclerView.SCROLL_STATE_IDLE) {
-                            int lastVisiblePos = layoutManager.findLastVisibleItemPosition();
-
-                        }
-                    }
-
-                    @Override
-                    public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
-                        super.onScrolled(recyclerView, dx, dy);
-                    }
-                });
+                initRvAndAdapter();
             } else {
                 mAdapter.notifyDataSetChanged();
             }
+        } else {
+            showBlackNumList(false);
+        }
+    }
+
+    private void showBlackNumList(boolean showList) {
+        if (showList) {
+            mRvBlack.setVisibility(View.VISIBLE);
+            mTvIndicator.setVisibility(View.GONE);
+            mIvNoBlackNumber.setVisibility(View.GONE);
         } else {
             mRvBlack.setVisibility(View.GONE);
             mTvIndicator.setVisibility(View.VISIBLE);
             mIvNoBlackNumber.setVisibility(View.VISIBLE);
         }
+    }
+
+    private void initRvAndAdapter() {
+        mAdapter = new BlackNumberAdapter();
+        mAdapter.setDataList(mBlackContactInfoList);
+
+        final LinearLayoutManager layoutManager = new LinearLayoutManager(this);
+        mRvBlack.setLayoutManager(layoutManager);
+        mRvBlack.addItemDecoration(new DividerItemDecoration(this, DividerItemDecoration.VERTICAL));
+        mRvBlack.setAdapter(mAdapter);
+        mRvBlack.addOnScrollListener(new RecyclerView.OnScrollListener() {
+            @Override
+            public void onScrollStateChanged(RecyclerView recyclerView, int newState) {
+                if (newState == RecyclerView.SCROLL_STATE_IDLE) {
+                    int lastVisiblePos = layoutManager.findLastVisibleItemPosition();
+                }
+            }
+
+            @Override
+            public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
+                super.onScrolled(recyclerView, dx, dy);
+            }
+        });
     }
 
     @Override
@@ -103,6 +105,20 @@ public class InterceptActivity extends BaseToolBarActivity {
 
     }
 
+    @Override
+    protected void onResume() {
+        int currentTotalNum = mBlackNumberDao.getTotalNumber();
+        if (currentTotalNum != mLastTotalNum) {
+            mBlackContactInfoList.clear();
+            mBlackContactInfoList.addAll(mBlackNumberDao.getPagesBlackNumber(0, 250));
+            if (mAdapter != null) {
+                mAdapter.notifyDataSetChanged();
+            } else {
+
+            }
+        }
+        super.onResume();
+    }
 
     @OnClick({R.id.iv_edit, R.id.iv_add})
     public void onViewClicked(View view) {
@@ -124,7 +140,7 @@ public class InterceptActivity extends BaseToolBarActivity {
                     public void onClick(DialogInterface dialog, int which) {
                         switch (which) {
                             case 0:
-
+                                startActivity(EnterBlackNumberActivity.class);
                                 break;
                             case 1:
                                 startActivity(ContactListActivity.class);

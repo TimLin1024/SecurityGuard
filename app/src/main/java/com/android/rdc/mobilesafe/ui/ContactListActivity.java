@@ -11,9 +11,7 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.widget.Button;
 import android.widget.CheckBox;
-import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -29,6 +27,7 @@ import com.android.rdc.mobilesafe.util.ContactInfoParser;
 
 import java.util.Collections;
 import java.util.List;
+import java.util.Locale;
 
 import butterknife.BindView;
 import butterknife.OnClick;
@@ -36,24 +35,16 @@ import butterknife.OnClick;
 public class ContactListActivity extends BaseToolBarActivity {
     private static final String TAG = "ContactListActivity";
     private static final int PERMISSIONS_REQUEST_READ_CONTACTS = 101;
-    @BindView(R.id.btn_confirm)
-    Button mBtnConfirm;
     @BindView(R.id.index_bar)
     IndexBar mIndexBar;
     @BindView(R.id.tv_dialog)
     TextView mTvDialog;
-    @BindView(R.id.btn_select_all)
-    Button mBtnSelectAll;
-    @BindView(R.id.tv_select_hint)
-    TextView mTvSelectHint;
-    @BindView(R.id.ll)
-    LinearLayout mLl;
     @BindView(R.id.rv)
     RecyclerView mRv;
+    @BindView(R.id.tv_selected_count)
+    TextView mTvSelectedCount;
 
     private ContactAdapter mAdapter;
-    //    private CountDownLatch mCountDownLatch;
-
     private List<ContactInfo> mContactInfoList;
     private BottomSheetDialog mBottomSheetDialog;
 
@@ -64,33 +55,26 @@ public class ContactListActivity extends BaseToolBarActivity {
 
     @Override
     protected void initData() {
-    }
-
-    @Override
-    protected void initView() {
-
         //6.0 以上动态申请权限
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M
                 && checkSelfPermission(Manifest.permission.READ_CONTACTS) != PackageManager.PERMISSION_GRANTED) {
             requestPermissions(new String[]{Manifest.permission.READ_CONTACTS}, PERMISSIONS_REQUEST_READ_CONTACTS);
-            //After this point you wait for callback in onRequestPermissionsResult(int, String[], int[]) overriden method
-//            mCountDownLatch = new CountDownLatch(1);
-//            try {
-//                mCountDownLatch.await();
-//            } catch (InterruptedException e) {
-//                e.printStackTrace();
-//            }
         } else {
+            //6.0 以下或者是6.0+但是已经批准权限就直接更新 UI
             initUi();
         }
+    }
 
-
+    @Override
+    protected void initView() {
+        getSupportActionBar().setDisplayHomeAsUpEnabled(false);
+        getSupportActionBar().setDisplayShowHomeEnabled(false);
     }
 
     private void initUi() {
-        mContactInfoList = ContactInfoParser.getSystemContact(getApplicationContext());
+        mContactInfoList = ContactInfoParser.readContacts(getApplicationContext());//获取联系人（换一种方式）
         mAdapter = new ContactAdapter();
-        Collections.sort(mContactInfoList);
+        Collections.sort(mContactInfoList);//排序
         mAdapter.setDataList(mContactInfoList);
         mRv.setAdapter(mAdapter);
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this);
@@ -98,14 +82,21 @@ public class ContactListActivity extends BaseToolBarActivity {
         mRv.addItemDecoration(new DividerItemDecoration(this, DividerItemDecoration.VERTICAL));
         mRv.addItemDecoration(new TitleItemDecoration(this, mContactInfoList));
 
-        mIndexBar.setPressedBg(getResources().getColor(R.color.graye5));
         mIndexBar.setLayoutManager(linearLayoutManager);
         mIndexBar.setHintTextView(mTvDialog);
         mIndexBar.setSourceData(mContactInfoList);
+
+        mTvSelectedCount.setText("已选择 0 项");
     }
 
     @Override
     protected void initListener() {
+        mAdapter.setCheckedCountChangeListener(new ContactAdapter.OnCheckedCountChangeListener() {
+            @Override
+            public void onCheckedCountChanged(int count) {
+                mTvSelectedCount.setText(String.format(Locale.CHINA, "已选择 %d 项", count));
+            }
+        });
     }
 
     @Override
@@ -128,21 +119,6 @@ public class ContactListActivity extends BaseToolBarActivity {
         }
     }
 
-    @OnClick({R.id.btn_confirm, R.id.btn_select_all})
-    public void onViewClicked(View view) {
-        switch (view.getId()) {
-            case R.id.btn_confirm:
-                showSharedDialog();
-                break;
-            case R.id.btn_select_all:
-                for (ContactInfo contactInfo : mContactInfoList) {
-                    contactInfo.setChecked(true);
-                }
-                mAdapter.notifyDataSetChanged();
-                break;
-        }
-    }
-
     private void showSharedDialog() {
         if (mBottomSheetDialog == null) {
             mBottomSheetDialog = new BottomSheetDialog(this);
@@ -153,48 +129,22 @@ public class ContactListActivity extends BaseToolBarActivity {
             mBottomSheetDialog.setContentView(view);
             mBottomSheetDialog.show();
 
-            Button btnCancel = (Button) view.findViewById(R.id.btn_cancel);
-            Button btnSure = (Button) view.findViewById(R.id.btn_sure);
+            TextView tvCancel = (TextView) view.findViewById(R.id.tv_cancel);
+            TextView tvSure = (TextView) view.findViewById(R.id.tv_sure);
             final CheckBox cbInterceptPhone = (CheckBox) view.findViewById(R.id.cb_intercept_phone);
             final CheckBox cbInterceptSms = (CheckBox) view.findViewById(R.id.cb_intercept_sms);
 
             final BottomSheetDialog finalBottomSheetDialog1 = mBottomSheetDialog;
-            btnCancel.setOnClickListener(new View.OnClickListener() {
+            tvCancel.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     finalBottomSheetDialog1.dismiss();
                 }
             });
-            btnSure.setOnClickListener(new View.OnClickListener() {
+            tvSure.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    int mode = 0;
-                    if (cbInterceptPhone.isChecked()) {
-                        if (cbInterceptSms.isChecked()) {
-                            mode = 3;
-                        } else {
-                            mode = 1;
-                        }
-                    } else {
-                        if (cbInterceptSms.isChecked()) {
-                            mode = 2;
-                        } else {
-                            finalBottomSheetDialog1.dismiss();
-                            return;
-                        }
-                    }
-                    BlackNumberDao blackNumberDao = new BlackNumberDao(ContactListActivity.this);
-                    BlackContactInfo blackContactInfo = new BlackContactInfo();
-                    for (ContactInfo contactInfo : mContactInfoList) {
-                        if (contactInfo.isChecked()) {
-                            blackContactInfo.setContractName(contactInfo.getName());
-                            blackContactInfo.setMode(mode);
-                            blackContactInfo.setPhoneNumber(contactInfo.getPhoneNum());
-                            blackNumberDao.add(blackContactInfo);
-                        }
-                    }
-
-                    finalBottomSheetDialog1.dismiss();
+                    insertIntoDb(cbInterceptPhone, cbInterceptSms, finalBottomSheetDialog1);
                 }
             });
 
@@ -224,5 +174,52 @@ public class ContactListActivity extends BaseToolBarActivity {
         }
     }
 
+    private void insertIntoDb(CheckBox cbInterceptPhone, CheckBox cbInterceptSms, BottomSheetDialog finalBottomSheetDialog1) {
+        int mode;
+        if (cbInterceptPhone.isChecked()) {
+            if (cbInterceptSms.isChecked()) {
+                mode = 3;
+            } else {
+                mode = 1;
+            }
+        } else {
+            if (cbInterceptSms.isChecked()) {
+                mode = 2;
+            } else {
+                finalBottomSheetDialog1.dismiss();
+                return;
+            }
+        }
+        BlackNumberDao blackNumberDao = new BlackNumberDao(ContactListActivity.this);
+        BlackContactInfo blackContactInfo = new BlackContactInfo();
+        for (ContactInfo contactInfo : mContactInfoList) {
+            if (contactInfo.isChecked()) {
+                blackContactInfo.setContractName(contactInfo.getName());
+                blackContactInfo.setMode(mode);
+                blackContactInfo.setPhoneNumber(contactInfo.getPhoneNum());
+                blackNumberDao.add(blackContactInfo);
+            }
+        }
+        finalBottomSheetDialog1.dismiss();
+        finish();
+    }
+
+    @OnClick({R.id.tv_cancel, R.id.tv_select_all, R.id.ll_sure})
+    public void onViewClicked(View view) {
+        switch (view.getId()) {
+            case R.id.tv_cancel:
+                finish();
+                break;
+            case R.id.tv_select_all:
+                for (ContactInfo contactInfo : mContactInfoList) {
+                    contactInfo.setChecked(true);
+                }
+                mAdapter.notifyDataSetChanged();
+                break;
+            case R.id.ll_sure:
+                showSharedDialog();
+                break;
+        }
+    }
 
 }

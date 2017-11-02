@@ -20,7 +20,7 @@ public class TitleItemDecoration extends RecyclerView.ItemDecoration {
     private Rect mBounds;//用于存放测量文字Rect
 
     private int mTitleHeight;
-    private static final int COLOR_TITLE_BG = Color.parseColor("#FFDFDFDF");
+    private static final int COLOR_TITLE_BG = Color.parseColor("#E5E5E5");
     private static final int COLOR_TITLE_FONT = Color.parseColor("#FF000000");
     private static int mTitleFontSize;
     private static final int TITLE_PADDING = 20;
@@ -28,8 +28,8 @@ public class TitleItemDecoration extends RecyclerView.ItemDecoration {
     public TitleItemDecoration(Context context, List<? extends BaseTagBean> datas) {
         mDatas = datas;
         mBounds = new Rect();
-        mTitleHeight = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 30, context.getResources().getDisplayMetrics());
-        mTitleFontSize = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_SP, 16, context.getResources().getDisplayMetrics());
+        mTitleHeight = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 20, context.getResources().getDisplayMetrics());
+        mTitleFontSize = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_SP, 12, context.getResources().getDisplayMetrics());
         mPaint = new Paint();
         mPaint.setTextSize(mTitleFontSize);
         mPaint.setAntiAlias(true);

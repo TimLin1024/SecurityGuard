@@ -4,8 +4,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    tools:context="com.android.rdc.mobilesafe.ui.ContactListActivity">
+    android:layout_height="match_parent">
 
     <include
         android:id="@+id/appbar"
@@ -32,89 +31,94 @@
         app:layout_constraintTop_toTopOf="@+id/appbar"/>
 
     <TextView
-        android:id="@+id/tv_selected_count"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:clickable="true"
         android:elevation="10dp"
+        android:focusable="true"
+        android:text="@string/add_black_num"
         android:textColor="@color/white"
         android:textSize="16sp"
         app:layout_constraintBottom_toBottomOf="@+id/appbar"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/appbar"
-        tools:text="已选择 9 项"/>
+        app:layout_constraintTop_toTopOf="@+id/appbar"/>
 
     <TextView
-        android:id="@+id/tv_select_all"
+        android:id="@+id/tv_sure"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginEnd="15dp"
         android:background="@drawable/selector_round_rect_stroke"
+        android:clickable="true"
         android:elevation="10dp"
+        android:enabled="false"
+        android:focusable="true"
         android:padding="3dp"
-        android:text="@string/select_all"
+        android:text="@string/sure"
         android:textColor="@color/white"
         app:layout_constraintBottom_toBottomOf="@+id/appbar"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toTopOf="@+id/appbar"/>
 
-
-    <TextView
-        android:id="@+id/tv_dialog"
-        android:layout_width="100dp"
-        android:layout_height="100dp"
-        android:background="#c2beb0b0"
-        android:elevation="1dp"
-        android:gravity="center"
-        android:visibility="gone"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/appbar"/>
-
-    <android.support.v7.widget.RecyclerView
-        android:id="@+id/rv"
-        android:layout_width="0dp"
-        android:layout_height="0dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintHorizontal_bias="0.6"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/appbar"
-        app:layout_constraintVertical_bias="0.0"/>
-
-    <com.android.rdc.mobilesafe.ui.widget.IndexBar
-        android:id="@+id/index_bar"
-        android:layout_width="24dp"
-        android:layout_height="0dp"
-        android:layout_marginBottom="50dp"
-        android:layout_marginTop="50dp"
-        app:indexBarPressBackground="#d0b9baba"
-        app:layout_constraintBottom_toTopOf="@+id/ll_sure"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/appbar"/>
-
     <LinearLayout
-        android:id="@+id/ll_sure"
         android:layout_width="0dp"
-        android:layout_height="50dp"
-        android:background="@drawable/selector_white_gray"
-        android:clickable="true"
-        android:elevation="10dp"
-        android:gravity="center"
+        android:layout_height="0dp"
         android:orientation="vertical"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent">
-
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/appbar">
 
         <TextView
-            android:id="@+id/tv_confirm"
+            android:id="@+id/tv_hint"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="确定"
-            android:textColor="@color/bg_green"
-            android:textSize="16sp"/>
+            android:layout_marginTop="20dp"
+            android:text="@string/add_hint"
+            app:layout_constraintTop_toBottomOf="@id/appbar"/>
+
+        <EditText
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="10dp"
+            android:layout_marginStart="10dp"
+            android:background="@drawable/bg_round_white_rect"
+            android:hint="@string/input_number"
+            android:inputType="number"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"/>
+
+        <CheckBox
+            style="@style/RoundCbStyle"
+            android:layout_marginLeft="20dp"
+            android:checked="true"/>
+
+        <CheckBox
+            android:id="@+id/cb_intercept_sms"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="30dp"
+            android:button="@drawable/selector_round_cb"
+            android:checked="true"
+            android:text="拦截短信"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toLeftOf="@+id/cb_intercept_phone"
+            app:layout_constraintTop_toBottomOf="@+id/tv_msg"/>
+
+        <CheckBox
+            android:id="@+id/cb_intercept_phone"
+            style="@style/Base.Widget.AppCompat.CompoundButton.CheckBox"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="20dp"
+            android:layout_marginTop="30dp"
+            android:checked="true"
+            android:text="拦截电话"
+            app:layout_constraintLeft_toRightOf="@+id/cb_intercept_sms"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/tv_msg"/>
+
     </LinearLayout>
 
 

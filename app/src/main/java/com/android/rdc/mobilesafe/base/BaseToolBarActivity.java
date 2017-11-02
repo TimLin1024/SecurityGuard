@@ -8,7 +8,7 @@ import com.android.rdc.mobilesafe.R;
 
 public abstract class BaseToolBarActivity extends BaseActivity {
 
-    private Toolbar mToolbar;
+    protected Toolbar mToolbar;
 
     @Override
     public void setContentView(@LayoutRes int layoutResID) {

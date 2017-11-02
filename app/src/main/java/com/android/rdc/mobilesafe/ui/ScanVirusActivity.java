@@ -76,6 +76,7 @@ public class ScanVirusActivity extends BaseToolBarActivity {
     public static final int COMPLETE_SCANNING = 103;
     public static final int STOP_SCANNING = 104;
 
+
     private static class ProgressHandler extends BaseSafeActivityHandler<ScanVirusActivity> {
 
         ProgressHandler(ScanVirusActivity activityReference) {
@@ -106,7 +107,6 @@ public class ScanVirusActivity extends BaseToolBarActivity {
                     activity.mRv.scrollToPosition(activity.mAdapter.getDataList().size() - 1);
                     break;
                 case STOP_SCANNING:
-
 
 
                 case COMPLETE_SCANNING:

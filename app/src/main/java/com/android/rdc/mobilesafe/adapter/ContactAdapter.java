@@ -13,6 +13,8 @@ import butterknife.BindView;
 
 public class ContactAdapter extends BaseSimpleRvAdapter<ContactInfo> {
 
+    private OnCheckedCountChangeListener mListener;
+
     @Override
     protected int setLayoutId() {
         return R.layout.item_contact;
@@ -21,6 +23,14 @@ public class ContactAdapter extends BaseSimpleRvAdapter<ContactInfo> {
     @Override
     protected BaseRvHolder createConcreteViewHolder(View view) {
         return new ContactVH(view);
+    }
+
+    public interface OnCheckedCountChangeListener {
+        void onCheckedCountChanged(int count);
+    }
+
+    public void setCheckedCountChangeListener(OnCheckedCountChangeListener listener) {
+        mListener = listener;
     }
 
     class ContactVH extends BaseRvHolder implements CompoundButton.OnCheckedChangeListener {
@@ -54,28 +64,23 @@ public class ContactAdapter extends BaseSimpleRvAdapter<ContactInfo> {
 
         @Override
         public void onClick(View v) {
-//            super.onClick(v);
             mCbSelected.setChecked(!mContactInfo.isChecked());
         }
 
         @Override
         public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
             mContactInfo.setChecked(isChecked);
+
+            if (mListener != null) {
+                int count = 0;
+                for (ContactInfo contactInfo : mDataList) {
+                    if (contactInfo.isChecked()) {
+                        count++;
+                    }
+                }
+                mListener.onCheckedCountChanged(count);
+            }
+
         }
     }
-
-//    /**
-//     * 获取catalog首次出现位置
-//     */
-//    public int getPositionForSection(String catalog) {
-//        for (int i = 0; i < getItemCount(); i++) {
-//            String sortStr = mDataList.get(i).getFirstLetter();
-//            if (catalog.equalsIgnoreCase(sortStr)) {
-//                return i;
-//            }
-//        }
-//        return -1;
-//    }
-
-
 }
