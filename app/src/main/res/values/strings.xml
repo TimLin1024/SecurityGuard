@@ -22,5 +22,8 @@
     <string name="add_hint">手动输入号码加入黑名单</string>
     <string name="input_number">输入号码</string>
     <string name="sure">确定</string>
+    <string name="intercept_phone">拦截电话</string>
+    <string name="intercept_sms">拦截短信</string>
+    <string name="has_not_add_black_list">暂无黑名单</string>
 
 </resources>

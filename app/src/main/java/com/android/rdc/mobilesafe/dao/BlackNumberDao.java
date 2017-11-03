@@ -37,7 +37,8 @@ public class BlackNumberDao {
     }
 
     public boolean delete(BlackContactInfo contactInfo) {
-        return mSQLiteOpenHelper.getWritableDatabase().delete(TABLE_NAME, KEY_NUMBER + "=?", new String[]{contactInfo.getPhoneNumber()}) != 0;
+        return mSQLiteOpenHelper.getWritableDatabase().
+                delete(TABLE_NAME, KEY_NUMBER + "=?", new String[]{contactInfo.getPhoneNumber()}) != 0;
     }
 
     public List<BlackContactInfo> getPagesBlackNumber(int pageNumber, int pageSize) {

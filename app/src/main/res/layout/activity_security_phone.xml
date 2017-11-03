@@ -7,15 +7,12 @@
     android:layout_height="match_parent">
 
     <include
-        android:id="@+id/appbar"
-        layout="@layout/include_toolbar"/>
-
+        layout="@layout/include_title_bar"/>
     <ImageView
         android:id="@+id/iv_no_black_number"
         android:layout_width="100dp"
         android:layout_height="100dp"
-        android:layout_centerInParent="true"
-        android:background="@drawable/no_blacknumbericon"
+        android:background="@drawable/ic_add_contact"
         android:visibility="gone"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintLeft_toLeftOf="parent"
@@ -29,10 +26,10 @@
         android:layout_below="@+id/iv_no_black_number"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="16dp"
-        android:text="您还没有添加黑名单"
+        android:text="@string/has_not_add_black_list"
         android:textColor="@color/light_gary"
-        android:textScaleX="1.2"
-        android:textSize="16sp"
+        android:textSize="14sp"
+        android:visibility="gone"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/iv_no_black_number"/>
@@ -42,41 +39,64 @@
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:visibility="gone"
-        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintBottom_toTopOf="@id/ll"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/appbar"/>
 
-    <!--<Button-->
-    <!--android:id="@+id/btn_add_black_number"-->
-    <!--android:layout_width="170dp"-->
-    <!--android:layout_height="40dp"-->
-    <!--android:layout_gravity="center"-->
-    <!--android:layout_margin="10dp"-->
-    <!--android:background="@drawable/add_blackname_btn_n"-->
-    <!--app:layout_constraintBottom_toBottomOf="parent"-->
-    <!--app:layout_constraintLeft_toLeftOf="parent"-->
-    <!--app:layout_constraintRight_toRightOf="parent"/>-->
 
     <LinearLayout
+        android:id="@+id/ll"
         android:layout_width="match_parent"
         android:layout_height="60dp"
         android:background="@color/white"
         android:gravity="center"
         app:layout_constraintBottom_toBottomOf="parent">
 
-        <ImageView
-            android:id="@+id/iv_edit"
-            style="@style/IvRoundBgStyle"
-            android:src="@drawable/ic_edit"
-            />
+        <LinearLayout
+            android:id="@+id/ll_edit"
+            style="@style/LlVertical">
 
-        <ImageView
-            android:id="@+id/iv_add"
-            style="@style/IvRoundBgStyle"
-            android:layout_marginStart="15dp"
-            android:padding="10dp"
-            android:src="@drawable/ic_add"/>
+            <ImageView
+                android:id="@+id/iv_edit"
+                style="@style/IvRoundBgStyle"
+                android:src="@drawable/ic_edit"/>
+
+            <TextView
+                style="@style/Tv10sp"
+                android:text="编辑"/>
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/ll_delete"
+            style="@style/LlVertical"
+            android:visibility="gone">
+
+            <ImageView
+                android:id="@+id/iv_delete"
+                style="@style/IvRoundBgStyle"
+                android:src="@drawable/ic_delete"
+                />
+
+            <TextView
+                style="@style/Tv10sp"
+                android:text="删除"/>
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/ll_add"
+            style="@style/LlVertical">
+
+            <ImageView
+                android:id="@+id/iv_add"
+                style="@style/IvRoundBgStyle"
+                android:padding="10dp"
+                android:src="@drawable/ic_add"/>
+
+            <TextView
+                style="@style/Tv10sp"
+                android:text="添加"/>
+        </LinearLayout>
     </LinearLayout>
 </android.support.constraint.ConstraintLayout>
 

@@ -5,6 +5,7 @@ public class BlackContactInfo {
     private String mPhoneNumber;
     private String mContractName;
     private int mMode;
+    private boolean mIsSelected;
 
     public String getPhoneNumber() {
         return mPhoneNumber;
@@ -40,5 +41,13 @@ public class BlackContactInfo {
                 return "拦截来电和短信";
         }
         return "";
+    }
+
+    public boolean isSelected() {
+        return mIsSelected;
+    }
+
+    public void setSelected(boolean selected) {
+        mIsSelected = selected;
     }
 }

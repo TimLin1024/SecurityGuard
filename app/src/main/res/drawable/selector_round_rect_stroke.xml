@@ -7,9 +7,21 @@
             <size android:width="25dp"
                   android:height="10dp"/>
             <corners android:radius="3dp"/>
-            <solid android:color="#65fafafa"/>
+            <solid android:color="#9bfafafa"/>
         </shape>
     </item>
+
+    <item android:state_enabled="false">
+        <shape android:shape="rectangle">
+            <stroke android:width="0.1dp"
+                    android:color="@color/graye5"/>
+            <size android:width="25dp"
+                  android:height="10dp"/>
+            <corners android:radius="3dp"/>
+            <solid android:color="#bdadada4"/>
+        </shape>
+    </item>
+
     <item>
         <shape android:shape="rectangle">
             <stroke android:width="0.1dp"

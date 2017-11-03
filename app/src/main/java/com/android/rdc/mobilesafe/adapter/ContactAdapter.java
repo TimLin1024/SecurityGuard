@@ -7,6 +7,7 @@ import android.widget.TextView;
 
 import com.android.rdc.mobilesafe.R;
 import com.android.rdc.mobilesafe.base.BaseSimpleRvAdapter;
+import com.android.rdc.mobilesafe.callback.OnCheckedCountChangeListener;
 import com.android.rdc.mobilesafe.entity.ContactInfo;
 
 import butterknife.BindView;
@@ -23,10 +24,6 @@ public class ContactAdapter extends BaseSimpleRvAdapter<ContactInfo> {
     @Override
     protected BaseRvHolder createConcreteViewHolder(View view) {
         return new ContactVH(view);
-    }
-
-    public interface OnCheckedCountChangeListener {
-        void onCheckedCountChanged(int count);
     }
 
     public void setCheckedCountChangeListener(OnCheckedCountChangeListener listener) {

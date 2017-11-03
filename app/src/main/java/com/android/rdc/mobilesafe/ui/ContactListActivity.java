@@ -18,6 +18,7 @@ import android.widget.Toast;
 import com.android.rdc.mobilesafe.R;
 import com.android.rdc.mobilesafe.adapter.ContactAdapter;
 import com.android.rdc.mobilesafe.base.BaseToolBarActivity;
+import com.android.rdc.mobilesafe.callback.OnCheckedCountChangeListener;
 import com.android.rdc.mobilesafe.dao.BlackNumberDao;
 import com.android.rdc.mobilesafe.entity.BlackContactInfo;
 import com.android.rdc.mobilesafe.entity.ContactInfo;
@@ -91,7 +92,7 @@ public class ContactListActivity extends BaseToolBarActivity {
 
     @Override
     protected void initListener() {
-        mAdapter.setCheckedCountChangeListener(new ContactAdapter.OnCheckedCountChangeListener() {
+        mAdapter.setCheckedCountChangeListener(new OnCheckedCountChangeListener() {
             @Override
             public void onCheckedCountChanged(int count) {
                 mTvSelectedCount.setText(String.format(Locale.CHINA, "已选择 %d 项", count));
@@ -194,6 +195,9 @@ public class ContactListActivity extends BaseToolBarActivity {
         BlackContactInfo blackContactInfo = new BlackContactInfo();
         for (ContactInfo contactInfo : mContactInfoList) {
             if (contactInfo.isChecked()) {
+                if (blackNumberDao.isNumberExist(contactInfo.getPhoneNum())) {//检测，避免重复
+                    continue;
+                }
                 blackContactInfo.setContractName(contactInfo.getName());
                 blackContactInfo.setMode(mode);
                 blackContactInfo.setPhoneNumber(contactInfo.getPhoneNum());

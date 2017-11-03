@@ -1,15 +1,34 @@
 <?xml version="1.0" encoding="utf-8"?>
-<shape
-    xmlns:android="http://schemas.android.com/apk/res/android"
-    android:shape="oval"
-    android:useLevel="false">
+<selector xmlns:android="http://schemas.android.com/apk/res/android" android:dither="true">
 
-    <solid android:color="@color/white"/>
-    <stroke
-        android:width="0.3dp"
-        android:color="@color/light_gary"/>
 
-    <size
-        android:width="50dp"
-        android:height="50dp"/>
-</shape>
+    <item android:state_pressed="true">
+        <shape
+            android:shape="oval"
+            android:useLevel="false">
+
+            <solid android:color="@color/light_gary"/>
+            <stroke
+                android:width="0.4dp"
+                android:color="@color/dark_gray"/>
+
+            <size
+                android:width="30dp"
+                android:height="30dp"/>
+        </shape>
+    </item>
+    <item>
+        <shape
+            android:shape="oval">
+
+            <solid android:color="@color/white"/>
+            <stroke
+                android:width="0.4dp"
+                android:color="@color/dark_gray"/>
+
+            <size
+                android:width="30dp"
+                android:height="30dp"/>
+        </shape>
+    </item>
+</selector>

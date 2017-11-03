@@ -7,16 +7,20 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.android.rdc.mobilesafe.R;
 import com.android.rdc.mobilesafe.adapter.BlackNumberAdapter;
+import com.android.rdc.mobilesafe.base.BaseSimpleRvAdapter;
 import com.android.rdc.mobilesafe.base.BaseToolBarActivity;
+import com.android.rdc.mobilesafe.callback.OnCheckedCountChangeListener;
 import com.android.rdc.mobilesafe.dao.BlackNumberDao;
 import com.android.rdc.mobilesafe.entity.BlackContactInfo;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 
 import butterknife.BindView;
 import butterknife.OnClick;
@@ -27,15 +31,36 @@ import butterknife.OnClick;
 public class InterceptActivity extends BaseToolBarActivity {
     @BindView(R.id.iv_no_black_number)
     ImageView mIvNoBlackNumber;
+
     @BindView(R.id.tv_indicator)
     TextView mTvIndicator;
     @BindView(R.id.rv_black_list)
     RecyclerView mRvBlack;
 
+    @BindView(R.id.tv_cancel)
+    TextView mTvCancel;
+    @BindView(R.id.tv_selected_count)
+    TextView mTvSelectedCount;
+    @BindView(R.id.tv_select_all)
+    TextView mTvSelectAll;
+
+    @BindView(R.id.iv_delete)
+    ImageView mIvDelete;
+    @BindView(R.id.iv_edit)
+    ImageView mIvEdit;
+    @BindView(R.id.iv_add)
+    ImageView mIvAdd;
+    @BindView(R.id.ll_edit)
+    LinearLayout mLlEdit;
+    @BindView(R.id.ll_delete)
+    LinearLayout mLlDelete;
+    @BindView(R.id.ll_add)
+    LinearLayout mLlAdd;
+
     private BlackNumberDao mBlackNumberDao;
     private List<BlackContactInfo> mBlackContactInfoList = new ArrayList<>();
     private BlackNumberAdapter mAdapter;
-    private int mLastTotalNum;//
+    private int mTotalNum;
 
     @Override
     protected int setResId() {
@@ -45,19 +70,6 @@ public class InterceptActivity extends BaseToolBarActivity {
     @Override
     protected void initData() {
         mBlackNumberDao = new BlackNumberDao(getApplicationContext());
-        mLastTotalNum = mBlackNumberDao.getTotalNumber();
-        mBlackContactInfoList.addAll(mBlackNumberDao.getPagesBlackNumber(0, 150));
-        //如有黑名单，则显示黑名单列表，没有就显示黑名单为空
-        if (mLastTotalNum > 0) {
-            showBlackNumList(true);
-            if (mAdapter == null) {
-                initRvAndAdapter();
-            } else {
-                mAdapter.notifyDataSetChanged();
-            }
-        } else {
-            showBlackNumList(false);
-        }
     }
 
     private void showBlackNumList(boolean showList) {
@@ -75,7 +87,13 @@ public class InterceptActivity extends BaseToolBarActivity {
     private void initRvAndAdapter() {
         mAdapter = new BlackNumberAdapter();
         mAdapter.setDataList(mBlackContactInfoList);
-
+        mAdapter.setHasStableIds(true);
+        mAdapter.setOnCheckedCountChangeListener(new OnCheckedCountChangeListener() {
+            @Override
+            public void onCheckedCountChanged(int count) {
+                mTvSelectedCount.setText(String.format(Locale.CHINA, "已选择 %d 项", count));
+            }
+        });
         final LinearLayoutManager layoutManager = new LinearLayoutManager(this);
         mRvBlack.setLayoutManager(layoutManager);
         mRvBlack.addItemDecoration(new DividerItemDecoration(this, DividerItemDecoration.VERTICAL));
@@ -93,11 +111,20 @@ public class InterceptActivity extends BaseToolBarActivity {
                 super.onScrolled(recyclerView, dx, dy);
             }
         });
+        mAdapter.setOnRvItemLongClickListener(new BaseSimpleRvAdapter.OnRvItemLongClickListener() {
+            @Override
+            public boolean onLongClick(int position) {
+                mAdapter.getDataList().get(position).setSelected(true);
+                showEditUi(true);
+                return true;
+            }
+        });
+
     }
 
     @Override
     protected void initView() {
-        setTitle("黑名单号码");
+
     }
 
     @Override
@@ -106,34 +133,110 @@ public class InterceptActivity extends BaseToolBarActivity {
     }
 
     @Override
-    protected void onResume() {
-        int currentTotalNum = mBlackNumberDao.getTotalNumber();
-        if (currentTotalNum != mLastTotalNum) {
+    protected void onStart() {
+        //如有黑名单，则显示黑名单列表，没有就显示黑名单为空
+        mTotalNum = mBlackNumberDao.getTotalNumber();
+        if (mTotalNum > 0) {
             mBlackContactInfoList.clear();
-            mBlackContactInfoList.addAll(mBlackNumberDao.getPagesBlackNumber(0, 250));
-            if (mAdapter != null) {
-                mAdapter.notifyDataSetChanged();
-            } else {
-
+            mBlackContactInfoList.addAll(mBlackNumberDao.getPagesBlackNumber(0, 150));
+            if (mRvBlack.getVisibility() != View.VISIBLE) {
+                showBlackNumList(true);
             }
+            if (mAdapter == null) {
+                initRvAndAdapter();
+            } else {
+                mAdapter.notifyDataSetChanged();
+            }
+            showEditUi(false);
+        } else {
+            setTitle("黑名单列表");
+            showBlackNumList(false);
+            mTvCancel.setVisibility(View.GONE);
+            mTvSelectedCount.setVisibility(View.GONE);
+            mTvSelectAll.setVisibility(View.GONE);
         }
-        super.onResume();
+        super.onStart();
     }
 
-    @OnClick({R.id.iv_edit, R.id.iv_add})
+    @OnClick({R.id.iv_edit, R.id.iv_add, R.id.iv_delete, R.id.tv_cancel, R.id.tv_select_all})
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.iv_edit:
-                // TODO: 2017/11/1 0001 批量删除
+                if (mTotalNum <= 0) {
+                    showToast("当前没有任何名单可以编辑");
+                    return;
+                }
+                showEditUi(true);
                 break;
             case R.id.iv_add:
-                // TODO: 2017/11/1 0001 手动输入或者从联系人中添加
-                showBottomSheetDialog();
+                showDialog();
+                break;
+            case R.id.iv_delete:
+                deleteItems();
+                break;
+            case R.id.tv_cancel:
+                showEditUi(false);
+                break;
+            case R.id.tv_select_all:
+                selectAllItem();
                 break;
         }
     }
 
-    private void showBottomSheetDialog() {
+    private void selectAllItem() {
+        for (BlackContactInfo blackContactInfo : mAdapter.getDataList()) {
+            blackContactInfo.setSelected(true);
+        }
+        mAdapter.notifyDataSetChanged();
+    }
+
+    private void deleteItems() {
+        List<BlackContactInfo> contactInfoList = new ArrayList<>();
+        for (BlackContactInfo blackContactInfo : mAdapter.getDataList()) {
+            if (blackContactInfo.isSelected()) {
+                mBlackNumberDao.delete(blackContactInfo);
+                contactInfoList.add(blackContactInfo);
+            }
+        }
+        mAdapter.getDataList().removeAll(contactInfoList);
+        mAdapter.notifyDataSetChanged();
+    }
+
+    private void showEditUi(boolean show) {
+        mAdapter.setShowCheckBox(show);
+        mAdapter.notifyDataSetChanged();
+        getSupportActionBar().setDisplayShowHomeEnabled(!show);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(!show);
+        if (show) {
+            setTitle("");
+            int count = 0;
+            for (BlackContactInfo blackContactInfo : mBlackContactInfoList) {
+                if (blackContactInfo.isSelected()) {
+                    count++;
+                }
+            }
+            mTvSelectedCount.setText(String.format(Locale.CHINA, "已选择 %d 项", count));
+
+            mTvCancel.setVisibility(View.VISIBLE);
+            mTvSelectAll.setVisibility(View.VISIBLE);
+            mTvSelectedCount.setVisibility(View.VISIBLE);
+
+            mLlDelete.setVisibility(View.VISIBLE);
+            mLlAdd.setVisibility(View.GONE);
+            mLlEdit.setVisibility(View.GONE);
+        } else {
+            setTitle("黑名单列表");
+            mTvCancel.setVisibility(View.GONE);
+            mTvSelectedCount.setVisibility(View.GONE);
+            mTvSelectAll.setVisibility(View.GONE);
+
+            mLlDelete.setVisibility(View.GONE);
+            mLlAdd.setVisibility(View.VISIBLE);
+            mLlEdit.setVisibility(View.VISIBLE);
+        }
+    }
+
+    private void showDialog() {
         new AlertDialog.Builder(this)
                 .setItems(new String[]{"手动输入", "从联系人中选择"}, new DialogInterface.OnClickListener() {
                     @Override

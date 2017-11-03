@@ -25,7 +25,6 @@ public class AddBlackNumberActivity extends BaseToolBarActivity implements Compo
     CheckBox mCbBlackNumberTel;
     @BindView(R.id.cb_black_number_sms)
     CheckBox mCbBlackNumberSms;
-
     @BindView(R.id.tv_confirm)
     TextView mTvConfirm;
 
