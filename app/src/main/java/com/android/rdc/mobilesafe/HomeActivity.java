@@ -5,6 +5,7 @@ import android.os.Message;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearSnapHelper;
 import android.support.v7.widget.RecyclerView;
+import android.view.KeyEvent;
 import android.widget.ImageView;
 
 import com.android.rdc.mobilesafe.adapter.HomeRvAdapter;
@@ -16,7 +17,7 @@ import com.android.rdc.mobilesafe.entity.HomeDataModel;
 import com.android.rdc.mobilesafe.entity.HomeItem;
 import com.android.rdc.mobilesafe.ui.AppLockActivity;
 import com.android.rdc.mobilesafe.ui.CacheListActivity;
-import com.android.rdc.mobilesafe.ui.InterceptActivity;
+import com.android.rdc.mobilesafe.ui.BlackNumListActivity;
 import com.android.rdc.mobilesafe.ui.OkHttpNetworkInterceptActivity;
 import com.android.rdc.mobilesafe.ui.OperatorSettingActivity;
 import com.android.rdc.mobilesafe.ui.ProcessManagerActivity;
@@ -123,7 +124,7 @@ public class HomeActivity extends BaseActivity {
 
                 break;
             case R.drawable.ic_intercept://通讯卫士,骚扰拦截
-                startActivity(InterceptActivity.class);
+                startActivity(BlackNumListActivity.class);
                 break;
             case R.drawable.ic_software_manager://软件管家
                 startActivity(SoftwareManagerActivity.class);
@@ -153,5 +154,20 @@ public class HomeActivity extends BaseActivity {
     @OnClick(R.id.iv_setting)
     public void onViewClicked() {
         startActivity(SettingActivity.class);
+    }
+
+    @Override
+    public boolean onKeyDown(int keyCode, KeyEvent event) {
+        if (keyCode == KeyEvent.KEYCODE_BACK) {
+            moveTaskToBack(false);
+            return true;
+        }
+        return super.onKeyDown(keyCode,event);
+    }
+
+    @Override
+    public void onBackPressed() {
+//        super.onBackPressed();
+
     }
 }

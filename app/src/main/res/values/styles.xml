@@ -144,7 +144,6 @@
     </style>
 
     <style name="LlVertical">
-        <item name="android:layout_marginStart">15dp</item>
         <item name="android:layout_width">wrap_content</item>
         <item name="android:layout_height">match_parent</item>
         <item name="android:gravity">center</item>

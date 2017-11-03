@@ -59,10 +59,6 @@ public class ContactAdapter extends BaseSimpleRvAdapter<ContactInfo> {
             mCbSelected.setOnCheckedChangeListener(this);
         }
 
-        @Override
-        public void onClick(View v) {
-            mCbSelected.setChecked(!mContactInfo.isChecked());
-        }
 
         @Override
         public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {

@@ -28,11 +28,11 @@ import butterknife.OnClick;
 /**
  * 骚扰拦截
  */
-public class InterceptActivity extends BaseToolBarActivity {
+public class BlackNumListActivity extends BaseToolBarActivity {
     @BindView(R.id.iv_no_black_number)
     ImageView mIvNoBlackNumber;
 
-    @BindView(R.id.tv_indicator)
+    @BindView(R.id.tv_indicator)//没选择的情况下进行处理
     TextView mTvIndicator;
     @BindView(R.id.rv_black_list)
     RecyclerView mRvBlack;
@@ -58,13 +58,14 @@ public class InterceptActivity extends BaseToolBarActivity {
     LinearLayout mLlAdd;
 
     private BlackNumberDao mBlackNumberDao;
-    private List<BlackContactInfo> mBlackContactInfoList = new ArrayList<>();
+    private List<BlackContactInfo> mBlackContactInfoList;
     private BlackNumberAdapter mAdapter;
     private int mTotalNum;
+    private boolean mIsSelectAll = true;
 
     @Override
     protected int setResId() {
-        return R.layout.activity_security_phone;
+        return R.layout.activity_black_num_list;
     }
 
     @Override
@@ -88,16 +89,21 @@ public class InterceptActivity extends BaseToolBarActivity {
         mAdapter = new BlackNumberAdapter();
         mAdapter.setDataList(mBlackContactInfoList);
         mAdapter.setHasStableIds(true);
+        final LinearLayoutManager layoutManager = new LinearLayoutManager(this);
+        mRvBlack.setLayoutManager(layoutManager);
+        mRvBlack.addItemDecoration(new DividerItemDecoration(this, DividerItemDecoration.VERTICAL));
+        mRvBlack.setAdapter(mAdapter);
+        setAdapterListener(layoutManager);
+
+    }
+
+    private void setAdapterListener(final LinearLayoutManager layoutManager) {
         mAdapter.setOnCheckedCountChangeListener(new OnCheckedCountChangeListener() {
             @Override
             public void onCheckedCountChanged(int count) {
                 mTvSelectedCount.setText(String.format(Locale.CHINA, "已选择 %d 项", count));
             }
         });
-        final LinearLayoutManager layoutManager = new LinearLayoutManager(this);
-        mRvBlack.setLayoutManager(layoutManager);
-        mRvBlack.addItemDecoration(new DividerItemDecoration(this, DividerItemDecoration.VERTICAL));
-        mRvBlack.setAdapter(mAdapter);
         mRvBlack.addOnScrollListener(new RecyclerView.OnScrollListener() {
             @Override
             public void onScrollStateChanged(RecyclerView recyclerView, int newState) {
@@ -119,7 +125,6 @@ public class InterceptActivity extends BaseToolBarActivity {
                 return true;
             }
         });
-
     }
 
     @Override
@@ -136,15 +141,15 @@ public class InterceptActivity extends BaseToolBarActivity {
     protected void onStart() {
         //如有黑名单，则显示黑名单列表，没有就显示黑名单为空
         mTotalNum = mBlackNumberDao.getTotalNumber();
-        if (mTotalNum > 0) {
-            mBlackContactInfoList.clear();
-            mBlackContactInfoList.addAll(mBlackNumberDao.getPagesBlackNumber(0, 150));
+            if (mTotalNum > 0) {
+            mBlackContactInfoList = mBlackNumberDao.getPagesBlackNumber(0, 150);
             if (mRvBlack.getVisibility() != View.VISIBLE) {
                 showBlackNumList(true);
             }
             if (mAdapter == null) {
                 initRvAndAdapter();
             } else {
+                mAdapter.setDataList(mBlackContactInfoList);
                 mAdapter.notifyDataSetChanged();
             }
             showEditUi(false);
@@ -185,9 +190,11 @@ public class InterceptActivity extends BaseToolBarActivity {
 
     private void selectAllItem() {
         for (BlackContactInfo blackContactInfo : mAdapter.getDataList()) {
-            blackContactInfo.setSelected(true);
+            blackContactInfo.setSelected(mIsSelectAll);
         }
         mAdapter.notifyDataSetChanged();
+        mTvSelectAll.setText(mIsSelectAll ? "全不选" : "全选");
+        mIsSelectAll = !mIsSelectAll;
     }
 
     private void deleteItems() {
@@ -253,6 +260,4 @@ public class InterceptActivity extends BaseToolBarActivity {
                 })
                 .show();
     }
-
-
 }

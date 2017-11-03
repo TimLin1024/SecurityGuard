@@ -71,6 +71,7 @@ public class BlackNumberAdapter extends BaseSimpleRvAdapter<BlackContactInfo> {
             if (mShowCheckBox) {
                 mTvBlackMode.setVisibility(View.GONE);
                 mCb.setVisibility(View.VISIBLE);
+                mCb.setChecked(contactInfo.isSelected());
                 mCb.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
                     @Override
                     public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {

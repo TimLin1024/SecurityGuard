@@ -2,14 +2,15 @@
 <RelativeLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="55dp">
+    android:layout_height="55dp"
+    xmlns:tools="http://schemas.android.com/tools">
 
     <TextView
         android:id="@+id/tv_setting_title"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:padding="3dp"
-        android:text="黑名单设置"
+        tools:text="黑名单设置"
         android:textColor="@color/bright_blue"/>
 
     <TextView
@@ -18,7 +19,7 @@
         android:layout_height="wrap_content"
         android:layout_below="@id/tv_setting_title"
         android:padding="3dp"
-        android:text="黑名单拦截已开启"
+        tools:text="黑名单拦截已开启"
         android:textColor="@color/dark_gray"/>
 
     <ToggleButton
@@ -29,8 +30,8 @@
         android:layout_centerVertical="true"
         android:layout_marginEnd="27dp"
         android:background="@drawable/selector_toggle_btn_blue"
-        android:textOff=""
-        android:textOn=""/>
+        tools:textOff=""
+        tools:textOn=""/>
 
     <View
         android:layout_width="match_parent"

@@ -12,6 +12,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.CheckBox;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -44,10 +45,18 @@ public class ContactListActivity extends BaseToolBarActivity {
     RecyclerView mRv;
     @BindView(R.id.tv_selected_count)
     TextView mTvSelectedCount;
+    @BindView(R.id.tv_select_all)
+    TextView mTvSelectAll;
+    @BindView(R.id.tv_confirm)
+    TextView mTvConfirm;
+    @BindView(R.id.ll_sure)
+    LinearLayout mLlSure;
 
     private ContactAdapter mAdapter;
     private List<ContactInfo> mContactInfoList;
     private BottomSheetDialog mBottomSheetDialog;
+
+    private boolean mIsSelectAll = true;//默认显示全选
 
     @Override
     protected int setResId() {
@@ -101,20 +110,15 @@ public class ContactListActivity extends BaseToolBarActivity {
     }
 
     @Override
-    protected void onResume() {
-        super.onResume();
-    }
-
-    @Override
-    public void onRequestPermissionsResult(int requestCode, String[] permissions,
-                                           int[] grantResults) {
+    public void onRequestPermissionsResult(
+            int requestCode, String[] permissions, int[] grantResults) {
         if (requestCode == PERMISSIONS_REQUEST_READ_CONTACTS) {
             if (grantResults[0] == PackageManager.PERMISSION_GRANTED) {
                 // Permission is granted
 //                mCountDownLatch.countDown();
                 initUi();
             } else {
-                Toast.makeText(this, "Until you grant the permission, we cannot display the names", Toast.LENGTH_SHORT).show();
+                Toast.makeText(this, "需要查看联系人权限，才能在联系人中选取", Toast.LENGTH_SHORT).show();
                 finish();
             }
         }
@@ -216,9 +220,11 @@ public class ContactListActivity extends BaseToolBarActivity {
                 break;
             case R.id.tv_select_all:
                 for (ContactInfo contactInfo : mContactInfoList) {
-                    contactInfo.setChecked(true);
+                    contactInfo.setChecked(mIsSelectAll);
                 }
                 mAdapter.notifyDataSetChanged();
+                mTvSelectAll.setText(mIsSelectAll ? "全不选" : "全选");
+                mIsSelectAll = !mIsSelectAll;
                 break;
             case R.id.ll_sure:
                 showSharedDialog();

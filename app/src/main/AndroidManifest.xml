@@ -102,11 +102,7 @@
         </activity>
 
         <!-- <uses-library android:name="android.test.Runner"/> -->
-        <activity android:name=".ui.InterceptActivity">
-        </activity>
-        <activity
-            android:name=".ui.AddBlackNumberActivity"
-            android:exported="true">
+        <activity android:name=".ui.BlackNumListActivity">
         </activity>
 
         <receiver android:name=".receiver.InterceptSmsReceiver">

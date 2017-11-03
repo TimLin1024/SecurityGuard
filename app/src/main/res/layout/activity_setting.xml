@@ -11,36 +11,24 @@
 
     <include layout="@layout/include_toolbar"/>
 
-    <!--<com.android.rdc.mobilesafe.ui.widget.SettingView-->
-    <!--android:id="@+id/sv_blacklist_set"-->
-    <!--android:layout_width="match_parent"-->
-    <!--android:layout_height="55dp"-->
-    <!--app:status_off="黑名单拦截已开启"-->
-    <!--app:status_on="黑名单拦截已关闭"-->
-    <!--app:title="黑名单拦截设置"/>-->
-
-    <!--<com.android.rdc.mobilesafe.ui.widget.SettingView-->
-    <!--android:id="@+id/sv_app_lock_set"-->
-    <!--android:layout_width="match_parent"-->
-    <!--android:layout_height="55dp"-->
-    <!--app:status_off="程序锁已开启"-->
-    <!--app:status_on="程序锁已关闭"-->
-    <!--app:title="程序锁设置"/>-->
 
     <Switch
         android:id="@+id/switch_intercept"
         style="@style/SettingSwitchStyle"
-        android:text="骚扰拦截"/>
-
-    <!--<View-->
-    <!--android:layout_width="match_parent"-->
-    <!--android:layout_height="0.3dp"-->
-    <!--android:background="@color/dark_gray"/>-->
+        android:text="@string/intercept"/>
 
     <Switch
         android:id="@+id/switch_app_lock"
         style="@style/SettingSwitchStyle"
-        android:text="程序锁"/>
+        android:text="@string/app_lock"/>
 
-
+    <TextView
+        android:id="@+id/tv_quit_app"
+        android:layout_width="match_parent"
+        android:layout_height="55dp"
+        android:background="@color/brick_red"
+        android:gravity="center"
+        android:text="@string/quit_app"
+        android:textColor="@color/white"
+        android:textSize="18sp"/>
 </LinearLayout>
