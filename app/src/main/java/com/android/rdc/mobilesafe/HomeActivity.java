@@ -1,5 +1,7 @@
 package com.android.rdc.mobilesafe;
 
+import android.content.Context;
+import android.content.Intent;
 import android.os.Handler;
 import android.os.Message;
 import android.support.v7.widget.GridLayoutManager;
@@ -16,8 +18,8 @@ import com.android.rdc.mobilesafe.entity.CustomEvent;
 import com.android.rdc.mobilesafe.entity.HomeDataModel;
 import com.android.rdc.mobilesafe.entity.HomeItem;
 import com.android.rdc.mobilesafe.ui.AppLockActivity;
-import com.android.rdc.mobilesafe.ui.CacheListActivity;
 import com.android.rdc.mobilesafe.ui.BlackNumListActivity;
+import com.android.rdc.mobilesafe.ui.CacheListActivity;
 import com.android.rdc.mobilesafe.ui.OkHttpNetworkInterceptActivity;
 import com.android.rdc.mobilesafe.ui.OperatorSettingActivity;
 import com.android.rdc.mobilesafe.ui.ProcessManagerActivity;
@@ -41,12 +43,12 @@ public class HomeActivity extends BaseActivity {
     RecyclerView mRvHome;
     @BindView(R.id.round_progress)
     RoundProgress mRoundProgress;
-
-    private static final int MSG_UPDATE_PROGRESS = 101;
     @BindView(R.id.iv_setting)
     ImageView mIvSetting;
-    private int mCurrentProgress;
 
+    private static final int MSG_UPDATE_PROGRESS = 101;
+    private int mCurrentProgress;
+    private static final String KEY_EXIT_APP = "EXIT_APP";
     private List<HomeItem> mHomeItemList;
     private HomeRvAdapter mHomeRvAdapter;
 
@@ -77,9 +79,26 @@ public class HomeActivity extends BaseActivity {
                     break;
             }
         }
-
     }
+
     private Handler mHandler = new SafeActivityHandler(this);
+
+    public static Intent newIntent(Context context, boolean exitApp) {
+        Intent intent = new Intent(context, HomeActivity.class);
+        intent.putExtra(KEY_EXIT_APP, exitApp);
+        return intent;
+    }
+
+    @Override
+    protected void onNewIntent(Intent intent) {
+        super.onNewIntent(intent);
+        if (intent != null) {
+            boolean exitApp = intent.getBooleanExtra(KEY_EXIT_APP, false);
+            if (exitApp) {
+                finish();
+            }
+        }
+    }
 
     @Override
     protected int setResId() {
@@ -162,7 +181,7 @@ public class HomeActivity extends BaseActivity {
             moveTaskToBack(false);
             return true;
         }
-        return super.onKeyDown(keyCode,event);
+        return super.onKeyDown(keyCode, event);
     }
 
     @Override

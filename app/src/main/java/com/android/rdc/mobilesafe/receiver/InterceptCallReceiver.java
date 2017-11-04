@@ -1,5 +1,6 @@
 package com.android.rdc.mobilesafe.receiver;
 
+import android.annotation.SuppressLint;
 import android.app.Service;
 import android.content.BroadcastReceiver;
 import android.content.ContentResolver;
@@ -96,12 +97,13 @@ public class InterceptCallReceiver extends BroadcastReceiver {
     /**
      * 挂断电话
      */
-    /** {@hide} */
+    /**
+     * {@hide}
+     */
     public void endCall(Context context) {
         try {
 
-            Class clazz = context.getClassLoader().loadClass(
-                    "android.os.ServiceManager");
+            @SuppressLint("PrivateApi") Class clazz = context.getClassLoader().loadClass("android.os.ServiceManager");
             Method method = clazz.getDeclaredMethod("getService", String.class);
             IBinder iBinder = (IBinder) method.invoke(null,
                     Context.TELEPHONY_SERVICE);

@@ -2,7 +2,7 @@
 <resources>
     <color name="colorPrimary">#58C18D</color>
     <color name="colorPrimaryDark">#55c28c</color>
-    <color name="colorAccent">#f7dfff40</color>
+    <color name="colorAccent">#e57fdb38</color>
 
     <color name="white">#ffffff</color>
     <color name="black">#000000</color>
@@ -10,7 +10,7 @@
 
     <color name="purple">#5542B8</color>
     <color name="light_gary">#D1D0CE</color>
-    <color name="bright_gary">#ECEAEB</color>
+    <color name="bright_gray">#ECEAEB</color>
     <color name="graye5">#E5E5E5</color>
     <color name="dark_gray">#ff999999</color>
     <color name="deep_gray">#ff666666</color>

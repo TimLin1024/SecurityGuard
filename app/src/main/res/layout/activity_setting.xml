@@ -13,6 +13,11 @@
 
 
     <Switch
+        android:id="@+id/switch_show_notification"
+        style="@style/SettingSwitchStyle"
+        android:text="@string/display_on_notification"/>
+
+    <Switch
         android:id="@+id/switch_intercept"
         style="@style/SettingSwitchStyle"
         android:text="@string/intercept"/>
@@ -22,13 +27,17 @@
         style="@style/SettingSwitchStyle"
         android:text="@string/app_lock"/>
 
+    <View
+        android:layout_width="match_parent"
+        android:background="@color/bright_gray"
+        android:layout_height="10dp"/>
+
     <TextView
         android:id="@+id/tv_quit_app"
         android:layout_width="match_parent"
         android:layout_height="55dp"
-        android:background="@color/brick_red"
-        android:gravity="center"
+        android:gravity="center_vertical"
+        android:paddingStart="10dp"
         android:text="@string/quit_app"
-        android:textColor="@color/white"
-        android:textSize="18sp"/>
+        android:textColor="@color/black"/>
 </LinearLayout>

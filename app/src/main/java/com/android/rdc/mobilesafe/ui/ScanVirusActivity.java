@@ -280,7 +280,8 @@ public class ScanVirusActivity extends BaseToolBarActivity {
                     .setAction("确定", new View.OnClickListener() {
                         @Override
                         public void onClick(View v) {
-                            mIsStop = true;//设置停止扫描
+//                            mIsStop = true;//设置停止扫描
+                            finish();
                         }
                     })
                     .show();

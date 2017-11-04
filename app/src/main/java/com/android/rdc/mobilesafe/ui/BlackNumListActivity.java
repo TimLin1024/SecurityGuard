@@ -33,7 +33,7 @@ public class BlackNumListActivity extends BaseToolBarActivity {
     ImageView mIvNoBlackNumber;
 
     @BindView(R.id.tv_indicator)//黑名单为空的情况下显示的提示文字
-    TextView mTvIndicator;
+            TextView mTvIndicator;
     @BindView(R.id.rv_black_list)
     RecyclerView mRvBlack;
 
@@ -44,12 +44,6 @@ public class BlackNumListActivity extends BaseToolBarActivity {
     @BindView(R.id.tv_select_all)
     TextView mTvSelectAll;
 
-//    @BindView(R.id.iv_delete)
-//    ImageView mIvDelete;
-//    @BindView(R.id.iv_edit)
-//    ImageView mIvEdit;
-//    @BindView(R.id.iv_add)
-//    ImageView mIvAdd;
     @BindView(R.id.ll_edit)
     LinearLayout mLlEdit;
     @BindView(R.id.ll_delete)
@@ -211,6 +205,11 @@ public class BlackNumListActivity extends BaseToolBarActivity {
         mAdapter.getDataList().removeAll(contactInfoList);
         mAdapter.notifyDataSetChanged();
         showEditUi(false);
+        //没有可编辑的黑名单
+        mTotalNum = mBlackNumberDao.getTotalNumber();
+        if (mTotalNum == 0) {
+            showBlackNumList(false);
+        }
     }
 
     private void showEditUi(boolean show) {

@@ -31,5 +31,6 @@
     <string name="quit_app">退出应用</string>
     <string name="app_lock">程序锁</string>
     <string name="intercept">骚扰拦截</string>
+    <string name="display_on_notification">在通知栏显示</string>
 
 </resources>

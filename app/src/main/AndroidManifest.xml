@@ -3,13 +3,14 @@
           xmlns:tools="http://schemas.android.com/tools"
           package="com.android.rdc.mobilesafe">
 
-    <uses-permission android:name="android.permission.READ_PHONE_STATE"/>
+    <!--内存读写-->
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
     <!-- 网络状态 -->
     <uses-permission android:name="android.permission.INTERNET"/>
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
     <uses-permission android:name="android.permission.ACCESS_WIFI_STATE"/>
+
     <uses-permission android:name="android.permission.READ_LOGS"/>
     <uses-permission android:name="android.permission.GET_TASKS"/>
     <uses-permission android:name="android.permission.REORDER_TASKS"/>
@@ -19,9 +20,11 @@
     <uses-permission android:name="android.permission.GET_PACKAGE_SIZE"/>
     <uses-permission android:name="android.permission.CLEAR_APP_CACHE"/>
 
-    <!-- 读联系人权限 -->
+    <!-- 读写联系人权限 -->
     <uses-permission android:name="android.permission.READ_CONTACTS"/>
     <uses-permission android:name="android.permission.WRITE_CONTACTS"/>
+    <!-- 访问手机电话状态的权限 -->
+    <uses-permission android:name="android.permission.READ_PHONE_STATE"/>
     <!-- 拨号权限 -->
     <uses-permission android:name="android.permission.CALL_PHONE"/>
     <!-- 短信相关权限 -->
@@ -29,15 +32,13 @@
     <uses-permission android:name="android.permission.READ_SMS"/>
     <uses-permission android:name="android.permission.SEND_SMS"/>
     <uses-permission android:name="android.permission.RECEIVE_SMS"/>
+
     <uses-permission
         android:name="android.permission.BROADCAST_SMS"
         tools:ignore="ProtectedPermissions"/>
     <!-- 开机广播 -->
     <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED"/>
 
-    <!-- <instrumentation -->
-    <!-- android:name="android.test.InstrumentationTestRunner" -->
-    <!-- android:targetPackage="com.android.rdc.securitymax"/> -->
     <application
         android:name=".app.App"
         android:allowBackup="true"
@@ -47,7 +48,9 @@
         android:roundIcon="@drawable/ic_app"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".HomeActivity">
+        <activity
+            android:name=".HomeActivity"
+            android:launchMode="singleTask">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>
 
@@ -101,15 +104,15 @@
         <activity android:name=".ui.CleanCacheActivity">
         </activity>
 
-        <!-- <uses-library android:name="android.test.Runner"/> -->
         <activity android:name=".ui.BlackNumListActivity">
         </activity>
-
+        <!--短信广播-->
         <receiver android:name=".receiver.InterceptSmsReceiver">
             <intent-filter android:priority="1000">
                 <action android:name="android.intent.action.provider.Telephony.SMS_RECEIVED"/>
             </intent-filter>
         </receiver>
+        <!-- 电话 广播 -->
         <receiver android:name=".receiver.InterceptCallReceiver">
             <intent-filter android:priority="1000">
                 <action android:name="android.intent.action.NEW_OUTGOING_CALL"/>
@@ -126,14 +129,6 @@
         <activity android:name=".ui.TrafficMonitoringActivity">
         </activity>
 
-        <!-- <receiver -->
-        <!-- android:name=".ui.TrafficMonitoringActivity$CorrectFlowReceiver" -->
-        <!-- android:permission="android.permission.BROADCAST_SMS"> -->
-        <!-- <intent-filter android:priority="2147483647"> -->
-        <!-- <action android:name="android.provider.Telephony.SMS_DELIVER"/> -->
-        <!-- <action android:name="android.provider.Telephony.SMS_RECEIVED"/> -->
-        <!-- </intent-filter> -->
-        <!-- </receiver> -->
         <service
             android:name=".service.TrafficMonitoringService"
             android:persistent="true"/>
@@ -153,5 +148,4 @@
         <activity android:name=".ui.EnterBlackNumberActivity">
         </activity>
     </application>
-
 </manifest>

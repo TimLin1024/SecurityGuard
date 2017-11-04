@@ -1,30 +1,34 @@
 package com.android.rdc.mobilesafe.ui;
 
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.text.TextUtils;
 import android.widget.CompoundButton;
 import android.widget.Switch;
+import android.widget.TextView;
 
+import com.android.rdc.mobilesafe.HomeActivity;
 import com.android.rdc.mobilesafe.R;
 import com.android.rdc.mobilesafe.base.BaseToolBarActivity;
 import com.android.rdc.mobilesafe.service.AppLockService;
 import com.android.rdc.mobilesafe.util.SystemInfoUtils;
 
 import butterknife.BindView;
+import butterknife.OnClick;
 
 
 public class SettingActivity extends BaseToolBarActivity implements CompoundButton.OnCheckedChangeListener {
-
-//    @BindView(R.id.sv_blacklist_set)
-//    SettingView mSvBlacklistSet;
-//    @BindView(R.id.sv_app_lock_set)
-//    SettingView mSvAppLockSet;
 
     @BindView(R.id.switch_intercept)
     Switch mSwitchIntercept;
     @BindView(R.id.switch_app_lock)
     Switch mSwitchAppLock;
+    @BindView(R.id.switch_show_notification)
+    Switch mSwitchShowNotification;
+    @BindView(R.id.tv_quit_app)
+    TextView mTvQuitApp;
 
     private SharedPreferences mSharedPreferences;
     private boolean mIsAppLockServiceRunning;
@@ -54,7 +58,7 @@ public class SettingActivity extends BaseToolBarActivity implements CompoundButt
 
     @Override
     protected void initView() {
-        setTitle("设置中心");
+        setTitle("设置");
     }
 
     @Override
@@ -62,7 +66,6 @@ public class SettingActivity extends BaseToolBarActivity implements CompoundButt
         mSwitchAppLock.setOnCheckedChangeListener(this);
         mSwitchIntercept.setOnCheckedChangeListener(this);
     }
-
 
 
     private void setAppLock(boolean isChecked) {
@@ -100,5 +103,22 @@ public class SettingActivity extends BaseToolBarActivity implements CompoundButt
                 saveStatus(KEY_BLACKLIST, isChecked);
                 break;
         }
+    }
+
+    @OnClick(R.id.tv_quit_app)
+    public void onViewClicked() {
+        new AlertDialog.Builder(this)
+                .setCancelable(true)
+                .setTitle("温馨提示")
+                .setMessage("退出卫士，可能会受到木马病毒、骚扰电话的侵扰，并造成流量监控不准，现在卫士内存占用很小，建议不要退出哦")
+                .setPositiveButton("确定退出", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        startActivity(HomeActivity.newIntent(SettingActivity.this, true));
+                    }
+                })
+                .setNegativeButton("暂不退出", null)
+                .show();
+
     }
 }
