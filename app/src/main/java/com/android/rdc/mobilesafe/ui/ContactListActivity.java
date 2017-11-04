@@ -89,6 +89,7 @@ public class ContactListActivity extends BaseToolBarActivity {
         mRv.setAdapter(mAdapter);
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this);
         mRv.setLayoutManager(linearLayoutManager);
+        mRv.setHasFixedSize(true);
         mRv.addItemDecoration(new DividerItemDecoration(this, DividerItemDecoration.VERTICAL));
         mRv.addItemDecoration(new TitleItemDecoration(this, mContactInfoList));
 

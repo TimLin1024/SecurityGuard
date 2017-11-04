@@ -16,11 +16,15 @@ public class BlackNumberAdapter extends BaseSimpleRvAdapter<BlackContactInfo> {
     private OnIvClickListener mOnIvClickListener;
     private boolean mShowCheckBox;
     private OnCheckedCountChangeListener mListener;
-    private int mCheckCount;
 
     @Override
     protected int setLayoutId() {
         return R.layout.item_black_number;
+    }
+
+    @Override
+    public long getItemId(int position) {
+        return position;
     }
 
     @Override
@@ -48,7 +52,7 @@ public class BlackNumberAdapter extends BaseSimpleRvAdapter<BlackContactInfo> {
         void onIvClick(int position);
     }
 
-    class BlackNumberVH extends BaseRvHolder {
+    class BlackNumberVH extends BaseRvHolder implements CompoundButton.OnCheckedChangeListener {
 
         @BindView(R.id.tv_black_name)
         TextView mTvBlackName;
@@ -59,32 +63,25 @@ public class BlackNumberAdapter extends BaseSimpleRvAdapter<BlackContactInfo> {
         @BindView(R.id.cb)
         CheckBox mCb;
 
+        private BlackContactInfo mBlackContactInfo;
+
         BlackNumberVH(View itemView) {
             super(itemView);
         }
 
         @Override
         protected void bindView(final BlackContactInfo contactInfo) {
+            mBlackContactInfo = contactInfo;
             mTvBlackName.setText(contactInfo.getContractName());
             mTvPhoneNum.setText(contactInfo.getPhoneNumber());
             mTvBlackMode.setText(contactInfo.getStringMode());
+
+            mCb.setChecked(contactInfo.isSelected());
+            mCb.setOnCheckedChangeListener(this);
             if (mShowCheckBox) {
                 mTvBlackMode.setVisibility(View.GONE);
                 mCb.setVisibility(View.VISIBLE);
-                mCb.setChecked(contactInfo.isSelected());
-                mCb.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-                    @Override
-                    public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                        contactInfo.setSelected(isChecked);
-                        if (mListener != null) {
-                            if (isChecked) {
-                                mListener.onCheckedCountChanged(++mCheckCount);
-                            } else {
-                                mListener.onCheckedCountChanged(--mCheckCount);
-                            }
-                        }
-                    }
-                });
+//                mCb.setChecked(contactInfo.isSelected());
             } else {
                 mTvBlackMode.setVisibility(View.VISIBLE);
                 mCb.setVisibility(View.GONE);
@@ -94,6 +91,21 @@ public class BlackNumberAdapter extends BaseSimpleRvAdapter<BlackContactInfo> {
         @Override
         public boolean onLongClick(View v) {
             return super.onLongClick(v);
+        }
+
+        @Override
+        public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+            mBlackContactInfo.setSelected(isChecked);
+
+            if (mListener != null) {
+                int count = 0;
+                for (BlackContactInfo blackContactInfo : mDataList) {
+                    if (blackContactInfo.isSelected()) {
+                        count++;
+                    }
+                }
+                mListener.onCheckedCountChanged(count);
+            }
         }
     }
 }

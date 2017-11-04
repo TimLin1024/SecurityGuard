@@ -52,7 +52,7 @@ public abstract class BaseSimpleRvAdapter<T> extends RecyclerView.Adapter {
     @Override
     public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
         ((BaseRvHolder) holder).bindView(mDataList.get(position));
-        ((BaseRvHolder) holder).bindView(position,mDataList.get(position));
+        ((BaseRvHolder) holder).bindView(position, mDataList.get(position));
     }
 
     @Override

@@ -32,7 +32,7 @@ public class BlackNumListActivity extends BaseToolBarActivity {
     @BindView(R.id.iv_no_black_number)
     ImageView mIvNoBlackNumber;
 
-    @BindView(R.id.tv_indicator)//没选择的情况下进行处理
+    @BindView(R.id.tv_indicator)//黑名单为空的情况下显示的提示文字
     TextView mTvIndicator;
     @BindView(R.id.rv_black_list)
     RecyclerView mRvBlack;
@@ -44,12 +44,12 @@ public class BlackNumListActivity extends BaseToolBarActivity {
     @BindView(R.id.tv_select_all)
     TextView mTvSelectAll;
 
-    @BindView(R.id.iv_delete)
-    ImageView mIvDelete;
-    @BindView(R.id.iv_edit)
-    ImageView mIvEdit;
-    @BindView(R.id.iv_add)
-    ImageView mIvAdd;
+//    @BindView(R.id.iv_delete)
+//    ImageView mIvDelete;
+//    @BindView(R.id.iv_edit)
+//    ImageView mIvEdit;
+//    @BindView(R.id.iv_add)
+//    ImageView mIvAdd;
     @BindView(R.id.ll_edit)
     LinearLayout mLlEdit;
     @BindView(R.id.ll_delete)
@@ -93,11 +93,14 @@ public class BlackNumListActivity extends BaseToolBarActivity {
         mRvBlack.setLayoutManager(layoutManager);
         mRvBlack.addItemDecoration(new DividerItemDecoration(this, DividerItemDecoration.VERTICAL));
         mRvBlack.setAdapter(mAdapter);
-        setAdapterListener(layoutManager);
+        mRvBlack.setHasFixedSize(true);
+        setRvAdapterListener(layoutManager);
 
     }
 
-    private void setAdapterListener(final LinearLayoutManager layoutManager) {
+    private void setRvAdapterListener(final LinearLayoutManager layoutManager) {
+
+
         mAdapter.setOnCheckedCountChangeListener(new OnCheckedCountChangeListener() {
             @Override
             public void onCheckedCountChanged(int count) {
@@ -141,7 +144,7 @@ public class BlackNumListActivity extends BaseToolBarActivity {
     protected void onStart() {
         //如有黑名单，则显示黑名单列表，没有就显示黑名单为空
         mTotalNum = mBlackNumberDao.getTotalNumber();
-            if (mTotalNum > 0) {
+        if (mTotalNum > 0) {
             mBlackContactInfoList = mBlackNumberDao.getPagesBlackNumber(0, 150);
             if (mRvBlack.getVisibility() != View.VISIBLE) {
                 showBlackNumList(true);
@@ -207,6 +210,7 @@ public class BlackNumListActivity extends BaseToolBarActivity {
         }
         mAdapter.getDataList().removeAll(contactInfoList);
         mAdapter.notifyDataSetChanged();
+        showEditUi(false);
     }
 
     private void showEditUi(boolean show) {
