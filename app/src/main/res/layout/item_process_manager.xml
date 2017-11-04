@@ -10,20 +10,6 @@
     android:paddingRight="10dp"
     android:paddingTop="5dp">
 
-    <android.support.constraint.Guideline
-        android:id="@+id/guideline_h2"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        app:layout_constraintGuide_percent="0.5"/>
-
-
-    <android.support.constraint.Guideline
-        android:id="@+id/guideline_w"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:orientation="vertical"
-        app:layout_constraintGuide_percent="0.89"/>
 
 
     <ImageView

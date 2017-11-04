@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.android.rdc.mobilesafe.ui.ModifySmsCommandActivity">
+
+    <include
+        android:id="@+id/appbar"
+        layout="@layout/include_toolbar"/>
+
+    <TextView
+        android:id="@+id/tv_send_sms"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:paddingLeft="20dp"
+        android:text="短信校准指令"
+        app:layout_constraintBottom_toBottomOf="@id/et_command"
+        app:layout_constraintTop_toTopOf="@id/et_command"/>
+
+    <EditText
+        android:id="@+id/et_command"
+        android:layout_width="100dp"
+        android:layout_height="40dp"
+        android:layout_marginTop="10dp"
+        android:background="@drawable/bg_round_white_rect"
+        android:inputType="text"
+        android:text="CCLL"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/appbar"/>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:paddingLeft="20dp"
+        android:text="发送到"
+        app:layout_constraintBottom_toBottomOf="@id/et_receiver_num"
+        app:layout_constraintTop_toTopOf="@id/et_receiver_num"/>
+
+    <EditText
+        android:id="@+id/et_receiver_num"
+        android:layout_width="100dp"
+        android:layout_height="40dp"
+        android:layout_marginTop="10dp"
+        android:background="@drawable/bg_round_white_rect"
+        android:inputType="number"
+        android:text="10010"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/et_command"/>
+
+    <Button
+        android:id="@+id/btn_modify_and_check"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="20dp"
+        android:layout_marginStart="20dp"
+        android:background="@drawable/selector_green_round_rect"
+        android:text="修改并校准"
+        android:textColor="@color/white"
+        app:layout_constraintTop_toBottomOf="@id/et_receiver_num"/>
+</android.support.constraint.ConstraintLayout>

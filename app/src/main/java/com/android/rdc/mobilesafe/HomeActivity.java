@@ -20,8 +20,6 @@ import com.android.rdc.mobilesafe.entity.HomeItem;
 import com.android.rdc.mobilesafe.ui.AppLockActivity;
 import com.android.rdc.mobilesafe.ui.BlackNumListActivity;
 import com.android.rdc.mobilesafe.ui.CacheListActivity;
-import com.android.rdc.mobilesafe.ui.OkHttpNetworkInterceptActivity;
-import com.android.rdc.mobilesafe.ui.OperatorSettingActivity;
 import com.android.rdc.mobilesafe.ui.ProcessManagerActivity;
 import com.android.rdc.mobilesafe.ui.ScanVirusActivity;
 import com.android.rdc.mobilesafe.ui.SettingActivity;
@@ -137,10 +135,8 @@ public class HomeActivity extends BaseActivity {
     private void handleClick(int position) {
         HomeItem item = mHomeItemList.get(position);
         switch (item.getImgId()) {
-            case R.drawable.safe://防盗
-
-                startActivity(OkHttpNetworkInterceptActivity.class);
-
+            case R.drawable.ic_lock://程序锁
+                startActivity(AppLockActivity.class);
                 break;
             case R.drawable.ic_intercept://通讯卫士,骚扰拦截
                 startActivity(BlackNumListActivity.class);
@@ -154,17 +150,14 @@ public class HomeActivity extends BaseActivity {
             case R.drawable.ic_clean_cache://缓存清理
                 startActivity(CacheListActivity.class);
                 break;
-            case R.drawable.taskmanager://进程管理
+            case R.drawable.ic_task_manager://进程管理
                 startActivity(ProcessManagerActivity.class);
                 break;
             case R.drawable.ic_traffic://流量管理
                 startActivity(TrafficMonitoringActivity.class);
                 break;
-            case R.drawable.atools://高级工具
-                startActivity(AppLockActivity.class);
-                break;
             case R.drawable.settings://设置
-                startActivity(OperatorSettingActivity.class);
+                startActivity(SettingActivity.class);
                 EventBus.getDefault().post(new CustomEvent("自定义事件"));
                 break;
         }

@@ -66,7 +66,7 @@ public class TrafficMonitoringActivity extends BaseToolBarActivity {
 
     @Override
     protected void initData() {
-        mSp = getSharedPreferences(Constant.CONFIG, MODE_PRIVATE);
+        mSp = getSharedPreferences(Constant.SP_CONFIG, MODE_PRIVATE);
         boolean hasSetOperator = mSp.getBoolean(Constant.HAS_SET_OPERATOR, false);
         if (!hasSetOperator) {//如果还没有设置运营商，则先跳转到设置运营商界面
             startActivity(OperatorSettingActivity.class);

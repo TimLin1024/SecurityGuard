@@ -34,15 +34,12 @@ public class ProcessManageAdapter extends RecyclerView.Adapter {
 
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        LayoutInflater inflater = (LayoutInflater) mContext.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-        View v = inflater.inflate(viewType, parent, false);
+        View v = LayoutInflater.from(parent.getContext()).inflate(viewType, parent, false);
 
         if (viewType == R.layout.item_indicator) {
             return new IndicatorVH(v);
         }
         return new ProcessManagerVH(v);
-
-
     }
 
     @Override

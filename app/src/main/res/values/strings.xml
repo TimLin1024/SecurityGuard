@@ -32,5 +32,6 @@
     <string name="app_lock">程序锁</string>
     <string name="intercept">骚扰拦截</string>
     <string name="display_on_notification">在通知栏显示</string>
+    <string name="edit_sms_command">修改短信校准指令</string>
 
 </resources>

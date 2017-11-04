@@ -37,4 +37,6 @@
         <attr name="radarBorderWidth" format="dimension"/>
     </declare-styleable>
 
+    <attr name="settingItemHeight" format="dimension" value="55dp"/>
+
 </resources>

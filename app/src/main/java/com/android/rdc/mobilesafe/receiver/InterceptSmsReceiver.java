@@ -13,7 +13,7 @@ public class InterceptSmsReceiver extends BroadcastReceiver {
 
     @Override
     public void onReceive(Context context, Intent intent) {
-        SharedPreferences sp = context.getSharedPreferences(Constant.CONFIG, Context.MODE_PRIVATE);
+        SharedPreferences sp = context.getSharedPreferences(Constant.SP_CONFIG, Context.MODE_PRIVATE);
         boolean isBlackNumOn = sp.getBoolean(Constant.BLACK_NUM_ON, false);
         if (!isBlackNumOn) {
             //未开启黑名单拦截

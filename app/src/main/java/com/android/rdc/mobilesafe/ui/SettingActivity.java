@@ -119,6 +119,5 @@ public class SettingActivity extends BaseToolBarActivity implements CompoundButt
                 })
                 .setNegativeButton("暂不退出", null)
                 .show();
-
     }
 }

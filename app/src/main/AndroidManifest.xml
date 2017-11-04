@@ -3,14 +3,13 @@
           xmlns:tools="http://schemas.android.com/tools"
           package="com.android.rdc.mobilesafe">
 
-    <!--内存读写-->
+    <!-- 内存读写 -->
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
     <!-- 网络状态 -->
     <uses-permission android:name="android.permission.INTERNET"/>
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
     <uses-permission android:name="android.permission.ACCESS_WIFI_STATE"/>
-
     <uses-permission android:name="android.permission.READ_LOGS"/>
     <uses-permission android:name="android.permission.GET_TASKS"/>
     <uses-permission android:name="android.permission.REORDER_TASKS"/>
@@ -32,7 +31,6 @@
     <uses-permission android:name="android.permission.READ_SMS"/>
     <uses-permission android:name="android.permission.SEND_SMS"/>
     <uses-permission android:name="android.permission.RECEIVE_SMS"/>
-
     <uses-permission
         android:name="android.permission.BROADCAST_SMS"
         tools:ignore="ProtectedPermissions"/>
@@ -103,10 +101,9 @@
         </activity>
         <activity android:name=".ui.CleanCacheActivity">
         </activity>
-
         <activity android:name=".ui.BlackNumListActivity">
         </activity>
-        <!--短信广播-->
+        <!-- 短信广播 -->
         <receiver android:name=".receiver.InterceptSmsReceiver">
             <intent-filter android:priority="1000">
                 <action android:name="android.intent.action.provider.Telephony.SMS_RECEIVED"/>
@@ -147,5 +144,8 @@
         </activity>
         <activity android:name=".ui.EnterBlackNumberActivity">
         </activity>
+        <activity android:name=".ui.ModifySmsCommandActivity">
+        </activity>
     </application>
+
 </manifest>

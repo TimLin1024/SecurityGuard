@@ -94,7 +94,7 @@ public class ProcessManagerActivity extends BaseToolBarActivity {
                         );
 
                         mTvRunningProcessNum.setText(String.format(Locale.CHINA, "运行中的进程：%d 个", mRunningProcessCount));
-                        mAdapter = new ProcessManageAdapter(mSystemTaskList, mUserTaskList, getApplicationContext());
+                        mAdapter = new ProcessManageAdapter(mSystemTaskList, mUserTaskList, ProcessManagerActivity.this/*getApplicationContext()*/);
                         mRvRunningProcess.setLayoutManager(new LinearLayoutManager(ProcessManagerActivity.this));
                         mRvRunningProcess.addItemDecoration(new DividerItemDecoration(ProcessManagerActivity.this, DividerItemDecoration.VERTICAL));
                         mRvRunningProcess.setAdapter(mAdapter);
