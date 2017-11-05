@@ -230,30 +230,27 @@ public class ScanVirusActivity extends BaseToolBarActivity {
      * 将 asset 目录下的文件复制到 data 目录下
      */
     private void copyDB(final String dbName) {
-        mExecutorService.execute(new Runnable() {
-            @Override
-            public void run() {
-                File file = new File(getFilesDir(), dbName);
-                if (file.exists() && file.length() > 0) {
-                    Log.i(TAG, "数据库已经存在");
-                    return;
+        mExecutorService.execute(() -> {
+            File file = new File(getFilesDir(), dbName);
+            if (file.exists() && file.length() > 0) {
+                Log.i(TAG, "数据库已经存在");
+                return;
+            }
+            InputStream inputStream = null;
+            FileOutputStream outputStream = null;
+            try {
+                inputStream = getAssets().open(dbName);//原存储位置的输出流
+                outputStream = openFileOutput(dbName, MODE_PRIVATE);
+                byte[] buffer = new byte[1024];
+                int len;
+                while ((len = inputStream.read(buffer)) != -1) {
+                    outputStream.write(buffer, 0, len);
                 }
-                InputStream inputStream = null;
-                FileOutputStream outputStream = null;
-                try {
-                    inputStream = getAssets().open(dbName);//原存储位置的输出流
-                    outputStream = openFileOutput(dbName, MODE_PRIVATE);
-                    byte[] buffer = new byte[1024];
-                    int len;
-                    while ((len = inputStream.read(buffer)) != -1) {
-                        outputStream.write(buffer, 0, len);
-                    }
-                } catch (IOException e) {
-                    e.printStackTrace();
-                } finally {
-                    IOUtil.closeQuietly(inputStream);
-                    IOUtil.closeQuietly(outputStream);
-                }
+            } catch (IOException e) {
+                e.printStackTrace();
+            } finally {
+                IOUtil.closeQuietly(inputStream);
+                IOUtil.closeQuietly(outputStream);
             }
         });
     }
@@ -262,7 +259,7 @@ public class ScanVirusActivity extends BaseToolBarActivity {
     protected void onDestroy() {
         mHandler.removeCallbacksAndMessages(null);//清空消息，防止内存泄漏
         EventBus.getDefault().unregister(this);//解除注册
-
+        mExecutorService.shutdown();
         super.onDestroy();
     }
 
@@ -277,15 +274,13 @@ public class ScanVirusActivity extends BaseToolBarActivity {
             finish();//回到上级
         } else {
             Snackbar.make(mLlRoot, "确定停止扫描？", Snackbar.LENGTH_SHORT)
-                    .setAction("确定", new View.OnClickListener() {
-                        @Override
-                        public void onClick(View v) {
+                    .setAction("确定", v -> {
 //                            mIsStop = true;//设置停止扫描
-                            finish();
-                        }
+                        finish();
                     })
                     .show();
         }
+
     }
 
     @Subscribe(threadMode = ThreadMode.MAIN, sticky = true, priority = 1000)
