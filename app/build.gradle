@@ -55,4 +55,5 @@ dependencies {
     debugCompile 'com.squareup.leakcanary:leakcanary-android:1.5.4'
     releaseCompile 'com.squareup.leakcanary:leakcanary-android-no-op:1.5.4'
     compile 'com.contrarywind:Android-PickerView:3.2.6'
+    implementation 'com.google.code.gson:gson:2.8.2'
 }

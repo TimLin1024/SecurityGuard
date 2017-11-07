@@ -5,7 +5,7 @@ import android.content.pm.ApplicationInfo;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 
-import com.android.rdc.mobilesafe.entity.AppInfo;
+import com.android.rdc.mobilesafe.bean.AppInfo;
 
 import java.io.File;
 import java.util.ArrayList;

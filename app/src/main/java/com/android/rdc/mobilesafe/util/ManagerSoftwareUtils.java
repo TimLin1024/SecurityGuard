@@ -6,7 +6,7 @@ import android.content.pm.PackageManager;
 import android.net.Uri;
 import android.provider.Settings;
 
-import com.android.rdc.mobilesafe.entity.AppInfo;
+import com.android.rdc.mobilesafe.bean.AppInfo;
 import com.jaredrummler.android.shell.CommandResult;
 import com.jaredrummler.android.shell.Shell;
 

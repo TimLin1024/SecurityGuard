@@ -10,7 +10,7 @@ import android.os.IBinder;
 import android.support.annotation.Nullable;
 import android.util.Log;
 
-import com.android.rdc.mobilesafe.entity.TaskInfo;
+import com.android.rdc.mobilesafe.bean.TaskInfo;
 import com.android.rdc.mobilesafe.util.TaskInfoParser;
 
 import java.util.List;

@@ -7,7 +7,7 @@ import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 
 import com.android.rdc.mobilesafe.db.BlackNumberOpenHelper;
-import com.android.rdc.mobilesafe.entity.BlackContactInfo;
+import com.android.rdc.mobilesafe.bean.BlackContactInfo;
 
 import java.util.ArrayList;
 import java.util.List;

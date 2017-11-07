@@ -16,7 +16,7 @@ import com.android.rdc.mobilesafe.adapter.SoftwareManagerAdapter;
 import com.android.rdc.mobilesafe.base.BaseFragment;
 import com.android.rdc.mobilesafe.base.BaseRvAdapter;
 import com.android.rdc.mobilesafe.base.BaseSafeFragmentHandler;
-import com.android.rdc.mobilesafe.entity.AppInfo;
+import com.android.rdc.mobilesafe.bean.AppInfo;
 import com.android.rdc.mobilesafe.util.AppInfoParser;
 import com.android.rdc.mobilesafe.util.ProgressDialogUtil;
 

@@ -1,4 +1,4 @@
-package com.android.rdc.mobilesafe.entity;
+package com.android.rdc.mobilesafe.bean;
 
 import android.support.annotation.NonNull;
 

@@ -105,7 +105,7 @@ public class EnterPwdActivity extends BaseScrollTbActivity {
 
     @Override
     public void showPre() {
-        startActivityAndFinishSelf(OperatorSettingActivity.class);
+        startActivityAndFinishSelf(TrafficSettingActivity.class);
     }
 
     @Override

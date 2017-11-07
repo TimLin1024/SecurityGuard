@@ -8,7 +8,7 @@ import android.widget.TextView;
 import com.android.rdc.mobilesafe.R;
 import com.android.rdc.mobilesafe.base.BaseSimpleRvAdapter;
 import com.android.rdc.mobilesafe.callback.OnCheckedCountChangeListener;
-import com.android.rdc.mobilesafe.entity.ContactInfo;
+import com.android.rdc.mobilesafe.bean.ContactInfo;
 
 import butterknife.BindView;
 

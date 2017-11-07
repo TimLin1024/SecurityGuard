@@ -7,7 +7,7 @@ import android.widget.TextView;
 
 import com.android.rdc.mobilesafe.R;
 import com.android.rdc.mobilesafe.base.BaseSimpleRvAdapter;
-import com.android.rdc.mobilesafe.entity.ScanAppInfo;
+import com.android.rdc.mobilesafe.bean.ScanAppInfo;
 
 import butterknife.BindView;
 

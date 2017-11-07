@@ -1,48 +1,98 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
+<android.support.constraint.ConstraintLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:divider="@drawable/divider_horizontal"
-    android:orientation="vertical"
-    android:showDividers="middle|end"
     tools:context="com.android.rdc.mobilesafe.ui.OperatorSettingActivity">
 
     <include
-        android:id="@+id/appbar"
-        layout="@layout/include_toolbar"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
+        layout="@layout/include_title_bar"
         app:layout_constraintTop_toTopOf="parent"/>
 
     <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="55dp"
-        android:gravity="center_vertical"
-        android:orientation="horizontal">
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="10dp"
+        android:divider="@drawable/divider_horizontal"
+        android:orientation="vertical"
+        android:paddingEnd="10dp"
+        android:showDividers="middle|end"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/appbar"
+        tools:ignore="UnknownIdInLayout">
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="运营商信息"/>
 
         <TextView
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:gravity="end"
-            android:text="广州-联通-联通4G>"/>
+            android:layout_height="20dp"
+            android:gravity="center_vertical"
+            android:text="SIM 卡归属地设置"
+            android:textSize="12sp"/>
+
+        <LinearLayout
+            android:id="@+id/ll_province"
+            style="@style/LlOperatorItem">
+
+            <TextView
+                style="@style/TvOperatorSettingLeft"
+                android:text="省份"/>
+
+            <TextView
+                style="@style/TvOperatorSettingRight"
+                android:text="广东 >"/>
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/ll_city"
+            style="@style/LlOperatorItem">
+
+            <TextView
+                style="@style/TvOperatorSettingLeft"
+                android:text="城市"/>
+
+            <TextView
+                style="@style/TvOperatorSettingRight"
+                android:text="广州 >"/>
+        </LinearLayout>
+
+        <include layout="@layout/horizontal_divider_10"/>
 
 
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="20dp"
+            android:gravity="center_vertical"
+            android:text="运营商设置"
+            android:textSize="12sp"/>
+
+        <LinearLayout
+            android:id="@+id/ll_operator"
+            style="@style/LlOperatorItem">
+
+            <TextView
+                style="@style/TvOperatorSettingLeft"
+                android:text="运营商"/>
+
+            <TextView
+                style="@style/TvOperatorSettingRight"
+                android:text="中国联通 >"/>
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/ll_brand"
+            style="@style/LlOperatorItem">
+
+            <TextView
+                style="@style/TvOperatorSettingLeft"
+                android:text="品牌"/>
+
+            <TextView
+                style="@style/TvOperatorSettingRight"
+                android:text="联通 4G >"/>
+        </LinearLayout>
     </LinearLayout>
 
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="55dp"
-        android:gravity="center_vertical"
-        android:text="@string/edit_sms_command"/>
-
-</LinearLayout>
+</android.support.constraint.ConstraintLayout>

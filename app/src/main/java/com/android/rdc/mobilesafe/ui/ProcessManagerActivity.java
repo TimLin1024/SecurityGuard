@@ -14,7 +14,7 @@ import android.widget.TextView;
 import com.android.rdc.mobilesafe.R;
 import com.android.rdc.mobilesafe.adapter.ProcessManageAdapter;
 import com.android.rdc.mobilesafe.base.BaseToolBarActivity;
-import com.android.rdc.mobilesafe.entity.TaskInfo;
+import com.android.rdc.mobilesafe.bean.TaskInfo;
 import com.android.rdc.mobilesafe.util.ProgressDialogUtil;
 import com.android.rdc.mobilesafe.util.SystemUtil;
 import com.android.rdc.mobilesafe.util.TaskInfoParser;

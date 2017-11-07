@@ -19,7 +19,7 @@ import android.widget.TextView;
 import com.android.rdc.mobilesafe.R;
 import com.android.rdc.mobilesafe.adapter.CleanCacheAdapter;
 import com.android.rdc.mobilesafe.base.BaseToolBarActivity;
-import com.android.rdc.mobilesafe.entity.CacheInfo;
+import com.android.rdc.mobilesafe.bean.CacheInfo;
 
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;

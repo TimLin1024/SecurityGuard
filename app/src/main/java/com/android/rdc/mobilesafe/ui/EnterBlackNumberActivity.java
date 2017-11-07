@@ -12,7 +12,7 @@ import android.widget.TextView;
 import com.android.rdc.mobilesafe.R;
 import com.android.rdc.mobilesafe.base.BaseToolBarActivity;
 import com.android.rdc.mobilesafe.dao.BlackNumberDao;
-import com.android.rdc.mobilesafe.entity.BlackContactInfo;
+import com.android.rdc.mobilesafe.bean.BlackContactInfo;
 
 import butterknife.BindView;
 import butterknife.OnClick;

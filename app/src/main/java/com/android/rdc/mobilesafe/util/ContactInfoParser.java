@@ -7,7 +7,7 @@ import android.net.Uri;
 import android.provider.ContactsContract;
 import android.util.Log;
 
-import com.android.rdc.mobilesafe.entity.ContactInfo;
+import com.android.rdc.mobilesafe.bean.ContactInfo;
 
 import java.util.ArrayList;
 import java.util.List;

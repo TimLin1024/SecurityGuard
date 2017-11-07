@@ -69,7 +69,7 @@ public class TrafficMonitoringActivity extends BaseToolBarActivity {
         mSp = getSharedPreferences(Constant.SP_CONFIG, MODE_PRIVATE);
         boolean hasSetOperator = mSp.getBoolean(Constant.HAS_SET_OPERATOR, false);
         if (!hasSetOperator) {//如果还没有设置运营商，则先跳转到设置运营商界面
-            startActivity(OperatorSettingActivity.class);
+            startActivity(TrafficSettingActivity.class);
             finish();
         }
         // TODO: 2017/10/6 0006 开启流量监控服务
@@ -141,7 +141,7 @@ public class TrafficMonitoringActivity extends BaseToolBarActivity {
                         .setAction("确定", new View.OnClickListener() {
                             @Override
                             public void onClick(View v) {
-                                startActivity(OperatorSettingActivity.class);
+                                startActivity(TrafficSettingActivity.class);
                                 TrafficMonitoringActivity.this.finish();
                             }
                         })

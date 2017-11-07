@@ -114,13 +114,10 @@ public class CleanCacheActivity extends BaseToolBarActivity {
 
         @Override
         public void onRemoveCompleted(String packageName, boolean succeeded) throws RemoteException {
-            runOnUiThread(new Runnable() {
-                @Override
-                public void run() {
+            runOnUiThread(() -> {
 //                    mClCleaning.setVisibility(View.GONE);
 //                    mClFinish.setVisibility(View.VISIBLE);
-                    showToast("清理完毕");
-                }
+                showToast("清理完毕");
             });
         }
     }

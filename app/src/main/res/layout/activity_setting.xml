@@ -27,10 +27,7 @@
         style="@style/SettingSwitchStyle"
         android:text="@string/app_lock"/>
 
-    <View
-        android:layout_width="match_parent"
-        android:background="@color/bright_gray"
-        android:layout_height="10dp"/>
+    <include layout="@layout/horizontal_divider_10"/>
 
     <TextView
         android:id="@+id/tv_quit_app"

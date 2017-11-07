@@ -15,7 +15,7 @@ import android.widget.TextView;
 
 import com.android.rdc.mobilesafe.R;
 import com.android.rdc.mobilesafe.base.BaseRvAdapter;
-import com.android.rdc.mobilesafe.entity.AppInfo;
+import com.android.rdc.mobilesafe.bean.AppInfo;
 import com.android.rdc.mobilesafe.util.ManagerSoftwareUtils;
 
 import butterknife.BindView;

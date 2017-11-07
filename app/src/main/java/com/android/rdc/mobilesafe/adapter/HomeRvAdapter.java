@@ -9,7 +9,7 @@ import android.widget.TextView;
 
 import com.android.rdc.mobilesafe.R;
 import com.android.rdc.mobilesafe.base.BaseRvAdapter;
-import com.android.rdc.mobilesafe.entity.HomeItem;
+import com.android.rdc.mobilesafe.bean.HomeItem;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;

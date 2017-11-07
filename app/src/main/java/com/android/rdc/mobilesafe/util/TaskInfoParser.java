@@ -8,7 +8,7 @@ import android.content.pm.PackageManager;
 import android.os.Debug;
 
 import com.android.rdc.mobilesafe.R;
-import com.android.rdc.mobilesafe.entity.TaskInfo;
+import com.android.rdc.mobilesafe.bean.TaskInfo;
 
 import java.util.ArrayList;
 import java.util.List;

@@ -12,7 +12,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.android.rdc.mobilesafe.R;
-import com.android.rdc.mobilesafe.entity.TaskInfo;
+import com.android.rdc.mobilesafe.bean.TaskInfo;
 
 import java.util.List;
 import java.util.Locale;

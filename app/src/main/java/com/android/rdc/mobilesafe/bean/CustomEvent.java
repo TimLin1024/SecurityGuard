@@ -1,4 +1,4 @@
-package com.android.rdc.mobilesafe.entity;
+package com.android.rdc.mobilesafe.bean;
 
 public class CustomEvent {
     private String mEventName;

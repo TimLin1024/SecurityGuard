@@ -12,7 +12,7 @@ import com.android.rdc.mobilesafe.R;
 import com.android.rdc.mobilesafe.adapter.LockRvAdapter;
 import com.android.rdc.mobilesafe.base.BaseFragment;
 import com.android.rdc.mobilesafe.base.BaseRvAdapter;
-import com.android.rdc.mobilesafe.entity.AppInfo;
+import com.android.rdc.mobilesafe.bean.AppInfo;
 
 import java.util.ArrayList;
 import java.util.List;
