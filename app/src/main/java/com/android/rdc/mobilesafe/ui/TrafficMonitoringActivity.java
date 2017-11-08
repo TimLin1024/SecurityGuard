@@ -21,7 +21,6 @@ import android.telephony.SmsMessage;
 import android.text.TextUtils;
 import android.text.format.Formatter;
 import android.util.Log;
-import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 
@@ -66,7 +65,7 @@ public class TrafficMonitoringActivity extends BaseToolBarActivity {
 
     @Override
     protected void initData() {
-        mSp = getSharedPreferences(Constant.SP_CONFIG, MODE_PRIVATE);
+        mSp = getSharedPreferences(Constant.SP_NAME_CONFIG, MODE_PRIVATE);
         boolean hasSetOperator = mSp.getBoolean(Constant.HAS_SET_OPERATOR, false);
         if (!hasSetOperator) {//如果还没有设置运营商，则先跳转到设置运营商界面
             startActivity(TrafficSettingActivity.class);
@@ -132,18 +131,15 @@ public class TrafficMonitoringActivity extends BaseToolBarActivity {
     }
 
     private void sendMsgByMode() {
-        int i = mSp.getInt(Constant.KEY_OPERATOR, 0);
+        int i = mSp.getInt(Constant.KEY_CARD_OPERATOR, 0);
         SmsManager smsManager = SmsManager.getDefault();
         //根据运营商发送查询短信
         switch (i) {
             case 0:
                 Snackbar.make(mConstraintLayout, "您还没有设置运营商，前往设置？", Snackbar.LENGTH_LONG)
-                        .setAction("确定", new View.OnClickListener() {
-                            @Override
-                            public void onClick(View v) {
-                                startActivity(TrafficSettingActivity.class);
-                                TrafficMonitoringActivity.this.finish();
-                            }
+                        .setAction("确定", v -> {
+                            startActivity(TrafficSettingActivity.class);
+                            TrafficMonitoringActivity.this.finish();
                         })
                         .show();
                 break;
@@ -249,12 +245,9 @@ public class TrafficMonitoringActivity extends BaseToolBarActivity {
                     sendMsgByMode();
                 } else {
                     Snackbar.make(mConstraintLayout, "需要发送短信权限才能校正流量,重试？", Snackbar.LENGTH_LONG)
-                            .setAction("确定", new View.OnClickListener() {
-                                @Override
-                                public void onClick(View v) {
-                                    //重新申请权限
-                                    requestPermissions(new String[]{Manifest.permission.SEND_SMS}, PERMISSIONS_REQUEST_SEND_SMS);
-                                }
+                            .setAction("确定", v -> {
+                                //重新申请权限
+                                requestPermissions(new String[]{Manifest.permission.SEND_SMS}, PERMISSIONS_REQUEST_SEND_SMS);
                             })
                             .show();
                 }
@@ -264,12 +257,9 @@ public class TrafficMonitoringActivity extends BaseToolBarActivity {
                     registerSmsReceiver();
                 } else {
                     Snackbar.make(mConstraintLayout, "需要接收短信权限才能校正流量哦,重试？", Snackbar.LENGTH_LONG)
-                            .setAction("确定", new View.OnClickListener() {
-                                @Override
-                                public void onClick(View v) {
-                                    //重新申请权限
-                                    requestPermissions(new String[]{Manifest.permission.RECEIVE_SMS}, PERMISSIONS_REQUEST_RECEIVE_SMS);
-                                }
+                            .setAction("确定", v -> {
+                                //重新申请权限
+                                requestPermissions(new String[]{Manifest.permission.RECEIVE_SMS}, PERMISSIONS_REQUEST_RECEIVE_SMS);
                             })
                             .show();
                 }

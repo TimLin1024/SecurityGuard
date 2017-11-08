@@ -33,5 +33,11 @@
     <string name="intercept">骚扰拦截</string>
     <string name="display_on_notification">在通知栏显示</string>
     <string name="edit_sms_command">修改短信校准指令</string>
+    <string name="province">省份</string>
+    <string name="sim_location">SIM 卡归属地设置</string>
+    <string name="operator_set">运营商设置</string>
+    <string name="operator">运营商</string>
+    <string name="brand">品牌</string>
+    <string name="city">城市</string>
 
 </resources>

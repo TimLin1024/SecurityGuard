@@ -27,6 +27,12 @@
         style="@style/SettingSwitchStyle"
         android:text="@string/app_lock"/>
 
+    <TextView
+        android:id="@+id/tv_traffic_setting"
+        android:layout_width="match_parent"
+        android:layout_height="55dp"
+        android:text="流量控制"/>
+
     <include layout="@layout/horizontal_divider_10"/>
 
     <TextView

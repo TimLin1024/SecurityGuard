@@ -27,9 +27,15 @@
         android:layout_marginTop="10dp"
         android:background="@drawable/bg_round_white_rect"
         android:inputType="text"
-        android:text="CCLL"
+        android:text="CXLL"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@id/appbar"/>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="0.3dp"
+        android:background="@color/graye5"
+        app:layout_constraintTop_toBottomOf="@id/et_command"/>
 
     <TextView
         android:layout_width="wrap_content"

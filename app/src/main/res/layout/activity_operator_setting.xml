@@ -14,7 +14,7 @@
     <LinearLayout
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="10dp"
+        android:layout_marginStart="10dp"
         android:divider="@drawable/divider_horizontal"
         android:orientation="vertical"
         android:paddingEnd="10dp"
@@ -22,15 +22,15 @@
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/appbar"
-        tools:ignore="UnknownIdInLayout">
+        tools:ignore="RtlSymmetry,UnknownIdInLayout">
 
 
         <TextView
             android:layout_width="match_parent"
             android:layout_height="20dp"
             android:gravity="center_vertical"
-            android:text="SIM 卡归属地设置"
-            android:textSize="12sp"/>
+            android:textSize="12sp"
+            android:text="@string/sim_location"/>
 
         <LinearLayout
             android:id="@+id/ll_province"
@@ -38,11 +38,12 @@
 
             <TextView
                 style="@style/TvOperatorSettingLeft"
-                android:text="省份"/>
+                android:text="@string/province"/>
 
             <TextView
+                android:id="@+id/tv_province"
                 style="@style/TvOperatorSettingRight"
-                android:text="广东 >"/>
+                tools:text="广东 >"/>
         </LinearLayout>
 
         <LinearLayout
@@ -51,22 +52,24 @@
 
             <TextView
                 style="@style/TvOperatorSettingLeft"
-                android:text="城市"/>
+                android:text="@string/city"/>
 
             <TextView
+                android:id="@+id/tv_city"
                 style="@style/TvOperatorSettingRight"
-                android:text="广州 >"/>
+                tools:text="广州 >"/>
         </LinearLayout>
 
-        <include layout="@layout/horizontal_divider_10"/>
-
+        <android.support.v4.widget.Space
+            android:layout_width="match_parent"
+            android:layout_height="10dp"/>
 
         <TextView
             android:layout_width="match_parent"
             android:layout_height="20dp"
             android:gravity="center_vertical"
-            android:text="运营商设置"
-            android:textSize="12sp"/>
+            android:textSize="12sp"
+            android:text="@string/operator_set"/>
 
         <LinearLayout
             android:id="@+id/ll_operator"
@@ -74,11 +77,12 @@
 
             <TextView
                 style="@style/TvOperatorSettingLeft"
-                android:text="运营商"/>
+                android:text="@string/operator"/>
 
             <TextView
+                android:id="@+id/tv_operator"
                 style="@style/TvOperatorSettingRight"
-                android:text="中国联通 >"/>
+                tools:text="中国联通 >"/>
         </LinearLayout>
 
         <LinearLayout
@@ -87,11 +91,12 @@
 
             <TextView
                 style="@style/TvOperatorSettingLeft"
-                android:text="品牌"/>
+                android:text="@string/brand"/>
 
             <TextView
+                android:id="@+id/tv_brand"
                 style="@style/TvOperatorSettingRight"
-                android:text="联通 4G >"/>
+                tools:text="联通 4G >"/>
         </LinearLayout>
     </LinearLayout>
 

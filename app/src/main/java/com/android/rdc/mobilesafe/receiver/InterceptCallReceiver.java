@@ -24,7 +24,7 @@ import java.lang.reflect.Method;
 public class InterceptCallReceiver extends BroadcastReceiver {
     @Override
     public void onReceive(Context context, Intent intent) {
-        SharedPreferences sp = context.getSharedPreferences(Constant.SP_CONFIG, Context.MODE_PRIVATE);
+        SharedPreferences sp = context.getSharedPreferences(Constant.SP_NAME_CONFIG, Context.MODE_PRIVATE);
         boolean isBlackNumOn = sp.getBoolean(Constant.BLACK_NUM_ON, true);
         if (!isBlackNumOn) {
             //未开启黑名单拦截

@@ -1,13 +1,13 @@
 package com.android.rdc.mobilesafe.ui;
 
-import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.support.v7.app.AlertDialog;
 import android.text.TextUtils;
+import android.view.View;
 import android.widget.CompoundButton;
 import android.widget.Switch;
-import android.widget.TextView;
 
 import com.android.rdc.mobilesafe.HomeActivity;
 import com.android.rdc.mobilesafe.R;
@@ -27,8 +27,6 @@ public class SettingActivity extends BaseToolBarActivity implements CompoundButt
     Switch mSwitchAppLock;
     @BindView(R.id.switch_show_notification)
     Switch mSwitchShowNotification;
-    @BindView(R.id.tv_quit_app)
-    TextView mTvQuitApp;
 
     private SharedPreferences mSharedPreferences;
     private boolean mIsAppLockServiceRunning;
@@ -105,19 +103,27 @@ public class SettingActivity extends BaseToolBarActivity implements CompoundButt
         }
     }
 
-    @OnClick(R.id.tv_quit_app)
-    public void onViewClicked() {
-        new AlertDialog.Builder(this)
-                .setCancelable(true)
-                .setTitle("温馨提示")
-                .setMessage("退出卫士，可能会受到木马病毒、骚扰电话的侵扰，并造成流量监控不准，现在卫士内存占用很小，建议不要退出哦")
-                .setPositiveButton("确定退出", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        startActivity(HomeActivity.newIntent(SettingActivity.this, true));
-                    }
-                })
-                .setNegativeButton("暂不退出", null)
-                .show();
+
+    @OnClick({R.id.tv_traffic_setting, R.id.tv_quit_app})
+    public void onViewClicked(View view) {
+        switch (view.getId()) {
+            case R.id.tv_traffic_setting:
+                startActivity(TrafficSettingActivity.class);
+                break;
+            case R.id.tv_quit_app:
+                new AlertDialog.Builder(this)
+                        .setCancelable(true)
+                        .setTitle("温馨提示")
+                        .setMessage("退出卫士，可能会受到木马病毒、骚扰电话的侵扰，并造成流量监控不准，现在卫士内存占用很小，建议不要退出哦")
+                        .setPositiveButton("确定退出", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                startActivity(HomeActivity.newIntent(SettingActivity.this, true));
+                            }
+                        })
+                        .setNegativeButton("暂不退出", null)
+                        .show();
+                break;
+        }
     }
 }

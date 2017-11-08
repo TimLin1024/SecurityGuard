@@ -43,7 +43,7 @@ public class EnterPwdActivity extends BaseScrollTbActivity {
 
     @Override
     protected void initData() {
-        mSharedPreferences = getSharedPreferences(Constant.SP_CONFIG, MODE_PRIVATE);
+        mSharedPreferences = getSharedPreferences(Constant.SP_NAME_CONFIG, MODE_PRIVATE);
         // TODO: 2017/7/5 0005 临时密码
         mSharedPreferences.edit().putString(Constant.KEY_LOCK_PWD, MD5Utils.encode("123")).apply();
 

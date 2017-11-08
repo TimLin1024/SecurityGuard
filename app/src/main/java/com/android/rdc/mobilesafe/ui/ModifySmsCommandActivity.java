@@ -32,7 +32,7 @@ public class ModifySmsCommandActivity extends BaseToolBarActivity {
     @Override
     protected void initView() {
         setTitle("修改短信指令");
-        mSp = getSharedPreferences(Constant.SP_CONFIG, MODE_PRIVATE);
+        mSp = getSharedPreferences(Constant.SP_NAME_CONFIG, MODE_PRIVATE);
         mEtCommand.setText(mSp.getString(Constant.KEY_SMS_COMMAND, ""));
         mEtReceiverNum.setText(mSp.getString(Constant.KEY_COMMAND_RECEIVER, ""));
     }
