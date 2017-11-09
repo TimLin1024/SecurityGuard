@@ -1,10 +1,9 @@
 package com.android.rdc.mobilesafe.ui;
 
 import android.Manifest;
+import android.app.ProgressDialog;
 import android.content.pm.PackageManager;
 import android.os.Build;
-import android.support.annotation.NonNull;
-import android.support.design.widget.BottomSheetBehavior;
 import android.support.design.widget.BottomSheetDialog;
 import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
@@ -19,14 +18,15 @@ import android.widget.Toast;
 import com.android.rdc.mobilesafe.R;
 import com.android.rdc.mobilesafe.adapter.ContactAdapter;
 import com.android.rdc.mobilesafe.base.BaseToolBarActivity;
-import com.android.rdc.mobilesafe.callback.OnCheckedCountChangeListener;
-import com.android.rdc.mobilesafe.dao.BlackNumberDao;
 import com.android.rdc.mobilesafe.bean.BlackContactInfo;
 import com.android.rdc.mobilesafe.bean.ContactInfo;
+import com.android.rdc.mobilesafe.callback.OnCheckedCountChangeListener;
+import com.android.rdc.mobilesafe.dao.BlackNumberDao;
 import com.android.rdc.mobilesafe.ui.decoration.TitleItemDecoration;
 import com.android.rdc.mobilesafe.ui.widget.IndexBar;
 import com.android.rdc.mobilesafe.util.ContactInfoParser;
 
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.Locale;
@@ -55,7 +55,6 @@ public class ContactListActivity extends BaseToolBarActivity {
     private ContactAdapter mAdapter;
     private List<ContactInfo> mContactInfoList;
     private BottomSheetDialog mBottomSheetDialog;
-
     private boolean mIsSelectAll = true;//默认显示全选
 
     @Override
@@ -133,7 +132,6 @@ public class ContactListActivity extends BaseToolBarActivity {
             //这里的layout是要显示的布局内容，里面可以放RecyclerView等
             View view = LayoutInflater.from(this).inflate(R.layout.dialog_bottom_sheet, null);
             mBottomSheetDialog.setContentView(view);
-            mBottomSheetDialog.show();
 
             TextView tvCancel = (TextView) view.findViewById(R.id.tv_cancel);
             TextView tvSure = (TextView) view.findViewById(R.id.tv_sure);
@@ -141,43 +139,10 @@ public class ContactListActivity extends BaseToolBarActivity {
             final CheckBox cbInterceptSms = (CheckBox) view.findViewById(R.id.cb_intercept_sms);
 
             final BottomSheetDialog finalBottomSheetDialog1 = mBottomSheetDialog;
-            tvCancel.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    finalBottomSheetDialog1.dismiss();
-                }
-            });
-            tvSure.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    insertIntoDb(cbInterceptPhone, cbInterceptSms, finalBottomSheetDialog1);
-                }
-            });
-
-
-            //以下设置是为了解决：下滑隐藏dialog后，再次调用show方法显示时，不能弹出Dialog----在真机测试时不写下面的方法也未发现问题
-            View delegateView = mBottomSheetDialog.getDelegate().findViewById(android.support.design.R.id.design_bottom_sheet);
-            final BottomSheetBehavior<View> sheetBehavior = BottomSheetBehavior.from(delegateView);
-            final BottomSheetDialog finalBottomSheetDialog = mBottomSheetDialog;
-            sheetBehavior.setBottomSheetCallback(new BottomSheetBehavior.BottomSheetCallback() {
-                //在下滑隐藏结束时才会触发
-                @Override
-                public void onStateChanged(@NonNull View bottomSheet, int newState) {
-                    if (newState == BottomSheetBehavior.STATE_HIDDEN) {
-                        finalBottomSheetDialog.dismiss();
-                        sheetBehavior.setState(BottomSheetBehavior.STATE_COLLAPSED);
-                    }
-                }
-
-                //每次滑动都会触发
-                @Override
-                public void onSlide(@NonNull View bottomSheet, float slideOffset) {
-
-                }
-            });
-        } else {
-            mBottomSheetDialog.show();
+            tvCancel.setOnClickListener(v -> finalBottomSheetDialog1.dismiss());
+            tvSure.setOnClickListener(v -> insertIntoDb(cbInterceptPhone, cbInterceptSms, finalBottomSheetDialog1));
         }
+        mBottomSheetDialog.show();
     }
 
     private void insertIntoDb(CheckBox cbInterceptPhone, CheckBox cbInterceptSms, BottomSheetDialog finalBottomSheetDialog1) {
@@ -196,19 +161,34 @@ public class ContactListActivity extends BaseToolBarActivity {
                 return;
             }
         }
+
         BlackNumberDao blackNumberDao = new BlackNumberDao(ContactListActivity.this);
-        BlackContactInfo blackContactInfo = new BlackContactInfo();
+        int sum = 0;
+        List<ContactInfo> contactInfoListToAdd = new ArrayList<>();
         for (ContactInfo contactInfo : mContactInfoList) {
             if (contactInfo.isChecked()) {
                 if (blackNumberDao.isNumberExist(contactInfo.getPhoneNum())) {//检测，避免重复
                     continue;
                 }
-                blackContactInfo.setContractName(contactInfo.getName());
-                blackContactInfo.setMode(mode);
-                blackContactInfo.setPhoneNumber(contactInfo.getPhoneNum());
-                blackNumberDao.add(blackContactInfo);
+                sum++;
+                contactInfoListToAdd.add(contactInfo);
             }
         }
+
+        ProgressDialog progressDialog = new ProgressDialog(this);
+        progressDialog.setMax(sum);
+        progressDialog.show();
+        int progress = 0;
+        BlackContactInfo blackContactInfo = new BlackContactInfo();//创建一个即可，BlackNumberDao.add() 方法只是从中读取数据
+        for (ContactInfo contactInfo : contactInfoListToAdd) {
+            blackContactInfo.setContractName(contactInfo.getName());
+            blackContactInfo.setMode(mode);
+            blackContactInfo.setPhoneNumber(contactInfo.getPhoneNum());
+            blackNumberDao.add(blackContactInfo);
+            progress++;
+            progressDialog.setProgress(progress / sum);
+        }
+        progressDialog.dismiss();
         finalBottomSheetDialog1.dismiss();
         finish();
     }

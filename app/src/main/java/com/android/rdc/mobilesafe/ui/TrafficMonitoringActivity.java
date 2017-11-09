@@ -38,7 +38,6 @@ public class TrafficMonitoringActivity extends BaseToolBarActivity {
     private static final int PERMISSIONS_REQUEST_SEND_SMS = 101;
     private static final int PERMISSIONS_REQUEST_RECEIVE_SMS = 102;
 
-
     @BindView(R.id.tv_traffic_remind)
     TextView mTvTrafficRemind;
     @BindView(R.id.tv_today_traffic)
@@ -207,7 +206,6 @@ public class TrafficMonitoringActivity extends BaseToolBarActivity {
                         .apply();
                 mTvMonthTotalTraffic.setText(String.format("本月流量：%s", Formatter.formatFileSize(context, (total))));
                 mTvMonthUsedTraffic.setText(String.format("本月已用：%s", Formatter.formatFileSize(context, totalUsed)));
-
             }
         }
     }
