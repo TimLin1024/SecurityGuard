@@ -39,5 +39,10 @@
     <string name="operator">运营商</string>
     <string name="brand">品牌</string>
     <string name="city">城市</string>
+    <string name="scanning_file">正在扫描....文件</string>
+    <string name="clean_cache">清除缓存</string>
+    <string name="text_return">返回</string>
+    <string name="msg_clean_result_indicate">清理完毕， \n您的手机洁净如新</string>
+    <string name="traffic_control">流量控制</string>
 
 </resources>

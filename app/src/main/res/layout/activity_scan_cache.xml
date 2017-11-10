@@ -5,13 +5,14 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.android.rdc.mobilesafe.ui.CacheListActivity">
+    tools:context="com.android.rdc.mobilesafe.ui.ScanCacheActivity">
 
     <include
         android:id="@+id/appbar"
         layout="@layout/include_toolbar"
         android:layout_width="0dp"
-        android:layout_height="0dp"
+        android:layout_height="wrap_content"
+        android:elevation="0dp"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toTopOf="parent"
@@ -22,6 +23,7 @@
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:background="#f358c18d"
+        android:elevation="0dp"
         app:layout_constraintDimensionRatio="16:9"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
@@ -32,46 +34,47 @@
         android:id="@+id/tv_total_cache"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="800"
         android:textColor="@color/white"
-        android:textSize="40sp"
-        app:layout_constraintBottom_toBottomOf="@+id/view"
+        android:textSize="38sp"
         app:layout_constraintLeft_toLeftOf="@+id/view"
         app:layout_constraintRight_toRightOf="@+id/view"
-        app:layout_constraintTop_toTopOf="@+id/view"/>
+        app:layout_constraintTop_toBottomOf="@+id/iv_animation"
+        tools:text="800"/>
 
     <TextView
         android:id="@+id/tv_unit_type"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="5dp"
-        android:text="MB/文件"
+        android:layout_marginEnd="5dp"
         android:textColor="@color/white"
         android:textSize="12sp"
         app:layout_constraintLeft_toRightOf="@id/tv_total_cache"
-        app:layout_constraintTop_toTopOf="@id/tv_total_cache"/>
+        app:layout_constraintTop_toTopOf="@id/tv_total_cache"
+        tools:text="B"/>
 
 
     <TextView
         android:id="@+id/tv_scanning_file"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="15dp"
-        android:text="正在扫描....文件"
+        android:layout_marginBottom="10dp"
+        android:text="@string/scanning_file"
         android:textColor="@color/white"
+        app:layout_constraintBottom_toBottomOf="@+id/view"
         app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/tv_total_cache"/>
+        app:layout_constraintRight_toRightOf="parent"/>
 
 
     <ImageView
         android:id="@+id/iv_animation"
         android:layout_width="80dp"
         android:layout_height="80dp"
+        android:layout_marginTop="35dp"
         android:background="@drawable/animation_broom"
         app:layout_constraintLeft_toLeftOf="@+id/view"
         app:layout_constraintRight_toRightOf="@+id/view"
-        app:layout_constraintTop_toTopOf="@+id/view"/>
+        app:layout_constraintTop_toTopOf="@+id/view"
+        tools:ignore="ContentDescription"/>
 
     <android.support.v7.widget.RecyclerView
         android:id="@+id/rv"
@@ -87,9 +90,13 @@
         android:id="@+id/btn_clean_cache"
         android:layout_width="0dp"
         android:layout_height="50dp"
-        android:layout_marginLeft="10dp"
-        android:layout_marginRight="10dp"
-        android:text="清除缓存"
+        android:layout_marginBottom="3dp"
+        android:layout_marginLeft="20dp"
+        android:layout_marginRight="20dp"
+        android:background="@drawable/selector_green_round_rect"
+        android:enabled="false"
+        android:text="@string/clean_cache"
+        android:textColor="@color/white"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"

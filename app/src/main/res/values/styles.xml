@@ -28,11 +28,8 @@
     </style>
 
     <!-- 自定义对话框样式 -->
-    <style name="dialog_custom" parent="android:style/Theme.Dialog">
-        <item name="android:windowFrame">@null</item>
+    <style name="dialog_custom" parent="android:style/Theme.Light">
         <item name="android:windowNoTitle">true</item>
-        <item name="android:background">#00000000</item>
-        <item name="android:windowBackground">@android:color/transparent</item>
     </style>
     <!-- TextView 16sp样式 -->
     <style name="Tv16sp" parent="WrapContent">
@@ -169,6 +166,14 @@
         <item name="android:layout_height">55dp</item>
         <item name="android:background">?attr/selectableItemBackground</item>
         <item name="android:gravity">center_vertical</item>
+    </style>
+
+    <style name="SettingTvStyle">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">55dp</item>
+        <item name="android:gravity">center_vertical</item>
+        <item name="android:paddingStart">10dp</item>
+        <item name="android:textColor">@color/black</item>
     </style>
 </resources>
 

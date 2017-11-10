@@ -1,6 +1,7 @@
 package com.android.rdc.mobilesafe.ui;
 
 import android.app.AlertDialog;
+import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
@@ -14,9 +15,9 @@ import com.android.rdc.mobilesafe.R;
 import com.android.rdc.mobilesafe.adapter.BlackNumberAdapter;
 import com.android.rdc.mobilesafe.base.BaseSimpleRvAdapter;
 import com.android.rdc.mobilesafe.base.BaseToolBarActivity;
+import com.android.rdc.mobilesafe.bean.BlackContactInfo;
 import com.android.rdc.mobilesafe.callback.OnCheckedCountChangeListener;
 import com.android.rdc.mobilesafe.dao.BlackNumberDao;
-import com.android.rdc.mobilesafe.bean.BlackContactInfo;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -196,12 +197,24 @@ public class BlackNumListActivity extends BaseToolBarActivity {
 
     private void deleteItems() {
         List<BlackContactInfo> contactInfoList = new ArrayList<>();
+        //计数并添加到
+        int sum = 0;
         for (BlackContactInfo blackContactInfo : mAdapter.getDataList()) {
             if (blackContactInfo.isSelected()) {
-                mBlackNumberDao.delete(blackContactInfo);
+                sum++;
                 contactInfoList.add(blackContactInfo);
             }
         }
+        ProgressDialog progressDialog = new ProgressDialog(this);
+        progressDialog.setMax(sum);
+        progressDialog.show();
+        int progress = 0;
+        for (BlackContactInfo blackContactInfo : contactInfoList) {
+            mBlackNumberDao.delete(blackContactInfo);
+            progress++;
+            progressDialog.setProgress(progress);
+        }
+
         mAdapter.getDataList().removeAll(contactInfoList);
         mAdapter.notifyDataSetChanged();
         showEditUi(false);

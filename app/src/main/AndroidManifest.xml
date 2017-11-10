@@ -97,9 +97,9 @@
             android:name=".service.AutoKillProcessService"
             android:persistent="true"/>
 
-        <activity android:name=".ui.CacheListActivity">
+        <activity android:name=".ui.ScanCacheActivity">
         </activity>
-        <activity android:name=".ui.CleanCacheActivity">
+        <activity android:name=".ui.CleanCacheResultActivity">
         </activity>
         <activity android:name=".ui.BlackNumListActivity">
         </activity>

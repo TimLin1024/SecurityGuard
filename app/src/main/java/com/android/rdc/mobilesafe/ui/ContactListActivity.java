@@ -186,7 +186,7 @@ public class ContactListActivity extends BaseToolBarActivity {
             blackContactInfo.setPhoneNumber(contactInfo.getPhoneNum());
             blackNumberDao.add(blackContactInfo);
             progress++;
-            progressDialog.setProgress(progress / sum);
+            progressDialog.setProgress(progress);
         }
         progressDialog.dismiss();
         finalBottomSheetDialog1.dismiss();

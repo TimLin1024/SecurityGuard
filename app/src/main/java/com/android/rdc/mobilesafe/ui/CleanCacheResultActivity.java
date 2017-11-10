@@ -9,12 +9,14 @@ import android.os.Message;
 import android.os.RemoteException;
 import android.support.constraint.ConstraintLayout;
 import android.text.format.Formatter;
+import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.android.rdc.mobilesafe.R;
-import com.android.rdc.mobilesafe.base.BaseToolBarActivity;
+import com.android.rdc.mobilesafe.base.BaseActivity;
+import com.android.rdc.mobilesafe.base.BaseSafeActivityHandler;
 
 import java.lang.reflect.Method;
 import java.util.Random;
@@ -22,7 +24,7 @@ import java.util.Random;
 import butterknife.BindView;
 import butterknife.OnClick;
 
-public class CleanCacheActivity extends BaseToolBarActivity {
+public class CleanCacheResultActivity extends BaseActivity {
     private static final String KEY_CACHE_MEMORY = "CACHE_MEMORY";
     private static final int CLEANING = 1;
 
@@ -41,30 +43,39 @@ public class CleanCacheActivity extends BaseToolBarActivity {
 
     private long mCacheMem;
     private PackageManager mPackageManager;
+    private Handler mHandler = new CleanCacheHandler(this);
 
-    private Handler mHandler = new Handler() {
+    private static class CleanCacheHandler extends BaseSafeActivityHandler<CleanCacheResultActivity> {
+
+        CleanCacheHandler(CleanCacheResultActivity activityReference) {
+            super(activityReference);
+        }
+
         @Override
         public void handleMessage(Message msg) {
+            CleanCacheResultActivity cleanCacheResultActivity = getActivity();
+            if (cleanCacheResultActivity == null) {
+                return;
+            }
             switch (msg.what) {
                 case CLEANING:
                     long mem = (long) msg.obj;
-                    String[] str = Formatter.formatFileSize(CleanCacheActivity.this, mem).split(" ");
-                    mTvTotalCacheClean.setText(str[0]);
-                    mTvUnitType.setText(str[1]);
+                    String[] str = Formatter.formatFileSize(cleanCacheResultActivity, mem).split(" ");
+                    cleanCacheResultActivity.mTvTotalCacheClean.setText(str[0]);
+                    cleanCacheResultActivity.mTvUnitType.setText(str[1]);
             }
         }
-    };
-
+    }
 
     public static Intent newIntent(Context context, long cacheMem) {
-        Intent intent = new Intent(context, CleanCacheActivity.class);
+        Intent intent = new Intent(context, CleanCacheResultActivity.class);
         intent.putExtra(KEY_CACHE_MEMORY, cacheMem);
         return intent;
     }
 
     @Override
     protected int setResId() {
-        return R.layout.activity_clean_cache;
+        return R.layout.activity_clean_cache_result;
     }
 
     @Override
@@ -72,25 +83,22 @@ public class CleanCacheActivity extends BaseToolBarActivity {
         if (getIntent() != null) {
             mCacheMem = getIntent().getLongExtra(KEY_CACHE_MEMORY, 0);
         }
-        mPackageManager = getPackageManager();
+        mPackageManager = getApplicationContext().getPackageManager();
         cleanAll();
 
-        new Thread(new Runnable() {
-            @Override
-            public void run() {
-                long mem = 0;
-                //这里假装在清理，实际上是一次清空
-                while (mem < mCacheMem) {
-                    Random random = new Random();
-                    mem += 1024 * random.nextInt();
-                    if (mem > mCacheMem) {
-                        mem = mCacheMem;
-                    }
-                    Message message = mHandler.obtainMessage();
-                    message.obj = mem;
-                    message.what = CLEANING;
-                    mHandler.sendMessage(message);
+        new Thread(() -> {
+            long mem = 0;
+            //这里假装在清理，实际上是一次清空
+            while (mem < mCacheMem) {
+                Random random = new Random();
+                mem += 1024 * random.nextInt();
+                if (mem > mCacheMem) {
+                    mem = mCacheMem;
                 }
+                Message message = mHandler.obtainMessage();
+                message.obj = mem;
+                message.what = CLEANING;
+                mHandler.sendMessage(message);
             }
         }).start();
     }
@@ -115,9 +123,14 @@ public class CleanCacheActivity extends BaseToolBarActivity {
         @Override
         public void onRemoveCompleted(String packageName, boolean succeeded) throws RemoteException {
             runOnUiThread(() -> {
-//                    mClCleaning.setVisibility(View.GONE);
-//                    mClFinish.setVisibility(View.VISIBLE);
-                showToast("清理完毕");
+                try {
+                    Thread.sleep(1000);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+                showToast("缓存清理完毕,您的手机洁净如新");
+                mClCleaning.setVisibility(View.GONE);
+                mClFinish.setVisibility(View.VISIBLE);
             });
         }
     }
@@ -127,7 +140,8 @@ public class CleanCacheActivity extends BaseToolBarActivity {
         for (Method method : methods) {
             if ("freeStorageAndNotify".equals(method.getName())) {
                 try {
-                    method.invoke(mPackageManager, Long.MAX_VALUE, new CleanCacheObserver());
+                    method.invoke(mPackageManager, Long.MAX_VALUE, new CleanCacheObserver());//清空缓存
+                    return;
                 } catch (Exception e) {
                     e.printStackTrace();
                     return;

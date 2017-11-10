@@ -54,9 +54,10 @@ public class TrafficMonitoringActivity extends BaseToolBarActivity {
     private SharedPreferences mSp;
     private static final String KEY_TOTAL_FLOW = "TOTAL_FLOW";
     private static final String KEY_USED_FLOW = "USED_FLOW";
-
     private CorrectFlowReceiver mReceiver;
-
+    //主要要完成 信息的获取，以及更新，首先要能够拿到短信（获取到手机号码），
+    // 然后再进行处理（联通的已经完成），最后显示出来（界面待修改）
+    // TODO: 2017/11/9 0009 1. 手机卡换位置（宿舍带取卡针） 2. 修改界面
     @Override
     protected int setResId() {
         return R.layout.activity_traffic_monitoring;
@@ -71,24 +72,15 @@ public class TrafficMonitoringActivity extends BaseToolBarActivity {
             finish();
         }
         // TODO: 2017/10/6 0006 开启流量监控服务
-        if (ContextCompat.checkSelfPermission(this, android.Manifest.permission.RECEIVE_SMS) != PackageManager.PERMISSION_GRANTED) {
+        if (ContextCompat.checkSelfPermission(getApplicationContext(), android.Manifest.permission.RECEIVE_SMS) != PackageManager.PERMISSION_GRANTED) {
             ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.RECEIVE_SMS}, PERMISSIONS_REQUEST_RECEIVE_SMS);
             Log.d(TAG, "initData: 申请权限");
         } else {
             // 原来的敏感操作代码：发短信或者收短信
             Log.d(TAG, "initData: 注册广播");
             registerSmsReceiver();
-            registerSmsDatabaseChangeObserver(this);
+            registerSmsDatabaseChangeObserver(getApplicationContext());
         }
-
-    }
-
-    private void registerSmsReceiver() {
-        mReceiver = new CorrectFlowReceiver();
-        IntentFilter filter = new IntentFilter();
-        filter.addAction("android.provider.Telephony.SMS_RECEIVED");
-        filter.setPriority(1000);//设置高优先级别
-        registerReceiver(mReceiver, filter);
 
     }
 
@@ -154,6 +146,14 @@ public class TrafficMonitoringActivity extends BaseToolBarActivity {
                 //电信
                 break;
         }
+    }
+
+    private void registerSmsReceiver() {
+        mReceiver = new CorrectFlowReceiver();
+        IntentFilter filter = new IntentFilter();
+        filter.addAction("android.provider.Telephony.SMS_RECEIVED");
+        filter.setPriority(1000);//设置高优先级别
+        registerReceiver(mReceiver, filter);
     }
 
     public class CorrectFlowReceiver extends BroadcastReceiver {
@@ -236,7 +236,6 @@ public class TrafficMonitoringActivity extends BaseToolBarActivity {
 
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
-
         switch (requestCode) {
             case PERMISSIONS_REQUEST_SEND_SMS:
                 if (grantResults[0] == PackageManager.PERMISSION_GRANTED) {
@@ -268,16 +267,15 @@ public class TrafficMonitoringActivity extends BaseToolBarActivity {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
     }
 
-
     public static final Uri SMS_MESSAGE_URI = Uri.parse("content://sms");
 
     private static SmsDatabaseChaneObserver mSmsDBChangeObserver;
 
-    private static void registerSmsDatabaseChangeObserver(ContextWrapper contextWrapper) {
+    private static void registerSmsDatabaseChangeObserver(Context context) {
         //因为，某些机型修改rom导致没有getContentResolver
         try {
-            mSmsDBChangeObserver = new SmsDatabaseChaneObserver(contextWrapper.getContentResolver(), new Handler());
-            contextWrapper.getContentResolver().registerContentObserver(SMS_MESSAGE_URI, true, mSmsDBChangeObserver);
+            mSmsDBChangeObserver = new SmsDatabaseChaneObserver(context.getContentResolver(), new Handler());
+            context.getContentResolver().registerContentObserver(SMS_MESSAGE_URI, true, mSmsDBChangeObserver);
         } catch (Throwable b) {
         }
     }
@@ -289,5 +287,4 @@ public class TrafficMonitoringActivity extends BaseToolBarActivity {
             e.printStackTrace();
         }
     }
-
 }

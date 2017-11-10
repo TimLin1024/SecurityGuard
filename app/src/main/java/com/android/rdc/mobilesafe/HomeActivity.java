@@ -19,7 +19,7 @@ import com.android.rdc.mobilesafe.bean.HomeDataModel;
 import com.android.rdc.mobilesafe.bean.HomeItem;
 import com.android.rdc.mobilesafe.ui.AppLockActivity;
 import com.android.rdc.mobilesafe.ui.BlackNumListActivity;
-import com.android.rdc.mobilesafe.ui.CacheListActivity;
+import com.android.rdc.mobilesafe.ui.ScanCacheActivity;
 import com.android.rdc.mobilesafe.ui.ProcessManagerActivity;
 import com.android.rdc.mobilesafe.ui.ScanVirusActivity;
 import com.android.rdc.mobilesafe.ui.SettingActivity;
@@ -148,7 +148,7 @@ public class HomeActivity extends BaseActivity {
                 startActivity(ScanVirusActivity.class);
                 break;
             case R.drawable.ic_clean_cache://缓存清理
-                startActivity(CacheListActivity.class);
+                startActivity(ScanCacheActivity.class);
                 break;
             case R.drawable.ic_task_manager://进程管理
                 startActivity(ProcessManagerActivity.class);

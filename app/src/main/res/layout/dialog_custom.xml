@@ -2,80 +2,62 @@
 <android.support.constraint.ConstraintLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:layout_width="match_parent"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="350dp"
     android:layout_height="wrap_content"
+    android:layout_gravity="bottom"
     android:layout_marginEnd="10dp"
     android:layout_marginStart="10dp"
     android:layout_marginTop="20dp"
     android:foregroundGravity="center">
 
     <TextView
-        android:id="@+id/tv_intercept_tip"
+        android:id="@+id/tv_title"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="拦截提示"
-        android:textAppearance="@style/Base.TextAppearance.AppCompat.Medium"
-        android:textColor="@color/black"
+        android:layout_marginTop="10dp"
         app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"/>
+        app:layout_constraintRight_toRightOf="parent"
+        tools:text="停止安全扫描"
+        tools:textAppearance="@style/Base.TextAppearance.AppCompat.Medium"
+        tools:textColor="@color/black"/>
 
     <TextView
         android:id="@+id/tv_msg"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="10dp"
-        android:text="确定要把该号码加入黑名单，并为其选择拦截内容？"
+        android:layout_marginTop="15dp"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/tv_intercept_tip"/>
-
-    <CheckBox
-        android:id="@+id/cb_intercept_sms"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="30dp"
-        android:checked="true"
-        android:text="拦截短信"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toLeftOf="@+id/cb_intercept_phone"
-        app:layout_constraintTop_toBottomOf="@+id/tv_msg"/>
-
-    <CheckBox
-        android:id="@+id/cb_intercept_phone"
-        style="@style/Base.Widget.AppCompat.CompoundButton.CheckBox"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="20dp"
-        android:layout_marginTop="30dp"
-        android:checked="true"
-        android:text="拦截电话"
-        app:layout_constraintLeft_toRightOf="@+id/cb_intercept_sms"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/tv_msg"/>
+        app:layout_constraintTop_toBottomOf="@+id/tv_title"
+        tools:text="确定要把该号码加入黑名单，并为其选择拦截内容？"/>
 
 
     <Button
         android:id="@+id/btn_cancel"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginTop="30dp"
-        android:text="取消"
+        android:layout_marginTop="15dp"
+        android:background="@drawable/selector_gray_rect"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintHorizontal_weight="10"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toLeftOf="@+id/btn_sure"
-        app:layout_constraintTop_toBottomOf="@+id/cb_intercept_sms"
+        app:layout_constraintTop_toBottomOf="@+id/tv_msg"
+        tools:text="取消"
         />
 
     <Button
         android:id="@+id/btn_sure"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:text="确定"
-        android:textColor="@color/light_blue"
+        android:layout_marginTop="15dp"
+        android:background="@drawable/selector_gray_rect"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintHorizontal_weight="10"
         app:layout_constraintLeft_toRightOf="@+id/btn_cancel"
-        app:layout_constraintRight_toRightOf="parent"/>
+        app:layout_constraintRight_toRightOf="parent"
+        tools:text="确定"
+        tools:textColor="@color/light_blue"/>
 
 </android.support.constraint.ConstraintLayout>

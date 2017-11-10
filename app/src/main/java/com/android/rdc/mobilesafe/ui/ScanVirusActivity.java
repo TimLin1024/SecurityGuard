@@ -6,6 +6,7 @@ import android.graphics.Color;
 import android.os.Handler;
 import android.os.Message;
 import android.support.design.widget.Snackbar;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -22,9 +23,9 @@ import com.android.rdc.mobilesafe.R;
 import com.android.rdc.mobilesafe.adapter.ScanAppVirusAdapter;
 import com.android.rdc.mobilesafe.base.BaseSafeActivityHandler;
 import com.android.rdc.mobilesafe.base.BaseToolBarActivity;
-import com.android.rdc.mobilesafe.dao.AntiVirusDao;
 import com.android.rdc.mobilesafe.bean.CustomEvent;
 import com.android.rdc.mobilesafe.bean.ScanAppInfo;
+import com.android.rdc.mobilesafe.dao.AntiVirusDao;
 import com.android.rdc.mobilesafe.ui.widget.RadarScanView;
 import com.android.rdc.mobilesafe.util.IOUtil;
 import com.android.rdc.mobilesafe.util.MD5Utils;
@@ -288,4 +289,20 @@ public class ScanVirusActivity extends BaseToolBarActivity {
         Log.d(TAG, "onMessage: " + event.getEventName());
     }
 
+    @Override
+    public void onBackPressed() {
+        new AlertDialog.Builder(this)
+                .setMessage("确定停止扫描？")
+                .setNegativeButton("取消", null)
+                .setPositiveButton("确定", (dialog, which) -> {
+                    finish();
+                })
+                .show();
+//        CustomDialog customDialog = new CustomDialog(this);
+//        customDialog.create();
+//        customDialog.setDialogTitle("停止病毒扫描");
+//        customDialog.setDialogMsg("是否停止扫描");
+//        customDialog.show();
+
+    }
 }

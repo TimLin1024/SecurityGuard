@@ -6,15 +6,15 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context="com.android.rdc.mobilesafe.ui.CleanCacheActivity">
+    tools:context="com.android.rdc.mobilesafe.ui.CleanCacheResultActivity">
 
-    <include layout="@layout/include_toolbar"/>
 
     <android.support.constraint.ConstraintLayout
         android:id="@+id/cl_cleaning"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@color/bg_green">
+        android:background="@color/bg_green"
+        android:visibility="visible">
 
         <ImageView
             android:id="@+id/iv_cleaning_icon"
@@ -31,25 +31,24 @@
             android:id="@+id/tv_total_cache_clean"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="800"
             android:textColor="@color/white"
             android:textSize="40sp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toRightOf="parent"
-            app:layout_constraintTop_toTopOf="parent"/>
+            app:layout_constraintTop_toTopOf="parent"
+            tools:text="800"/>
 
         <TextView
             android:id="@+id/tv_unit_type"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="5dp"
             android:layout_marginStart="5dp"
-            android:text="MB/文件"
             android:textColor="@color/white"
             android:textSize="12sp"
             app:layout_constraintLeft_toRightOf="@+id/tv_total_cache_clean"
-            app:layout_constraintTop_toTopOf="@+id/tv_total_cache_clean"/>
+            app:layout_constraintTop_toTopOf="@+id/tv_total_cache_clean"
+            tools:text="MB/文件"/>
 
     </android.support.constraint.ConstraintLayout>
 
@@ -58,16 +57,31 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:background="@color/bg_green"
-        android:visibility="visible">
+        android:visibility="gone">
 
-        <ImageView
+        <!--<ImageView-->
+        <!--android:layout_width="wrap_content"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:background="@drawable/ic_finish_clean_cache"-->
+        <!--app:layout_constraintBottom_toBottomOf="parent"-->
+        <!--app:layout_constraintLeft_toLeftOf="parent"-->
+        <!--app:layout_constraintRight_toRightOf="parent"-->
+        <!--app:layout_constraintTop_toTopOf="parent"/>-->
+
+        <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:background="@drawable/cleancache_finish"
+            android:drawablePadding="10dp"
+            android:drawableTop="@drawable/ic_finish_clean_cache"
+            android:gravity="center"
+            android:paddingTop="5dp"
+            android:text="@string/msg_clean_result_indicate"
+            android:textColor="@color/white"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toRightOf="parent"
             app:layout_constraintTop_toTopOf="parent"/>
+
 
         <Button
             android:id="@+id/btn_finish_clean_cache"
@@ -75,7 +89,9 @@
             android:layout_height="50dp"
             android:layout_marginEnd="10dp"
             android:layout_marginStart="10dp"
-            android:text="返回"
+            android:background="@drawable/selector_green_round_rect"
+            android:text="@string/text_return"
+            android:textColor="@color/white"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toRightOf="parent"/>
