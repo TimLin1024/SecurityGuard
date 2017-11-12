@@ -14,21 +14,19 @@ import com.android.rdc.mobilesafe.adapter.HomeRvAdapter;
 import com.android.rdc.mobilesafe.base.BaseActivity;
 import com.android.rdc.mobilesafe.base.BaseRvAdapter;
 import com.android.rdc.mobilesafe.base.BaseSafeActivityHandler;
-import com.android.rdc.mobilesafe.bean.CustomEvent;
 import com.android.rdc.mobilesafe.bean.HomeDataModel;
 import com.android.rdc.mobilesafe.bean.HomeItem;
 import com.android.rdc.mobilesafe.ui.AppLockActivity;
 import com.android.rdc.mobilesafe.ui.BlackNumListActivity;
-import com.android.rdc.mobilesafe.ui.ScanCacheActivity;
 import com.android.rdc.mobilesafe.ui.ProcessManagerActivity;
+import com.android.rdc.mobilesafe.ui.ScanCacheActivity;
 import com.android.rdc.mobilesafe.ui.ScanVirusActivity;
 import com.android.rdc.mobilesafe.ui.SettingActivity;
 import com.android.rdc.mobilesafe.ui.SoftwareManagerActivity;
 import com.android.rdc.mobilesafe.ui.TrafficMonitoringActivity;
 import com.android.rdc.mobilesafe.ui.widget.GridDividerItemDecoration;
 import com.android.rdc.mobilesafe.ui.widget.RoundProgress;
-
-import org.greenrobot.eventbus.EventBus;
+import com.android.rdc.mobilesafe.ui.widget.RoundRectDialog;
 
 import java.util.List;
 
@@ -157,8 +155,14 @@ public class HomeActivity extends BaseActivity {
                 startActivity(TrafficMonitoringActivity.class);
                 break;
             case R.drawable.settings://设置
-                startActivity(SettingActivity.class);
-                EventBus.getDefault().post(new CustomEvent("自定义事件"));
+                new RoundRectDialog.Builder(this)
+                        .setTitle("停止病毒扫描")
+                        .setMsg("是否停止扫描？")
+                        .setNegativeButton("取消", null)
+                        .setPositiveButton("确定", (dialog, which) -> {
+                            finish();
+                        })
+                        .show();
                 break;
         }
     }

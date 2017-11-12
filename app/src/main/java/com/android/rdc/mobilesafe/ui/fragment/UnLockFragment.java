@@ -6,23 +6,28 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
+import android.support.annotation.Nullable;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.android.rdc.mobilesafe.R;
 import com.android.rdc.mobilesafe.adapter.LockRvAdapter;
 import com.android.rdc.mobilesafe.base.BaseFragment;
-import com.android.rdc.mobilesafe.base.BaseRvAdapter;
+import com.android.rdc.mobilesafe.base.BaseSafeFragmentHandler;
+import com.android.rdc.mobilesafe.bean.AppInfo;
 import com.android.rdc.mobilesafe.constant.Constant;
 import com.android.rdc.mobilesafe.dao.AppLockDao;
-import com.android.rdc.mobilesafe.bean.AppInfo;
 import com.android.rdc.mobilesafe.util.AppInfoParser;
 
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
+import java.util.Locale;
 
 import butterknife.BindView;
 
@@ -40,38 +45,55 @@ public class UnLockFragment extends BaseFragment {
     private LockRvAdapter mLockRvAdapter;
     private Uri mUri = Uri.parse(Constant.URI_STR);
 
-    private Handler mHandler = new Handler() {
+    private Handler mHandler = new UnLockFragmentHandler(this);
+
+    private static class UnLockFragmentHandler extends BaseSafeFragmentHandler<UnLockFragment> {
+
+        UnLockFragmentHandler(UnLockFragment fragment) {
+            super(fragment);
+        }
+
         @Override
         public void handleMessage(Message msg) {
+            UnLockFragment unLockFragment = getFragment();
+            if (unLockFragment == null) {
+                return;
+            }
             switch (msg.what) {
                 case 100:
-                    mUnlockList.clear();
-                    mUnlockList.addAll((Collection<? extends AppInfo>) msg.obj);
+                    unLockFragment.mUnlockList.clear();
+                    unLockFragment.mUnlockList.addAll((Collection<? extends AppInfo>) msg.obj);
 
-                    if (mLockRvAdapter == null) {
-                        mLockRvAdapter = new LockRvAdapter();
-                        mLockRvAdapter.setDataList(mUnlockList);
-                        mRvUnlock.setAdapter(mLockRvAdapter);
-                        initListener();
+                    if (unLockFragment.mLockRvAdapter == null) {
+                        unLockFragment.mLockRvAdapter = new LockRvAdapter();
+                        unLockFragment.mLockRvAdapter.setDataList(unLockFragment.mUnlockList);
+                        unLockFragment.mRvUnlock.setAdapter(unLockFragment.mLockRvAdapter);
+                        unLockFragment.initListener();
                     } else {
-                        mLockRvAdapter.notifyDataSetChanged();
+                        unLockFragment.mLockRvAdapter.notifyDataSetChanged();
                     }
-                    String str = "未加锁应用共：" + mUnlockList.size();
-                    mTvUnlock.setText(str);
+                    unLockFragment.mTvUnlock.setText(String.format(Locale.CHINA, "未加锁应用共：%d", unLockFragment.mUnlockList.size()));
                     break;
             }
         }
-    };
-
-    public static UnLockFragment newInstance() {
-        UnLockFragment fragment = new UnLockFragment();
-        return fragment;
     }
 
+    public static UnLockFragment newInstance() {
+        return new UnLockFragment();
+    }
+
+    @Nullable
+    @Override
+    public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+        View view = super.onCreateView(inflater, container, savedInstanceState);
+
+        mAppLockDao = AppLockDao.getInstance(mBaseActivity.getApplicationContext());
+        return view;
+    }
 
     @Override
     public void onResume() {
-        mAppLockDao = AppLockDao.getInstance(mBaseActivity);
+
         mAppInfoList = AppInfoParser.getAppInfos(mBaseActivity);
         fillData();
         super.onResume();
@@ -79,28 +101,24 @@ public class UnLockFragment extends BaseFragment {
          * 数据库添加和删除都做了一个操作——通知内容观察者某个 uri 的数据发生了改变，
          * 此处使用该 uri 注册一个 内容观察者，如果数据内容改变会回调 onChange( ) 方法
          * */
-        mBaseActivity.getContentResolver().registerContentObserver(mUri, true, new ContentObserver(new Handler()) {
+        mBaseActivity.getContentResolver().registerContentObserver(mUri, true, new ContentObserver(mHandler) {
             @Override
             public void onChange(boolean selfChange) {
                 fillData();
             }
         });
-
     }
 
     private void initListener() {
-        mLockRvAdapter.setOnRvItemClickListener(new BaseRvAdapter.OnRvItemClickListener() {
-            @Override
-            public void onClick(int position) {
-                if (position == RecyclerView.NO_POSITION) {
-                    return;
-                }
-                mAppLockDao.insert(mUnlockList.get(position).getPackageName());
-                mUnlockList.remove(position);
-                mRvUnlock.setItemAnimator(new DefaultItemAnimator());
-                mLockRvAdapter.notifyItemRemoved(position);
-                mTvUnlock.setText("未加锁应用： " + mUnlockList.size());
+        mLockRvAdapter.setOnRvItemClickListener(position -> {
+            if (position == RecyclerView.NO_POSITION) {
+                return;
             }
+            mAppLockDao.insert(mUnlockList.get(position).getPackageName());
+            mUnlockList.remove(position);
+            mRvUnlock.setItemAnimator(new DefaultItemAnimator());
+            mLockRvAdapter.notifyItemRemoved(position);
+            mTvUnlock.setText(String.format(Locale.CHINA, "未加锁应用： %d", mUnlockList.size()));
         });
     }
 
@@ -123,30 +141,10 @@ public class UnLockFragment extends BaseFragment {
         } else {
             mLockRvAdapter.notifyDataSetChanged();
         }
-//                    mRvUnlock.notify();
         String str = "未加锁应用共：" + mUnlockList.size();
         mTvUnlock.setText(str);
 
     }
-//    private void fillData() {
-//        final List<AppInfo> appInfoList = new ArrayList<>();
-//
-//        new Thread(new Runnable() {
-//            @Override
-//            public void run() {
-//                for (AppInfo appInfo : mAppInfoList) {
-//                    if (!mAppLockDao.find(appInfo.mPackageName)) {
-//                        appInfoList.add(appInfo);
-//                    }
-//                }
-//                // TODO: 2017/7/4 0004 没有 new 使用了 handler
-//                Message message = mHandler.obtainMessage();
-//                message.obj = appInfoList;
-//                message.what = 100;
-//                mHandler.sendMessage(message);
-//            }
-//        }).start();
-//    }
 
     @Override
     protected int setLayoutResourceId() {

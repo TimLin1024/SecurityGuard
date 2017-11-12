@@ -3,61 +3,87 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="350dp"
+    android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_gravity="bottom"
+    android:layout_marginBottom="5dp"
     android:layout_marginEnd="10dp"
     android:layout_marginStart="10dp"
-    android:layout_marginTop="20dp"
-    android:foregroundGravity="center">
+    android:background="@drawable/bg_dialog"
+    >
 
     <TextView
         android:id="@+id/tv_title"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="10dp"
+        android:paddingTop="20dp"
+        android:textColor="@color/black"
+        android:textStyle="bold"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
-        tools:text="停止安全扫描"
-        tools:textAppearance="@style/Base.TextAppearance.AppCompat.Medium"
-        tools:textColor="@color/black"/>
+        tools:text="停止安全扫描"/>
 
     <TextView
         android:id="@+id/tv_msg"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="15dp"
+        android:gravity="start"
+        android:textSize="13sp"
+        android:paddingBottom="20dp"
+        android:paddingEnd="30dp"
+        android:paddingStart="30dp"
+        android:paddingTop="15dp"
+        android:textColor="@color/dark_gray"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/tv_title"
         tools:text="确定要把该号码加入黑名单，并为其选择拦截内容？"/>
 
+    <View
+        android:layout_width="0dp"
+        android:layout_height="0.3dp"
+        android:background="#bbbcbb"
+        app:layout_constraintBottom_toTopOf="@+id/btn_sure"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"/>
+
 
     <Button
         android:id="@+id/btn_cancel"
         android:layout_width="0dp"
-        android:layout_height="wrap_content"
+        android:layout_height="45dp"
+        android:textColor="@color/dark_gray"
         android:layout_marginTop="15dp"
-        android:background="@drawable/selector_gray_rect"
+        android:textSize="12sp"
+        android:background="@drawable/selector_gray_left_bottom_radius_rect"
+        android:text="@string/cancel"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintHorizontal_weight="10"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toLeftOf="@+id/btn_sure"
-        app:layout_constraintTop_toBottomOf="@+id/tv_msg"
-        tools:text="取消"
-        />
+        app:layout_constraintTop_toBottomOf="@+id/tv_msg"/>
+
+    <View
+        android:layout_width="0.2dp"
+        android:layout_height="0dp"
+        android:background="#bbbcbb"
+        app:layout_constraintBottom_toBottomOf="@id/btn_sure"
+        app:layout_constraintLeft_toRightOf="@id/btn_cancel"
+        app:layout_constraintTop_toTopOf="@id/btn_sure"/>
 
     <Button
         android:id="@+id/btn_sure"
         android:layout_width="0dp"
-        android:layout_height="wrap_content"
+        android:layout_height="45dp"
+        android:layout_marginStart="0.1dp"
         android:layout_marginTop="15dp"
-        android:background="@drawable/selector_gray_rect"
+        android:background="@drawable/selector_gray_right_bottom_radius_rect"
+        android:text="@string/sure"
+        android:textSize="12sp"
+        android:textColor="#47c0e4"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintHorizontal_weight="10"
         app:layout_constraintLeft_toRightOf="@+id/btn_cancel"
-        app:layout_constraintRight_toRightOf="parent"
-        tools:text="确定"
-        tools:textColor="@color/light_blue"/>
+        app:layout_constraintRight_toRightOf="parent"/>
 
 </android.support.constraint.ConstraintLayout>

@@ -16,7 +16,7 @@ import android.widget.TextView;
 import com.android.rdc.mobilesafe.R;
 import com.android.rdc.mobilesafe.base.BaseRvAdapter;
 import com.android.rdc.mobilesafe.bean.AppInfo;
-import com.android.rdc.mobilesafe.util.ManagerSoftwareUtils;
+import com.android.rdc.mobilesafe.util.ManagerSoftwareUtil;
 
 import butterknife.BindView;
 
@@ -112,16 +112,16 @@ public class SoftwareManagerAdapter extends BaseRvAdapter<AppInfo> {
             Context context = v.getContext();
             switch (v.getId()) {
                 case R.id.tv_start_app:
-                    ManagerSoftwareUtils.startApp(context, mAppInfo);
+                    ManagerSoftwareUtil.startApp(context, mAppInfo);
                     break;
                 case R.id.tv_share_app:
-                    ManagerSoftwareUtils.shareApp(context, mAppInfo);
+                    ManagerSoftwareUtil.shareApp(context, mAppInfo);
                     break;
                 case R.id.tv_setting_app:
-                    ManagerSoftwareUtils.settingAppDetail(context, mAppInfo);
+                    ManagerSoftwareUtil.settingAppDetail(context, mAppInfo.getPackageName());
                     break;
                 case R.id.tv_uninstall_app:
-                    ManagerSoftwareUtils.uninstallApp(context, mAppInfo);
+                    ManagerSoftwareUtil.uninstallApp(context, mAppInfo);
                     break;
                 default:
                     if (mOnRvItemClickListener != null) {

@@ -10,8 +10,8 @@ import com.android.rdc.mobilesafe.bean.AppInfo;
 import com.jaredrummler.android.shell.CommandResult;
 import com.jaredrummler.android.shell.Shell;
 
-public final class ManagerSoftwareUtils {
-    private ManagerSoftwareUtils() {
+public final class ManagerSoftwareUtil {
+    private ManagerSoftwareUtil() {
         throw new UnsupportedOperationException("u can't instantiate me...");
     }
 
@@ -29,13 +29,13 @@ public final class ManagerSoftwareUtils {
     }
 
     /**
-     * 打开应用设置面
+     * 打开应用设置界面
      */
-    public static void settingAppDetail(Context context, AppInfo appInfo) {
+    public static void settingAppDetail(Context context, String packageName) {
         Intent intent = new Intent();
         intent.setAction(Settings.ACTION_APPLICATION_DETAILS_SETTINGS);
         intent.addCategory(Intent.CATEGORY_DEFAULT);//
-        intent.setData(Uri.parse("package:" + appInfo.getPackageName()));
+        intent.setData(Uri.parse("package:" + packageName));
         context.startActivity(intent);
     }
 
@@ -56,15 +56,11 @@ public final class ManagerSoftwareUtils {
      * 卸载应用
      */
     public static void uninstallApp(Context context, AppInfo appInfo) {
-
-
         //非系统应用
         if (appInfo.isUserApp()) {
             if (appInfo.getPackageName().equals(context.getPackageName())) {
                 ToastUtil.showToast(context, "您没有权限卸载此应用");//不允许删除本应用
             }
-
-
             Intent intent = new Intent();
             intent.setAction(Intent.ACTION_DELETE);
             intent.addCategory("android.intent.category.DEFAULT");
@@ -73,7 +69,7 @@ public final class ManagerSoftwareUtils {
         } else {
             /**
              * 需要 root 权限，利用 linux 命令删除文件
-             * */
+             */
 //            if (!RootShell.isRootAvailable()) {
 //                ToastUtil.showToast(context, "卸载系统应用需要 Root 权限");
 //                return;
@@ -97,10 +93,7 @@ public final class ManagerSoftwareUtils {
                 ToastUtil.showToast(context, re.getStdout());
             } else {
                 ToastUtil.showToast(context, "删除系统应用需要 Root 权限");
-
             }
-
-
         }
     }
 

@@ -11,11 +11,12 @@ import android.widget.TextView;
 import com.android.rdc.mobilesafe.R;
 import com.android.rdc.mobilesafe.adapter.LockRvAdapter;
 import com.android.rdc.mobilesafe.base.BaseFragment;
-import com.android.rdc.mobilesafe.base.BaseRvAdapter;
 import com.android.rdc.mobilesafe.bean.AppInfo;
+import com.android.rdc.mobilesafe.dao.AppLockDao;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 
 import butterknife.BindView;
 
@@ -28,6 +29,7 @@ public class LockFragment extends BaseFragment {
 
     private List<AppInfo> mAppInfoList;
     private LockRvAdapter mLockRvAdapter;
+    private AppLockDao mAppLockDao;
 
 
     public static LockFragment newInstance() {
@@ -43,14 +45,7 @@ public class LockFragment extends BaseFragment {
 
     @Override
     protected void initData(Bundle bundle) {
-        mAppInfoList = new ArrayList<>();
-        for (int i = 0; i < 20; i++) {
-            AppInfo info = new AppInfo();
-            info.setPackageName("test" + i);
-            info.setName("t" + i);
-            info.setIcon(getResources().getDrawable(R.drawable.lock));
-            mAppInfoList.add(info);
-        }
+        mAppLockDao = AppLockDao.getInstance(mBaseActivity.getApplicationContext());
     }
 
     @Override
@@ -64,17 +59,28 @@ public class LockFragment extends BaseFragment {
 
     @Override
     protected void setListener() {
-        mLockRvAdapter.setOnRvItemClickListener(new BaseRvAdapter.OnRvItemClickListener() {
-            @Override
-            public void onClick(int position) {
+        mLockRvAdapter.setOnRvItemClickListener(position -> {
 
-                mAppInfoList.remove(position);
+            mAppInfoList.remove(position);
 //                mLockRvAdapter.notifyDataSetChanged();
-                mLockRvAdapter.notifyItemRangeRemoved(position, 1);
-                mRvLock.setItemAnimator(new DefaultItemAnimator());
-                mTvLock.setText("已加锁应用共有： " + mAppInfoList.size());
+            mLockRvAdapter.notifyItemRangeRemoved(position, 1);
+            mRvLock.setItemAnimator(new DefaultItemAnimator());
+            mTvLock.setText(String.format(Locale.CHINA, "已加锁应用共有： %d", mAppInfoList.size()));
 
-            }
         });
+    }
+
+    @Override
+    public void onResume() {
+        // TODO: 2017/11/12 0012  从数据库中读取
+        mAppInfoList = new ArrayList<>();
+        for (int i = 0; i < 20; i++) {
+            AppInfo info = new AppInfo();
+            info.setPackageName("test" + i);
+            info.setName("t" + i);
+            info.setIcon(getResources().getDrawable(R.drawable.lock));
+            mAppInfoList.add(info);
+        }
+        super.onResume();
     }
 }

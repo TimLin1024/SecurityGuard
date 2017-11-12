@@ -9,6 +9,7 @@ public class ScanAppInfo {
     private boolean mIsVirus;
     private String mPackageName;
     private String mDescription;
+    private boolean mIsUserApp;
 
     public String getAppName() {
         return mAppName;
@@ -48,5 +49,13 @@ public class ScanAppInfo {
 
     public void setDescription(String description) {
         mDescription = description;
+    }
+
+    public boolean isUserApp() {
+        return mIsUserApp;
+    }
+
+    public void setUserApp(boolean userApp) {
+        mIsUserApp = userApp;
     }
 }
