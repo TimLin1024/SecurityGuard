@@ -36,11 +36,11 @@ public class RoundRectDialog extends Dialog {
     private OnClickListener mPositiveButtonListener;
 
 
-    public RoundRectDialog(@NonNull Context context) {
+    RoundRectDialog(@NonNull Context context) {
         this(context, 0);
     }
 
-    public RoundRectDialog(@NonNull Context context, @StyleRes int themeResId) {
+    private RoundRectDialog(@NonNull Context context, @StyleRes int themeResId) {
         super(context, R.style.dialog_custom);//引入自定义对话框形式
     }
 

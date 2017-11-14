@@ -63,7 +63,6 @@ public class AppLockDao {
     }
 
     public boolean find(String packageName) {
-
         Cursor cursor = db.query(TABLE_NAME, null, COLUMN_NAME + "=?", new String[]{packageName}, null, null, null);
         if (cursor.moveToNext()) {
             cursor.close();

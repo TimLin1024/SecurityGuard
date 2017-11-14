@@ -23,6 +23,9 @@ public abstract class BaseRvAdapter<T> extends RecyclerView.Adapter {
     }
 
     public void setDataList(List<T> dataList) {
+        if (dataList == null) {
+            throw new IllegalArgumentException("dataList cannot be null");
+        }
         mDataList = dataList;
     }
 

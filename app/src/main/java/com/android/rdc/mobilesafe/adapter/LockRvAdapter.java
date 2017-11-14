@@ -54,38 +54,5 @@ public class LockRvAdapter extends BaseRvAdapter<AppInfo> {
         }
     }
 
-//    class LockViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
-//        @BindView(R.id.iv_app_icon)
-//        ImageView mIvAppIcon;
-//        @BindView(R.id.tv_app_name)
-//        TextView mTvAppName;
-//        @BindView(R.id.iv_lock)
-//        ImageView mIvLock;
-//
-//        public LockViewHolder(View itemView) {
-//            super(itemView);
-////            ButterKnife.bind(this, itemView);
-//            itemView.setOnClickListener(this);
-//        }
-//
-//        void bindView(AppInfo appInfo) {
-//            mIvAppIcon.setImageDrawable(appInfo.mIcon);
-//            mTvAppName.setText(appInfo.mAppName);
-//
-//            if (appInfo.isLock) {
-//                mIvLock.setBackgroundResource(R.drawable.applock_icon);
-//            } else {
-//                mIvLock.setBackgroundResource(R.drawable.app_unlock_icon);
-//            }
-//        }
-//
-//        @Override
-//        public void onClick(View v) {
-//            if (mOnRvItemClickListener != null) {
-//                mOnRvItemClickListener.onClick(getAdapterPosition());
-//            }
-//        }
-//    }
-
 
 }

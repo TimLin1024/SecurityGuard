@@ -185,6 +185,7 @@ public class SoftwareManagerFragment extends BaseFragment {
         if (mUninstallReceiver != null) {
             mBaseActivity.unregisterReceiver(mUninstallReceiver);
         }
+        ProgressDialogUtil.dismiss();//隐藏并置为 null
         super.onDestroyView();
     }
 

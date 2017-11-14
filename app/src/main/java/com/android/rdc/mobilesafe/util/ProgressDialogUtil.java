@@ -50,8 +50,9 @@ public final class ProgressDialogUtil {
     }
 
     public static void dismiss() {
-        if (sProgressDialog != null && sProgressDialog.isShowing()) {
+        if (sProgressDialog != null) {
             sProgressDialog.dismiss();
+            sProgressDialog = null;
         }
     }
 

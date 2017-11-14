@@ -107,7 +107,7 @@ public class ScanVirusActivity extends BaseToolBarActivity {
 
 
                 case COMPLETE_SCANNING:
-                    if (activity.mVirusAppCount > 0) {
+                    if (activity.mVirusList.size() > 0) {
                         activity.mRadarScanView.setCircleColor(Color.RED);
                         activity.mRadarScanView.setCenterText("发现威胁");
                         activity.resolveVirus();
@@ -131,14 +131,14 @@ public class ScanVirusActivity extends BaseToolBarActivity {
     }
 
     private void resolveVirus() {
-        //在列表中展示，病毒软件。可以选择卸载。
+        //在列表中展示，病毒软件。可以添加选择卸载功能。
+        mBtnCancelScanning.setText("一键清除");
         mAdapter.setDataList(mVirusList);
         mAdapter.notifyDataSetChanged();
         mAdapter.setOnRvItemClickListener(position -> {
             //点击进入设置界面
             ManagerSoftwareUtil.settingAppDetail(this, mVirusList.get(position).getPackageName());
         });
-        mBtnCancelScanning.setText("一键清理");
     }
 
     private Handler mHandler = new ProgressHandler(this);
@@ -199,6 +199,7 @@ public class ScanVirusActivity extends BaseToolBarActivity {
                 scanAppInfo.setIcon(packageInfo.applicationInfo.loadIcon(mPackageManager));
                 scanAppInfo.setPackageName(packageInfo.packageName);
                 scanAppInfo.setUserApp((packageInfo.applicationInfo.flags & ApplicationInfo.FLAG_SYSTEM) == 0);//是否是用户应用
+                // TODO: 2017/11/12 0012 测试 
                 if (result == null) {
                     scanAppInfo.setDescription("扫描安全");
                 } else {
@@ -207,6 +208,7 @@ public class ScanVirusActivity extends BaseToolBarActivity {
                     mVirusList.add(scanAppInfo);
                     mVirusAppCount++;
                 }
+                
                 // 每次循环中，发送一个消息到主线程，状态为正在扫描，同时发送正在被扫描的应用信息 ，以及扫描的进度
                 Message message = mHandler.obtainMessage(SCANNING);
                 message.arg1 = mProcess;
