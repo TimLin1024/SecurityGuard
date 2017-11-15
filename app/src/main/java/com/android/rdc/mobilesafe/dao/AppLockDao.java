@@ -14,11 +14,11 @@ import java.util.List;
 
 public class AppLockDao {
     private Context mContext;
-    // TODO: 2017/7/4 0004  使用 ContentResolver 暴露数据，在 已加锁页面，未加锁页面、程序锁界面 使用该 uri 进行注册内容观察者
-    private Uri mUri = Uri.parse(Constant.URI_STR);
+    // TODO: 使用 ContentResolver 暴露数据，在 已加锁页面，未加锁页面、程序锁界面 使用该 uri 进行注册内容观察者
+    private Uri mUri = Uri.parse(Constant.URI_APP_LOCK_DB);
     private static final String COLUMN_NAME = "packagename";
     private static final String TABLE_NAME = "applock";
-    private SQLiteDatabase db;
+    private SQLiteDatabase mDb;
 
     private volatile static AppLockDao sInstance;
 
@@ -26,7 +26,7 @@ public class AppLockDao {
     private AppLockDao(Context context) {
         mContext = context;
         AppLockOpenHelper mAppLockOpenHelper = new AppLockOpenHelper(context);
-        db = mAppLockOpenHelper.getWritableDatabase();
+        mDb = mAppLockOpenHelper.getWritableDatabase();
     }
 
     public static AppLockDao getInstance(Context context) {
@@ -43,7 +43,7 @@ public class AppLockDao {
     public boolean insert(String packageName) {
         ContentValues contentValues = new ContentValues();
         contentValues.put(COLUMN_NAME, packageName);
-        long rowId = db.insert(TABLE_NAME, null, contentValues);
+        long rowId = mDb.insert(TABLE_NAME, null, contentValues);
         if (rowId == -1) {
             return false;
         } else {
@@ -53,7 +53,7 @@ public class AppLockDao {
     }
 
     public boolean delete(String packageName) {
-        int rowNum = db.delete(TABLE_NAME, COLUMN_NAME + "=?", new String[]{packageName});
+        int rowNum = mDb.delete(TABLE_NAME, COLUMN_NAME + "=?", new String[]{packageName});
         if (rowNum == 0) {
             return false;
         } else {
@@ -63,7 +63,7 @@ public class AppLockDao {
     }
 
     public boolean find(String packageName) {
-        Cursor cursor = db.query(TABLE_NAME, null, COLUMN_NAME + "=?", new String[]{packageName}, null, null, null);
+        Cursor cursor = mDb.query(TABLE_NAME, null, COLUMN_NAME + "=?", new String[]{packageName}, null, null, null);
         if (cursor.moveToNext()) {
             cursor.close();
             return true;
@@ -76,7 +76,7 @@ public class AppLockDao {
 
     public List<String> findAll() {
         List<String> packageList = new ArrayList<>();
-        Cursor cursor = db.query(TABLE_NAME, null, null, null, null, null, null);
+        Cursor cursor = mDb.query(TABLE_NAME, null, null, null, null, null, null);
         if (cursor.moveToFirst()) {
             do {
                 packageList.add(cursor.getString(cursor.getColumnIndex(COLUMN_NAME)));

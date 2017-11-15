@@ -1,7 +1,11 @@
 package com.android.rdc.mobilesafe.ui.fragment;
 
 
+import android.database.ContentObserver;
+import android.net.Uri;
 import android.os.Bundle;
+import android.os.Handler;
+import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -12,6 +16,7 @@ import com.android.rdc.mobilesafe.R;
 import com.android.rdc.mobilesafe.adapter.LockRvAdapter;
 import com.android.rdc.mobilesafe.base.BaseFragment;
 import com.android.rdc.mobilesafe.bean.AppInfo;
+import com.android.rdc.mobilesafe.constant.Constant;
 import com.android.rdc.mobilesafe.dao.AppLockDao;
 import com.android.rdc.mobilesafe.util.AppInfoParser;
 
@@ -33,6 +38,7 @@ public class LockFragment extends BaseFragment {
     private List<AppInfo> mLockAppInfoList = new ArrayList<>();
     private LockRvAdapter mLockRvAdapter;
     private AppLockDao mAppLockDao;
+    private ContentObserver mContentObserver;
 
     public static LockFragment newInstance() {
         LockFragment fragment = new LockFragment();
@@ -48,10 +54,19 @@ public class LockFragment extends BaseFragment {
     protected void initData(Bundle bundle) {
         mAppLockDao = AppLockDao.getInstance(mBaseActivity.getApplicationContext());
         mAllAppInfoList = AppInfoParser.getAppInfos(mBaseActivity.getApplicationContext());//获取本机安装的所有应用数据
+        mContentObserver = new ContentObserver(new Handler()) {
+            @Override
+            public void onChange(boolean selfChange) {
+                fillData();
+            }
+        };
+        Uri uri = Uri.parse(Constant.URI_APP_LOCK_DB);
+        mBaseActivity.getContentResolver().registerContentObserver(uri, true, mContentObserver);//注册为监听者
     }
 
     @Override
     protected void initView() {
+
     }
 
     @Override
@@ -63,6 +78,12 @@ public class LockFragment extends BaseFragment {
         Log.d(TAG, "onResume: ");
         fillData();
         super.onResume();
+    }
+
+    @Override
+    public void onDestroyView() {
+        mBaseActivity.getContentResolver().unregisterContentObserver(mContentObserver);
+        super.onDestroyView();
     }
 
     private void fillData() {
@@ -82,11 +103,12 @@ public class LockFragment extends BaseFragment {
                 mAppLockDao.delete(mLockAppInfoList.get(position).getPackageName());//从数据库表中移除
                 mLockAppInfoList.remove(position);
                 mLockRvAdapter.notifyItemRangeRemoved(position, 1);
-//                mRvLock.setItemAnimator(new DefaultItemAnimator());
+                mRvLock.setItemAnimator(new DefaultItemAnimator());
                 mTvLock.setText(String.format(Locale.CHINA, "已加锁应用共有：%d 个", mLockAppInfoList.size()));
             });
         } else {
             mLockRvAdapter.notifyDataSetChanged();
         }
+        mTvLock.setText(String.format(Locale.CHINA, "已加锁应用共有：%d 个", mLockAppInfoList.size()));
     }
 }

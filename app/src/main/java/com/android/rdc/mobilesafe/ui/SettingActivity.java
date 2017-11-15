@@ -1,9 +1,9 @@
 package com.android.rdc.mobilesafe.ui;
 
-import android.content.DialogInterface;
+import android.app.NotificationManager;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.support.v7.app.AlertDialog;
+import android.support.v4.app.NotificationCompat;
 import android.text.TextUtils;
 import android.view.View;
 import android.widget.CompoundButton;
@@ -12,15 +12,22 @@ import android.widget.Switch;
 import com.android.rdc.mobilesafe.HomeActivity;
 import com.android.rdc.mobilesafe.R;
 import com.android.rdc.mobilesafe.base.BaseToolBarActivity;
+import com.android.rdc.mobilesafe.constant.Constant;
 import com.android.rdc.mobilesafe.service.AppLockService;
+import com.android.rdc.mobilesafe.ui.widget.RoundRectDialog;
+import com.android.rdc.mobilesafe.util.NotificationUtil;
 import com.android.rdc.mobilesafe.util.SystemInfoUtils;
 
 import butterknife.BindView;
 import butterknife.OnClick;
 
+import static com.android.rdc.mobilesafe.constant.Constant.KEY_APP_LOCK_SERVICE_ON;
+import static com.android.rdc.mobilesafe.constant.Constant.KEY_BLACKLIST;
+import static com.android.rdc.mobilesafe.constant.Constant.KEY_SHOW_NOTIFICATION;
+
 
 public class SettingActivity extends BaseToolBarActivity implements CompoundButton.OnCheckedChangeListener {
-
+    private static final String TAG = "SettingActivity";
     @BindView(R.id.switch_intercept)
     Switch mSwitchIntercept;
     @BindView(R.id.switch_app_lock)
@@ -30,17 +37,15 @@ public class SettingActivity extends BaseToolBarActivity implements CompoundButt
 
     private SharedPreferences mSharedPreferences;
     private boolean mIsAppLockServiceRunning;
+    private NotificationCompat.Builder mBuilder;
 
-    public static final String APP_LOCK_SERVICE = "com.android.rdc.ch09.service.AppLockService";
-    private static final String KEY_APP_LOCK = "IS_APP_LOCK_ON";
-    private static final String KEY_BLACKLIST = "_IS_BLACKLIST_ON";
 
     @Override
     protected void onStart() {
-        mIsAppLockServiceRunning = SystemInfoUtils.isServiceRunning(this, APP_LOCK_SERVICE);//判断服务是否开启
+        mIsAppLockServiceRunning = SystemInfoUtils.isServiceRunning(this, Constant.KEY_APP_LOCK_SERVICE_ON);//判断服务是否开启
+        mSwitchShowNotification.setChecked(mSharedPreferences.getBoolean(KEY_SHOW_NOTIFICATION, false));//是否在通知栏显示
         mSwitchAppLock.setChecked(mIsAppLockServiceRunning);//设置是否程序锁是否开启
         mSwitchIntercept.setChecked(mSharedPreferences.getBoolean(KEY_BLACKLIST, false));//设置骚扰拦截是否开启
-
         super.onStart();
     }
 
@@ -63,11 +68,12 @@ public class SettingActivity extends BaseToolBarActivity implements CompoundButt
     protected void initListener() {
         mSwitchAppLock.setOnCheckedChangeListener(this);
         mSwitchIntercept.setOnCheckedChangeListener(this);
+        mSwitchShowNotification.setOnCheckedChangeListener(this);
     }
 
 
     private void setAppLock(boolean isChecked) {
-        saveStatus(KEY_APP_LOCK, isChecked);
+        saveStatus(KEY_APP_LOCK_SERVICE_ON, isChecked);
         Intent intent = new Intent(this, AppLockService.class);
         if (isChecked) {
             if (!mIsAppLockServiceRunning) {
@@ -100,9 +106,25 @@ public class SettingActivity extends BaseToolBarActivity implements CompoundButt
             case R.id.switch_intercept:
                 saveStatus(KEY_BLACKLIST, isChecked);
                 break;
+            case R.id.switch_show_notification:
+                resolveShowNotification(isChecked);
+                break;
         }
     }
 
+    private void resolveShowNotification(boolean isChecked) {
+        mSharedPreferences.edit().putBoolean(Constant.KEY_SHOW_NOTIFICATION, isChecked).apply();//存入配置信息中
+
+        NotificationManager manager = (NotificationManager) getApplicationContext().getSystemService(NOTIFICATION_SERVICE);//使用 appContext 防止内存泄漏
+        if (isChecked) {
+            if (mBuilder == null) {
+                mBuilder = NotificationUtil.buildNotification(this);
+            }
+            manager.notify("通知", Constant.NOTIFICATION_ID, mBuilder.build());
+        } else {
+            manager.cancel(Constant.NOTIFICATION_ID);//取消通知
+        }
+    }
 
     @OnClick({R.id.tv_traffic_setting, R.id.tv_quit_app})
     public void onViewClicked(View view) {
@@ -111,16 +133,11 @@ public class SettingActivity extends BaseToolBarActivity implements CompoundButt
                 startActivity(TrafficSettingActivity.class);
                 break;
             case R.id.tv_quit_app:
-                new AlertDialog.Builder(this)
+                new RoundRectDialog.Builder(this)
                         .setCancelable(true)
                         .setTitle("温馨提示")
-                        .setMessage("退出卫士，可能会受到木马病毒、骚扰电话的侵扰，并造成流量监控不准，现在卫士内存占用很小，建议不要退出哦")
-                        .setPositiveButton("确定退出", new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(DialogInterface dialog, int which) {
-                                startActivity(HomeActivity.newIntent(SettingActivity.this, true));
-                            }
-                        })
+                        .setMsg("退出卫士，可能会受到木马病毒、骚扰电话的侵扰，并造成流量监控不准，现在卫士内存占用很小，建议不要退出哦")
+                        .setPositiveButton("确定退出", (dialog, which) -> startActivity(HomeActivity.newIntent(SettingActivity.this, true)))
                         .setNegativeButton("暂不退出", null)
                         .show();
                 break;

@@ -6,13 +6,9 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
-import android.support.annotation.Nullable;
 import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.android.rdc.mobilesafe.R;
@@ -38,11 +34,11 @@ public class UnLockFragment extends BaseFragment {
     @BindView(R.id.rv_unlock)
     RecyclerView mRvUnlock;
 
-    private List<AppInfo> mUnlockList = new ArrayList<>();
+    private List<AppInfo> mUnlockAppInfoList = new ArrayList<>();
     private List<AppInfo> mAllAppInfoList;
     private AppLockDao mAppLockDao;
     private LockRvAdapter mLockRvAdapter;
-    private Uri mUri = Uri.parse(Constant.URI_STR);
+    private Uri mUri = Uri.parse(Constant.URI_APP_LOCK_DB);
     private Handler mHandler = new UnLockFragmentHandler(this);
     private ContentObserver mObserver;
 
@@ -60,18 +56,18 @@ public class UnLockFragment extends BaseFragment {
             }
 //            switch (msg.what) {
 //                case 100:
-//                    unLockFragment.mUnlockList.clear();
-//                    unLockFragment.mUnlockList.addAll((Collection<? extends AppInfo>) msg.obj);
+//                    unLockFragment.mUnlockAppInfoList.clear();
+//                    unLockFragment.mUnlockAppInfoList.addAll((Collection<? extends AppInfo>) msg.obj);
 //
 //                    if (unLockFragment.mLockRvAdapter == null) {
 //                        unLockFragment.mLockRvAdapter = new LockRvAdapter();
-//                        unLockFragment.mLockRvAdapter.setDataList(unLockFragment.mUnlockList);
+//                        unLockFragment.mLockRvAdapter.setDataList(unLockFragment.mUnlockAppInfoList);
 //                        unLockFragment.mRvUnlock.setAdapter(unLockFragment.mLockRvAdapter);
-//                        unLockFragment.initListener();
+//                        unLockFragment.initRvItemClickListener();
 //                    } else {
 //                        unLockFragment.mLockRvAdapter.notifyDataSetChanged();
 //                    }
-//                    unLockFragment.mTvUnlock.setText(String.format(Locale.CHINA, "未加锁应用共：%d", unLockFragment.mUnlockList.size()));
+//                    unLockFragment.mTvUnlock.setText(String.format(Locale.CHINA, "未加锁应用共：%d", unLockFragment.mUnlockAppInfoList.size()));
 //                    break;
 //            }
         }
@@ -81,22 +77,6 @@ public class UnLockFragment extends BaseFragment {
         return new UnLockFragment();
     }
 
-    @Nullable
-    @Override
-    public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View view = super.onCreateView(inflater, container, savedInstanceState);
-        mAppLockDao = AppLockDao.getInstance(mBaseActivity.getApplicationContext());
-        mAllAppInfoList = AppInfoParser.getAppInfos(mBaseActivity.getApplicationContext());//获取手机安装的所有应用的数据
-        mObserver = new ContentObserver(mHandler) {
-            @Override
-            public void onChange(boolean selfChange) {
-                fillData();
-            }
-        };
-
-
-        return view;
-    }
 
     @Override
     public void onResume() {
@@ -109,15 +89,15 @@ public class UnLockFragment extends BaseFragment {
         mBaseActivity.getContentResolver().registerContentObserver(mUri, true, mObserver);
     }
 
-    private void initListener() {
+    private void initRvItemClickListener() {
         mLockRvAdapter.setOnRvItemClickListener(position -> {
             if (position == RecyclerView.NO_POSITION) {
                 return;
             }
-            mAppLockDao.insert(mUnlockList.get(position).getPackageName());
-            mUnlockList.remove(position);
+            mAppLockDao.insert(mUnlockAppInfoList.get(position).getPackageName());
+            mUnlockAppInfoList.remove(position);
             mLockRvAdapter.notifyItemRemoved(position);
-            mTvUnlock.setText(String.format(Locale.CHINA, "未加锁应用： %d", mUnlockList.size()));
+            mTvUnlock.setText(String.format(Locale.CHINA, "未加锁应用共：%d 个", mUnlockAppInfoList.size()));
         });
     }
 
@@ -129,20 +109,20 @@ public class UnLockFragment extends BaseFragment {
             }
         }
 
-        mUnlockList.clear();
-        mUnlockList.addAll(appInfoList);
+        mUnlockAppInfoList.clear();
+        mUnlockAppInfoList.addAll(appInfoList);
 
         if (mLockRvAdapter == null) {
             mLockRvAdapter = new LockRvAdapter();
-            mLockRvAdapter.setDataList(mUnlockList);
+            mLockRvAdapter.setDataList(mUnlockAppInfoList);
             mRvUnlock.setAdapter(mLockRvAdapter);
             mRvUnlock.setLayoutManager(new LinearLayoutManager(mBaseActivity));
             mRvUnlock.addItemDecoration(new DividerItemDecoration(mBaseActivity, DividerItemDecoration.VERTICAL));
-            initListener();
+            initRvItemClickListener();
         } else {
             mLockRvAdapter.notifyDataSetChanged();
         }
-        mTvUnlock.setText(String.format(Locale.CHINA, "未加锁应用共：%d 个", mUnlockList.size()));
+        mTvUnlock.setText(String.format(Locale.CHINA, "未加锁应用共：%d 个", mUnlockAppInfoList.size()));
     }
 
     @Override
@@ -152,6 +132,14 @@ public class UnLockFragment extends BaseFragment {
 
     @Override
     protected void initData(Bundle bundle) {
+        mAppLockDao = AppLockDao.getInstance(mBaseActivity.getApplicationContext());
+        mAllAppInfoList = AppInfoParser.getAppInfos(mBaseActivity.getApplicationContext());//获取手机安装的所有应用的数据
+        mObserver = new ContentObserver(mHandler) {
+            @Override
+            public void onChange(boolean selfChange) {
+                fillData();
+            }
+        };
     }
 
     @Override

@@ -33,7 +33,7 @@ public class AppLockService extends Service {
     private String mTmpStopProtectPackageName;//最近使用的应用
     private AppLockDao mAppLockDao;
     private AppLockObserver mAppLockObserver;
-    private Uri mUri = Uri.parse(Constant.URI_STR);
+    private Uri mUri = Uri.parse(Constant.URI_APP_LOCK_DB);
     private AppLockReceiver mAppLockReceiver;
     private Intent mIntent;
 
