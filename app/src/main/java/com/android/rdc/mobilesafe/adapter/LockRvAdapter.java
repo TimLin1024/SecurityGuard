@@ -45,7 +45,6 @@ public class LockRvAdapter extends BaseRvAdapter<AppInfo> {
             mIvAppIcon.setImageDrawable(appInfo.getIcon());
             mTvAppName.setText(appInfo.getName());
 
-            // TODO: 2017/9/18 0018  这里应该改为 isLock
             if (appInfo.isSelected()) {
                 mIvLock.setBackgroundResource(R.drawable.ic_lock);
             } else {

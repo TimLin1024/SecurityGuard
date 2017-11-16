@@ -8,6 +8,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.support.v4.app.NotificationCompat;
 
+import com.android.rdc.mobilesafe.base.BaseAccessibilityService;
 import com.android.rdc.mobilesafe.constant.Constant;
 import com.android.rdc.mobilesafe.service.AppLockService;
 import com.android.rdc.mobilesafe.util.NotificationUtil;
@@ -31,6 +32,7 @@ public class App extends Application {
         sContext = getApplicationContext();
         mSp = getSharedPreferences(Constant.SP_NAME_CONFIG, MODE_PRIVATE);
         initConfig();
+        BaseAccessibilityService.getInstance().init(this);
     }
 
 

@@ -55,6 +55,7 @@ public class TrafficMonitoringActivity extends BaseToolBarActivity {
     private static final String KEY_TOTAL_FLOW = "TOTAL_FLOW";
     private static final String KEY_USED_FLOW = "USED_FLOW";
     private CorrectFlowReceiver mReceiver;
+
     //主要要完成 信息的获取，以及更新，首先要能够拿到短信（获取到手机号码），
     // 然后再进行处理（联通的已经完成），最后显示出来（界面待修改）
     // TODO: 2017/11/9 0009 1. 手机卡换位置（宿舍带取卡针） 2. 修改界面
@@ -71,7 +72,7 @@ public class TrafficMonitoringActivity extends BaseToolBarActivity {
             startActivity(TrafficSettingActivity.class);
             finish();
         }
-        // TODO: 2017/10/6 0006 开启流量监控服务
+        // TODO: 2017/10/6 0006 开启流量监控服务，需要先申请权限
         if (ContextCompat.checkSelfPermission(getApplicationContext(), android.Manifest.permission.RECEIVE_SMS) != PackageManager.PERMISSION_GRANTED) {
             ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.RECEIVE_SMS}, PERMISSIONS_REQUEST_RECEIVE_SMS);
             Log.d(TAG, "initData: 申请权限");

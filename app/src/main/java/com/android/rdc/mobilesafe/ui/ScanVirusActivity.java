@@ -199,7 +199,6 @@ public class ScanVirusActivity extends BaseToolBarActivity {
                 scanAppInfo.setIcon(packageInfo.applicationInfo.loadIcon(mPackageManager));
                 scanAppInfo.setPackageName(packageInfo.packageName);
                 scanAppInfo.setUserApp((packageInfo.applicationInfo.flags & ApplicationInfo.FLAG_SYSTEM) == 0);//是否是用户应用
-                // TODO: 2017/11/12 0012 测试 
                 if (result == null) {
                     scanAppInfo.setDescription("扫描安全");
                 } else {

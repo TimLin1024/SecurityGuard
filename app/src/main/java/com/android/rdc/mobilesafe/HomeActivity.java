@@ -120,6 +120,8 @@ public class HomeActivity extends BaseActivity {
         mHandler.sendEmptyMessage(MSG_UPDATE_PROGRESS);
     }
 
+
+
     @Override
     protected void initListener() {
         mHomeRvAdapter.setOnRvItemClickListener(new BaseRvAdapter.OnRvItemClickListener() {

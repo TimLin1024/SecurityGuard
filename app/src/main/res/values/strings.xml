@@ -44,5 +44,6 @@
     <string name="text_return">返回</string>
     <string name="msg_clean_result_indicate">清理完毕， \n您的手机洁净如新</string>
     <string name="traffic_control">流量控制</string>
+    <string name="clean">清除无用进程</string>
 
 </resources>
