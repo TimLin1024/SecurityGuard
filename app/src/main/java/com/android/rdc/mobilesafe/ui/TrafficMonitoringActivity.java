@@ -10,7 +10,6 @@ import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.net.Uri;
 import android.os.Build;
-import android.os.Handler;
 import android.support.annotation.NonNull;
 import android.support.constraint.ConstraintLayout;
 import android.support.design.widget.Snackbar;
@@ -29,6 +28,9 @@ import com.android.rdc.mobilesafe.base.BaseToolBarActivity;
 import com.android.rdc.mobilesafe.constant.Constant;
 import com.android.rdc.mobilesafe.receiver.SmsDatabaseChaneObserver;
 import com.android.rdc.mobilesafe.util.SystemUtil;
+
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
 import butterknife.BindView;
 import butterknife.OnClick;
@@ -50,15 +52,17 @@ public class TrafficMonitoringActivity extends BaseToolBarActivity {
     Button mBtnCorrectFlow;
     @BindView(R.id.constraint_layout)
     ConstraintLayout mConstraintLayout;
+    @BindView(R.id.tv_last_update_time)
+    TextView mTvLastUpdateTime;
 
     private SharedPreferences mSp;
     private static final String KEY_TOTAL_FLOW = "TOTAL_FLOW";
     private static final String KEY_USED_FLOW = "USED_FLOW";
+    private static final String KEY_LAST_UPDATE_TIME = "LAST_UPDATE_TIME";
     private CorrectFlowReceiver mReceiver;
 
     //主要要完成 信息的获取，以及更新，首先要能够拿到短信（获取到手机号码），
     // 然后再进行处理（联通的已经完成），最后显示出来（界面待修改）
-    // TODO: 2017/11/9 0009 1. 手机卡换位置（宿舍带取卡针） 2. 修改界面
     @Override
     protected int setResId() {
         return R.layout.activity_traffic_monitoring;
@@ -73,7 +77,7 @@ public class TrafficMonitoringActivity extends BaseToolBarActivity {
             finish();
         }
         // TODO: 2017/10/6 0006 开启流量监控服务，需要先申请权限
-        if (ContextCompat.checkSelfPermission(getApplicationContext(), android.Manifest.permission.RECEIVE_SMS) != PackageManager.PERMISSION_GRANTED) {
+        if (ContextCompat.checkSelfPermission(getApplicationContext(), Manifest.permission.RECEIVE_SMS) != PackageManager.PERMISSION_GRANTED) {
             ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.RECEIVE_SMS}, PERMISSIONS_REQUEST_RECEIVE_SMS);
             Log.d(TAG, "initData: 申请权限");
         } else {
@@ -91,13 +95,15 @@ public class TrafficMonitoringActivity extends BaseToolBarActivity {
             unregisterReceiver(mReceiver);
             Log.d(TAG, "onDestroy: 解除注册");
         }
-        Log.d(TAG, "onDestroy: ");
         super.onDestroy();
     }
 
     @Override
     protected void initView() {
-
+        Date date = new Date(mSp.getLong(KEY_LAST_UPDATE_TIME, 0));
+        mTvMonthUsedTraffic.setText(String.format("本月已用流量：%s", mSp.getString(KEY_TOTAL_FLOW, "")));
+        mTvMonthTotalTraffic.setText(String.format("本月总流量：%s", mSp.getString(KEY_TOTAL_FLOW, "")));
+        mTvLastUpdateTime.setText(String.format("最近更新: %s", new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(date)));
     }
 
     @Override
@@ -123,28 +129,28 @@ public class TrafficMonitoringActivity extends BaseToolBarActivity {
     }
 
     private void sendMsgByMode() {
-        int i = mSp.getInt(Constant.KEY_CARD_OPERATOR, 0);
+        String i = mSp.getString(Constant.KEY_CARD_OPERATOR, "中国联通");//
         SmsManager smsManager = SmsManager.getDefault();
         //根据运营商发送查询短信
         switch (i) {
-            case 0:
+            case "中国联通":
+                //联通
+                smsManager.sendTextMessage("10010", null, "CXLL", null, null);
+                Log.d(TAG, "onViewClicked: " + "发送短信");
+                break;
+            case "中国移动":
+                //移动
+                break;
+            case "中国电信":
+                //电信
+                break;
+            default:
                 Snackbar.make(mConstraintLayout, "您还没有设置运营商，前往设置？", Snackbar.LENGTH_LONG)
                         .setAction("确定", v -> {
                             startActivity(TrafficSettingActivity.class);
                             TrafficMonitoringActivity.this.finish();
                         })
                         .show();
-                break;
-            case 1:
-                //联通
-                smsManager.sendTextMessage("10010", null, "CXLL", null, null);
-                Log.d(TAG, "onViewClicked: " + "发送短信");
-                break;
-            case 2:
-                //移动
-                break;
-            case 3:
-                //电信
                 break;
         }
     }
@@ -156,6 +162,7 @@ public class TrafficMonitoringActivity extends BaseToolBarActivity {
         filter.setPriority(1000);//设置高优先级别
         registerReceiver(mReceiver, filter);
     }
+
 
     public class CorrectFlowReceiver extends BroadcastReceiver {
 
@@ -171,43 +178,49 @@ public class TrafficMonitoringActivity extends BaseToolBarActivity {
             Log.d(TAG, "onReceive: " + "接收到信息了");
             showToast("收到信息了");
             Object[] objs = (Object[]) intent.getExtras().get("pdus");
+            StringBuilder body = new StringBuilder();
+            String address = "";
             for (Object obj : objs) {
                 SmsMessage smsMessage = SmsMessage.createFromPdu((byte[]) obj);
-                String body = smsMessage.getMessageBody();
-                String address = smsMessage.getOriginatingAddress();
+                body.append(smsMessage.getMessageBody());
+                address = smsMessage.getOriginatingAddress();
 
                 Log.d(TAG, "onReceive: body:" + body);
-                if (!address.equals("10010")) {
-                    return;
-                }
-                long totalUsed = 0;
-                long total = 0;
-                long beyond = 0;
-
-                String str = body.substring(body.indexOf("：", 7));
-                String[] strAry = str.split("；");
-                for (String s : strAry) {
-                    if (s.contains("本月总流量已用")) {
-                        String usedFlow = s.substring(s.indexOf("已用") + 2);
-                        totalUsed = string2Float(usedFlow);
-                    } else if (s.contains("套餐外")) {
-                        String out = s.substring(s.indexOf("已用") + 2);
-                        System.out.println(out);
-                        beyond = string2Float(out);
-                    } else if (s.contains("本地流量已用") || s.contains("省内") || s.contains("承诺") || s.contains("定向")) {
-                        String used = s.substring(s.indexOf("已用") + 2, s.indexOf("，"));
-                        String left = s.substring(s.indexOf("剩余") + 2);
-                        total += string2Float(used) + string2Float(left);
-                    }
-                }
-
-                mSp.edit()
-                        .putLong(KEY_TOTAL_FLOW, total)
-                        .putLong(KEY_USED_FLOW, totalUsed)
-                        .apply();
-                mTvMonthTotalTraffic.setText(String.format("本月流量：%s", Formatter.formatFileSize(context, (total))));
-                mTvMonthUsedTraffic.setText(String.format("本月已用：%s", Formatter.formatFileSize(context, totalUsed)));
             }
+
+            if (!address.equals("10010")) {
+                return;
+            }
+            long totalUsed = 0;
+            long total = 0;
+            long beyond = 0;
+            Log.d(TAG, "onReceive: body:" + body);
+            String str = body.substring(body.indexOf("：", 7));
+            String[] strAry = str.split("；");
+            for (String s : strAry) {
+                if (s.contains("本月总流量已用")) {
+                    String usedFlow = s.substring(s.indexOf("已用") + 2);
+                    totalUsed = string2Float(usedFlow);
+                } else if (s.contains("套餐外")) {
+                    String out = s.substring(s.indexOf("已用") + 2);
+                    System.out.println(out);
+                    beyond = string2Float(out);
+                } else if (s.contains("本地流量已用") || s.contains("省内") || s.contains("承诺") || s.contains("定向")) {
+                    String used = s.substring(s.indexOf("已用") + 2, s.indexOf("，"));
+                    String left = s.substring(s.indexOf("剩余") + 2);
+                    total += string2Float(used) + string2Float(left);
+                }
+            }
+
+            mSp.edit()
+                    .putString(KEY_TOTAL_FLOW, Formatter.formatFileSize(context, (total)))
+                    .putString(KEY_USED_FLOW, Formatter.formatFileSize(context, (totalUsed)))
+                    .putLong(KEY_LAST_UPDATE_TIME, System.currentTimeMillis())
+                    .apply();
+
+            mTvMonthTotalTraffic.setText(String.format("本月流量：%s", Formatter.formatFileSize(context, (total))));
+            mTvMonthUsedTraffic.setText(String.format("本月已用：%s", Formatter.formatFileSize(context, totalUsed)));
+
         }
     }
 
@@ -275,8 +288,9 @@ public class TrafficMonitoringActivity extends BaseToolBarActivity {
     private static void registerSmsDatabaseChangeObserver(Context context) {
         //因为，某些机型修改rom导致没有getContentResolver
         try {
-            mSmsDBChangeObserver = new SmsDatabaseChaneObserver(context.getContentResolver(), new Handler());
-            context.getContentResolver().registerContentObserver(SMS_MESSAGE_URI, true, mSmsDBChangeObserver);
+            //注册为短信 ContentProvider 的内容提供者
+//            mSmsDBChangeObserver = new SmsDatabaseChaneObserver(context.getContentResolver(), new Handler());
+//            context.getContentResolver().registerContentObserver(SMS_MESSAGE_URI, true, mSmsDBChangeObserver);
         } catch (Throwable b) {
         }
     }

@@ -30,7 +30,7 @@
         android:layout_centerVertical="true"
         android:layout_marginStart="10dp"
         android:gravity="center"
-        android:text="本月流量充足请放心使用！"
+        tools:text="本月流量充足请放心使用！"
         app:layout_constraintBottom_toBottomOf="@id/iv_traffic_remind"
         app:layout_constraintLeft_toRightOf="@id/iv_traffic_remind"
         app:layout_constraintTop_toTopOf="@id/iv_traffic_remind"/>
@@ -49,19 +49,25 @@
             android:id="@+id/tv_today_traffic"
             style="@style/Tv16sp"
             android:layout_margin="5dp"
-            android:text="今天已用："/>
+            tools:text="今天已用："/>
 
         <TextView
             android:id="@+id/tv_month_used_traffic"
             style="@style/Tv16sp"
             android:layout_margin="5dp"
-            android:text="本月已用："/>
+            tools:text="本月已用："/>
 
         <TextView
             android:id="@+id/tv_month_total_traffic"
             style="@style/Tv16sp"
             android:layout_margin="5dp"
-            android:text="本月流量："/>
+            tools:text="本月流量："/>
+
+        <TextView
+            android:id="@+id/tv_last_update_time"
+            style="@style/Tv16sp"
+            android:layout_margin="5dp"
+            tools:text=""/>
     </LinearLayout>
 
     <Button

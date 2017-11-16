@@ -162,7 +162,9 @@
                 android:resource="@xml/accessibility"/>
         </service>
         <service
-            android:name=".CleanBackgroundProcessAccessibilityService"
+            android:name=".service.CleanBackgroundProcessAccessibilityService"
+            android:enabled="true"
+            android:exported="true"
             android:permission="android.permission.BIND_ACCESSIBILITY_SERVICE">
             <intent-filter>
                 <action android:name="android.accessibilityservice.AccessibilityService"/>
@@ -171,7 +173,7 @@
             <meta-data
                 android:name="android.accessibilityservice"
                 android:resource="@xml/cleanprocess"/>
-        </service>
+        </service>1
 
     </application>
 

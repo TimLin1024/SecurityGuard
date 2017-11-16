@@ -65,35 +65,32 @@ public class AppLockService extends Service {
     }
 
     private void startAppLockService() {
-        new Thread(new Runnable() {
-            @Override
-            public void run() {
-                flag = true;
-                Log.e(TAG, "run: 服务即将开启");
+        new Thread(() -> {
+            flag = true;
+            Log.e(TAG, "run: 服务即将开启");
 //                Toast.makeText(AppLockService.this, "服务即将开启", Toast.LENGTH_SHORT).show();
-                while (flag) {
-                    // 5.0 以上用不了
-                    mRunningTaskInfoList = mActivityManager.getRunningTasks(1);
-                    mRunningTaskInfo = mRunningTaskInfoList.get(0);
-                    mPackageName = mRunningTaskInfo.topActivity.getPackageName();
-                    Log.e(TAG, "run: mTmpStopProtectPackageName 00" + mTmpStopProtectPackageName);
-                    Log.e(TAG, "run: 开启中");
-                    if (mPackageList.contains(mPackageName)) {
-                        //判断是否需要保护
-                        if (!mPackageName.equals(mTmpStopProtectPackageName)) {
-                            Log.e(TAG, "run: mTmpStopProtectPackageName 01" + mTmpStopProtectPackageName);
-                            //需要保护
-                            mIntent.putExtra(KEY_EXTRA_PACKAGE_NAME, mPackageName);
-                            mIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                            startActivity(mIntent);
-                        }
+            while (flag) {
+                // 5.0 以上用不了
+                mRunningTaskInfoList = mActivityManager.getRunningTasks(1);
+                mRunningTaskInfo = mRunningTaskInfoList.get(0);
+                mPackageName = mRunningTaskInfo.topActivity.getPackageName();
+                Log.e(TAG, "run: mTmpStopProtectPackageName 00" + mTmpStopProtectPackageName);
+                Log.e(TAG, "run: 开启中");
+                if (mPackageList.contains(mPackageName)) {
+                    //判断是否需要保护
+                    if (!mPackageName.equals(mTmpStopProtectPackageName)) {
+                        Log.e(TAG, "run: mTmpStopProtectPackageName 01" + mTmpStopProtectPackageName);
+                        //需要保护
+                        mIntent.putExtra(KEY_EXTRA_PACKAGE_NAME, mPackageName);
+                        mIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                        startActivity(mIntent);
                     }
+                }
 
-                    try {
-                        Thread.sleep(30);
-                    } catch (InterruptedException e) {
-                        e.printStackTrace();
-                    }
+                try {
+                    Thread.sleep(30);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
                 }
             }
         }).start();

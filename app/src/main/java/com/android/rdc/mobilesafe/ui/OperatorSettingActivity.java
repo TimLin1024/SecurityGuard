@@ -2,13 +2,13 @@ package com.android.rdc.mobilesafe.ui;
 
 import android.content.SharedPreferences;
 import android.support.design.widget.BottomSheetDialog;
+import android.support.v4.widget.NestedScrollView;
 import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Button;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.android.rdc.mobilesafe.R;
@@ -118,7 +118,6 @@ public class OperatorSettingActivity extends BaseToolBarActivity {
 
     }
 
-
     @OnClick({R.id.tv_cancel, R.id.tv_select_all, R.id.ll_province, R.id.ll_city, R.id.ll_operator, R.id.ll_brand})
     public void onViewClicked(View view) {
         switch (view.getId()) {
@@ -195,7 +194,7 @@ public class OperatorSettingActivity extends BaseToolBarActivity {
     private void showProvinceDialog() {
         if (mBottomSheetDialog == null) {
             mBottomSheetDialog = new BottomSheetDialog(this);
-            RelativeLayout rlRoot = (RelativeLayout) LayoutInflater.from(this).inflate(R.layout.dialog_list, null);
+            NestedScrollView rlRoot = (NestedScrollView) LayoutInflater.from(this).inflate(R.layout.dialog_list, null);
             mBottomSheetDialog.setContentView(rlRoot);
             mTvDialogTitle = (TextView) rlRoot.findViewById(R.id.tv_title);
             Button btn = (Button) rlRoot.findViewById(R.id.btn_cancel);
