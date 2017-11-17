@@ -18,7 +18,10 @@ import com.android.rdc.mobilesafe.base.BaseSafeFragmentHandler;
 import com.android.rdc.mobilesafe.bean.AppInfo;
 import com.android.rdc.mobilesafe.constant.Constant;
 import com.android.rdc.mobilesafe.dao.AppLockDao;
-import com.android.rdc.mobilesafe.util.AppInfoParser;
+
+import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
+import org.greenrobot.eventbus.ThreadMode;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -35,7 +38,7 @@ public class UnLockFragment extends BaseFragment {
     RecyclerView mRvUnlock;
 
     private List<AppInfo> mUnlockAppInfoList = new ArrayList<>();
-    private List<AppInfo> mAllAppInfoList;
+    private List<AppInfo> mAllAppInfoList = new ArrayList<>();
     private AppLockDao mAppLockDao;
     private LockRvAdapter mLockRvAdapter;
     private Uri mUri = Uri.parse(Constant.URI_APP_LOCK_DB);
@@ -133,13 +136,15 @@ public class UnLockFragment extends BaseFragment {
     @Override
     protected void initData(Bundle bundle) {
         mAppLockDao = AppLockDao.getInstance(mBaseActivity.getApplicationContext());
-        mAllAppInfoList = AppInfoParser.getAppInfos(mBaseActivity.getApplicationContext());//获取手机安装的所有应用的数据
+//        mAllAppInfoList = AppInfoParser.getAppInfos(mBaseActivity.getApplicationContext());//获取手机安装的所有应用的数据,
+        // 实际上可以在 Activity 中获取，两个 Fragment 中的应用数据都是相同的，但是卸载了应用需要更新内容显示，这个可以通过广播监听来实现
         mObserver = new ContentObserver(mHandler) {
             @Override
             public void onChange(boolean selfChange) {
                 fillData();
             }
         };
+        EventBus.getDefault().register(this);
     }
 
     @Override
@@ -153,6 +158,13 @@ public class UnLockFragment extends BaseFragment {
     @Override
     public void onDestroyView() {
         mBaseActivity.getContentResolver().unregisterContentObserver(mObserver);
+        EventBus.getDefault().unregister(this);
         super.onDestroyView();
+    }
+
+    @Subscribe(threadMode = ThreadMode.MAIN, priority = 100)
+    public void onAppDataFetch(List<AppInfo> appInfoList) {
+        mAllAppInfoList = appInfoList;
+        fillData();
     }
 }

@@ -18,7 +18,10 @@ import com.android.rdc.mobilesafe.base.BaseFragment;
 import com.android.rdc.mobilesafe.bean.AppInfo;
 import com.android.rdc.mobilesafe.constant.Constant;
 import com.android.rdc.mobilesafe.dao.AppLockDao;
-import com.android.rdc.mobilesafe.util.AppInfoParser;
+
+import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
+import org.greenrobot.eventbus.ThreadMode;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -53,7 +56,16 @@ public class LockFragment extends BaseFragment {
     @Override
     protected void initData(Bundle bundle) {
         mAppLockDao = AppLockDao.getInstance(mBaseActivity.getApplicationContext());
-        mAllAppInfoList = AppInfoParser.getAppInfos(mBaseActivity.getApplicationContext());//获取本机安装的所有应用数据
+//        mExecutorService = Executors.newFixedThreadPool(1);
+//        mExecutorService.execute(() -> {
+//            ProgressDialogUtil.showDefaultDialog(getActivity());
+//            mAllAppInfoList = AppInfoParser.getAppInfos(mBaseActivity.getApplicationContext());//获取本机安装的所有应用数据
+//            mBaseActivity.runOnUiThread(() -> {
+//                mIsFirstIn = false;
+//                ProgressDialogUtil.dismiss();
+//                fillData();
+//            });
+//        });
         mContentObserver = new ContentObserver(new Handler()) {
             @Override
             public void onChange(boolean selfChange) {
@@ -62,6 +74,7 @@ public class LockFragment extends BaseFragment {
         };
         Uri uri = Uri.parse(Constant.URI_APP_LOCK_DB);
         mBaseActivity.getContentResolver().registerContentObserver(uri, true, mContentObserver);//注册为监听者
+        EventBus.getDefault().register(this);
     }
 
     @Override
@@ -83,6 +96,7 @@ public class LockFragment extends BaseFragment {
     @Override
     public void onDestroyView() {
         mBaseActivity.getContentResolver().unregisterContentObserver(mContentObserver);
+        EventBus.getDefault().unregister(this);
         super.onDestroyView();
     }
 
@@ -110,5 +124,11 @@ public class LockFragment extends BaseFragment {
             mLockRvAdapter.notifyDataSetChanged();
         }
         mTvLock.setText(String.format(Locale.CHINA, "已加锁应用共有：%d 个", mLockAppInfoList.size()));
+    }
+
+    @Subscribe(threadMode = ThreadMode.MAIN,priority = 100)
+    public void onAppDataFetch(List<AppInfo> appInfoList) {
+        mAllAppInfoList = appInfoList;
+        fillData();
     }
 }

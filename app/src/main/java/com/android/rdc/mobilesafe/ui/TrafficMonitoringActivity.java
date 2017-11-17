@@ -20,11 +20,10 @@ import android.telephony.SmsMessage;
 import android.text.TextUtils;
 import android.text.format.Formatter;
 import android.util.Log;
-import android.widget.Button;
 import android.widget.TextView;
 
 import com.android.rdc.mobilesafe.R;
-import com.android.rdc.mobilesafe.base.BaseToolBarActivity;
+import com.android.rdc.mobilesafe.base.BaseActivity;
 import com.android.rdc.mobilesafe.constant.Constant;
 import com.android.rdc.mobilesafe.receiver.SmsDatabaseChaneObserver;
 import com.android.rdc.mobilesafe.util.SystemUtil;
@@ -35,25 +34,29 @@ import java.util.Date;
 import butterknife.BindView;
 import butterknife.OnClick;
 
-public class TrafficMonitoringActivity extends BaseToolBarActivity {
+public class TrafficMonitoringActivity extends BaseActivity {
     private static final String TAG = "TrafficMonitoringActivi";
     private static final int PERMISSIONS_REQUEST_SEND_SMS = 101;
     private static final int PERMISSIONS_REQUEST_RECEIVE_SMS = 102;
 
-    @BindView(R.id.tv_traffic_remind)
-    TextView mTvTrafficRemind;
-    @BindView(R.id.tv_today_traffic)
-    TextView mTvTodayTraffic;
-    @BindView(R.id.tv_month_used_traffic)
-    TextView mTvMonthUsedTraffic;
-    @BindView(R.id.tv_month_total_traffic)
-    TextView mTvMonthTotalTraffic;
-    @BindView(R.id.btn_correct_flow)
-    Button mBtnCorrectFlow;
     @BindView(R.id.constraint_layout)
     ConstraintLayout mConstraintLayout;
+    @BindView(R.id.tv_current_left)
+    TextView mTvCurrentLeft;
+    @BindView(R.id.tv_unit_left)
+    TextView mTvUnitLeft;
+    @BindView(R.id.tv_hint_status)
+    TextView mTvHintStatus;
+    @BindView(R.id.tv_correct_now)
+    TextView mTvCorrectNow;
     @BindView(R.id.tv_last_update_time)
     TextView mTvLastUpdateTime;
+    @BindView(R.id.tv_today_traffic)
+    TextView mTvTodayTraffic;
+    @BindView(R.id.tv_month_total_traffic)
+    TextView mTvMonthTotalTraffic;
+    @BindView(R.id.tv_month_used_traffic)
+    TextView mTvMonthUsedTraffic;
 
     private SharedPreferences mSp;
     private static final String KEY_TOTAL_FLOW = "TOTAL_FLOW";
@@ -111,7 +114,7 @@ public class TrafficMonitoringActivity extends BaseToolBarActivity {
 
     }
 
-    @OnClick(R.id.btn_correct_flow)
+    @OnClick(R.id.tv_correct_now)
     public void onViewClicked() {
         if (!SystemUtil.hasSimCard()) {
             showToast("您的手机没有 SIM 卡，请先插入 SIM 卡，再进行查询");
@@ -162,7 +165,6 @@ public class TrafficMonitoringActivity extends BaseToolBarActivity {
         filter.setPriority(1000);//设置高优先级别
         registerReceiver(mReceiver, filter);
     }
-
 
     public class CorrectFlowReceiver extends BroadcastReceiver {
 

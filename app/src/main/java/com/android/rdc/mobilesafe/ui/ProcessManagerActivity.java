@@ -29,7 +29,6 @@ import butterknife.OnClick;
 
 public class ProcessManagerActivity extends BaseToolBarActivity {
 
-
     @BindView(R.id.tv_running_process_num)
     TextView mTvRunningProcessNum;
     @BindView(R.id.rv_running_process)

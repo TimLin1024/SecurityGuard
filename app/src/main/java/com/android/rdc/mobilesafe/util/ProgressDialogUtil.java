@@ -4,13 +4,14 @@ import android.app.ProgressDialog;
 import android.content.Context;
 import android.os.Build;
 
+import java.lang.ref.WeakReference;
+
 public final class ProgressDialogUtil {
     private ProgressDialogUtil() {
         throw new UnsupportedOperationException("u can't instantiate me...");
     }
 
     private static ProgressDialog sProgressDialog;
-
 
     public static void showDefaultDialog(Context context) {
         if (sProgressDialog == null) {//避免重复创建
@@ -31,6 +32,8 @@ public final class ProgressDialogUtil {
             setMsg(msg);
             return;
         }
+        // TODO: 2017/11/16 0016 改用弱引用，是否会出现新的问题？
+        WeakReference<Context> weakReference = new WeakReference<Context>(context);
         sProgressDialog = new ProgressDialog(context);
         sProgressDialog.setTitle(title);
         sProgressDialog.setMessage(msg);

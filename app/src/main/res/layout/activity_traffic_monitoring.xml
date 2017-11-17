@@ -6,76 +6,134 @@
     android:id="@+id/constraint_layout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:fitsSystemWindows="true"
     tools:context="com.android.rdc.mobilesafe.ui.TrafficMonitoringActivity">
 
-    <include
-        android:id="@+id/appbar"
-        layout="@layout/include_toolbar"/>
+    <View
+        android:id="@+id/view_bg"
+        android:layout_width="match_parent"
+        android:layout_height="400dp"
+        android:background="#fa22b1ef"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_weight="2"
+        tools:layout_editor_absoluteX="0dp"
+        tools:layout_editor_absoluteY="0dp"/>
 
-    <ImageView
-        android:id="@+id/iv_traffic_remind"
+    <TextView
+        android:id="@+id/tv_current_left"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="30dp"
-        android:layout_marginTop="20dp"
-        android:src="@drawable/traffic_reminder_selector"
-        android:visibility="invisible"
+        android:layout_marginTop="100dp"
+        android:textColor="@color/white"
+        android:textSize="33sp"
         app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/appbar"/>
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:text="9.86"/>
+
+    <TextView
+        android:id="@+id/tv_unit_left"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/gb"
+        android:textColor="@color/white"
+        android:textSize="10sp"
+        app:layout_constraintLeft_toRightOf="@id/tv_current_left"
+        app:layout_constraintTop_toTopOf="@id/tv_current_left"
+        tools:ignore="SmallSp"/>
+
+    <!--当超出时，背景变为红色-->
+    <TextView
+        android:id="@+id/tv_hint_status"
+        style="@style/Tv"
+        android:text="@string/daily_left"
+        app:layout_constraintLeft_toLeftOf="@id/tv_current_left"
+        app:layout_constraintRight_toRightOf="@id/tv_current_left"
+        app:layout_constraintTop_toBottomOf="@id/tv_current_left"/>
+
+    <TextView
+        android:id="@+id/tv_correct_now"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="30dp"
+        android:background="@drawable/bg_lite_blue_round_rect"
+        android:gravity="center"
+        android:padding="3dp"
+        android:paddingBottom="5dp"
+        android:paddingEnd="10dp"
+        android:paddingStart="10dp"
+        android:paddingTop="5dp"
+        android:text="@string/correct_now"
+        android:textColor="@color/white"
+        android:textSize="12sp"
+        app:layout_constraintLeft_toLeftOf="@id/tv_current_left"
+        app:layout_constraintRight_toRightOf="@id/tv_current_left"
+        app:layout_constraintTop_toBottomOf="@id/tv_current_left"/>
+
+    <TextView
+        android:id="@+id/tv_last_update_time"
+        style="@style/TvHint"
+        android:layout_margin="5dp"
+        android:layout_marginTop="10dp"
+        android:textSize="10sp"
+        app:layout_constraintLeft_toLeftOf="@id/tv_current_left"
+        app:layout_constraintRight_toRightOf="@id/tv_current_left"
+        app:layout_constraintTop_toBottomOf="@id/tv_correct_now"
+        tools:ignore="SmallSp"
+        tools:text="今天16:20校正"/>
+
+    <TextView
+        android:id="@+id/tv_today_traffic"
+        style="@style/Tv16sp"
+        android:layout_margin="5dp"
+        app:layout_constraintBottom_toTopOf="@+id/tv_today_hint"
+        app:layout_constraintLeft_toLeftOf="parent"
+        tools:text="64.58MB"/>
+
+    <TextView
+        android:id="@+id/tv_today_hint"
+        style="@style/TvHint"
+        android:text="@string/today_used"
+        app:layout_constraintBottom_toBottomOf="@id/view_bg"
+        app:layout_constraintLeft_toLeftOf="@id/tv_today_traffic"
+        app:layout_constraintRight_toRightOf="@id/tv_today_traffic"/>
 
 
     <TextView
-        android:id="@+id/tv_traffic_remind"
+        android:id="@+id/tv_month_total_traffic"
         style="@style/Tv16sp"
-        android:layout_centerVertical="true"
-        android:layout_marginStart="10dp"
-        android:gravity="center"
-        tools:text="本月流量充足请放心使用！"
-        app:layout_constraintBottom_toBottomOf="@id/iv_traffic_remind"
-        app:layout_constraintLeft_toRightOf="@id/iv_traffic_remind"
-        app:layout_constraintTop_toTopOf="@id/iv_traffic_remind"/>
-
-    <LinearLayout
-        android:layout_width="300dp"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="30dp"
-        android:background="@color/graye5"
-        android:orientation="vertical"
+        android:layout_margin="5dp"
+        app:layout_constraintBottom_toTopOf="@id/tv_month_hint"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/tv_traffic_remind">
+        tools:text="11.49GB"/>
 
-        <TextView
-            android:id="@+id/tv_today_traffic"
-            style="@style/Tv16sp"
-            android:layout_margin="5dp"
-            tools:text="今天已用："/>
+    <TextView
+        android:id="@+id/tv_month_hint"
+        style="@style/TvHint"
+        app:layout_constraintBottom_toBottomOf="@id/view_bg"
+        app:layout_constraintLeft_toLeftOf="@id/tv_month_total_traffic"
+        app:layout_constraintRight_toRightOf="@id/tv_month_total_traffic"
+        tools:text="本月套餐："/>
 
-        <TextView
-            android:id="@+id/tv_month_used_traffic"
-            style="@style/Tv16sp"
-            android:layout_margin="5dp"
-            tools:text="本月已用："/>
 
-        <TextView
-            android:id="@+id/tv_month_total_traffic"
-            style="@style/Tv16sp"
-            android:layout_margin="5dp"
-            tools:text="本月流量："/>
+    <TextView
+        android:id="@+id/tv_month_used_traffic"
+        style="@style/Tv16sp"
+        android:layout_margin="5dp"
+        android:layout_marginEnd="20dp"
+        app:layout_constraintBottom_toTopOf="@+id/tv_today_hint"
+        app:layout_constraintRight_toRightOf="parent"
+        tools:text="5GB"/>
 
-        <TextView
-            android:id="@+id/tv_last_update_time"
-            style="@style/Tv16sp"
-            android:layout_margin="5dp"
-            tools:text=""/>
-    </LinearLayout>
-
-    <Button
-        android:id="@+id/btn_correct_flow"
-        android:layout_width="280dp"
-        android:layout_height="50dp"
-        android:background="@drawable/correction_flow_btn_selector"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"/>
+    <TextView
+        android:id="@+id/tv_account_hint"
+        style="@style/TvHint"
+        android:layout_marginEnd="10dp"
+        android:text="@string/month_used"
+        app:layout_constraintBottom_toBottomOf="@id/view_bg"
+        app:layout_constraintLeft_toLeftOf="@id/tv_month_used_traffic"
+        app:layout_constraintRight_toRightOf="@id/tv_month_used_traffic"/>
 </android.support.constraint.ConstraintLayout>

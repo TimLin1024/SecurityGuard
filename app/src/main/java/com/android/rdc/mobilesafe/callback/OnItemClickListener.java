@@ -1,6 +1,6 @@
 package com.android.rdc.mobilesafe.callback;
 
-import android.support.v7.widget.RecyclerView;
+        import android.support.v7.widget.RecyclerView;
 
 public abstract class OnItemClickListener {
 

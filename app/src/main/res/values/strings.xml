@@ -45,5 +45,10 @@
     <string name="msg_clean_result_indicate">清理完毕， \n您的手机洁净如新</string>
     <string name="traffic_control">流量控制</string>
     <string name="clean">清除无用进程</string>
+    <string name="gb">GB</string>
+    <string name="daily_left">-- 日常剩余 --</string>
+    <string name="correct_now">立即校正</string>
+    <string name="today_used">今日已用</string>
+    <string name="month_used">本月已用</string>
 
 </resources>
