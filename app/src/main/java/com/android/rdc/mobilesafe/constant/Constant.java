@@ -41,5 +41,11 @@ public class Constant {
     public static final String KEY_CARD_OPERATOR_INDEX = "CARD_OPERATOR_INDEX";
     public static final String KEY_CARD_BRAND_INDEX = "CARD_BRAND_INDEX";
 
+    /**
+     * 流量监控界面
+     */
+    public static final String KEY_TOTAL_FLOW = "TOTAL_FLOW";
+    public static final String KEY_USED_FLOW = "USED_FLOW";
+    public static final String KEY_LAST_UPDATE_TIME = "LAST_UPDATE_TIME";
 
 }

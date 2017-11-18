@@ -54,7 +54,7 @@ public class SmsDatabaseChaneObserver extends ContentObserver {
                 mMessageCount = count;
 //                return;
             }
-            // 发现收件箱的短信总数目比之前大就认为是刚接收到新短信---如果出现意外，请神保佑
+            // 发现收件箱的短信总数目比之前大就认为是刚接收到新短信---有可能出现意外
             // 同时认为id最大的那条记录为刚刚新加入的短信的id---这个大多数是这样的，发现不一样的情况的时候可能也要求神保佑了
             mMessageCount = count;
             if (cursor != null) {
