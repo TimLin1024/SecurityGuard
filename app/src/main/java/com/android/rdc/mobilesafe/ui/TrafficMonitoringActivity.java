@@ -1,6 +1,9 @@
 package com.android.rdc.mobilesafe.ui;
 
 import android.Manifest;
+import android.app.AppOpsManager;
+import android.app.usage.NetworkStats;
+import android.app.usage.NetworkStatsManager;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.ContextWrapper;
@@ -8,8 +11,12 @@ import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
+import android.net.ConnectivityManager;
+import android.net.TrafficStats;
 import android.net.Uri;
 import android.os.Build;
+import android.os.RemoteException;
+import android.provider.Settings;
 import android.support.annotation.NonNull;
 import android.support.constraint.ConstraintLayout;
 import android.support.design.widget.Snackbar;
@@ -26,9 +33,10 @@ import com.android.rdc.mobilesafe.R;
 import com.android.rdc.mobilesafe.base.BaseActivity;
 import com.android.rdc.mobilesafe.constant.Constant;
 import com.android.rdc.mobilesafe.receiver.SmsDatabaseChaneObserver;
+import com.android.rdc.mobilesafe.util.DateUtil;
 import com.android.rdc.mobilesafe.util.SystemUtil;
 
-import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.Date;
 
 import butterknife.BindView;
@@ -53,6 +61,8 @@ public class TrafficMonitoringActivity extends BaseActivity {
     TextView mTvLastUpdateTime;
     @BindView(R.id.tv_today_traffic)
     TextView mTvTodayTraffic;
+    @BindView(R.id.tv_today_hint)
+    TextView mTvTodayHint;
     @BindView(R.id.tv_month_total_traffic)
     TextView mTvMonthTotalTraffic;
     @BindView(R.id.tv_month_used_traffic)
@@ -79,15 +89,13 @@ public class TrafficMonitoringActivity extends BaseActivity {
             startActivity(TrafficSettingActivity.class);
             finish();
         }
-        // TODO: 2017/10/6 0006 开启流量监控服务，需要先申请权限
         if (ContextCompat.checkSelfPermission(getApplicationContext(), Manifest.permission.RECEIVE_SMS) != PackageManager.PERMISSION_GRANTED) {
             ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.RECEIVE_SMS}, PERMISSIONS_REQUEST_RECEIVE_SMS);
             Log.d(TAG, "initData: 申请权限");
         } else {
-            // 原来的敏感操作代码：发短信或者收短信
             Log.d(TAG, "initData: 注册广播");
             registerSmsReceiver();
-            registerSmsDatabaseChangeObserver(getApplicationContext());
+//            registerSmsDatabaseChangeObserver(getApplicationContext());
         }
 
     }
@@ -103,10 +111,7 @@ public class TrafficMonitoringActivity extends BaseActivity {
 
     @Override
     protected void initView() {
-        Date date = new Date(mSp.getLong(KEY_LAST_UPDATE_TIME, 0));
-        mTvMonthUsedTraffic.setText(String.format("本月已用流量：%s", mSp.getString(KEY_TOTAL_FLOW, "")));
-        mTvMonthTotalTraffic.setText(String.format("本月总流量：%s", mSp.getString(KEY_TOTAL_FLOW, "")));
-        mTvLastUpdateTime.setText(String.format("最近更新: %s", new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(date)));
+        updateUi(mSp.getLong(KEY_TOTAL_FLOW, 1), mSp.getLong(KEY_USED_FLOW, 0));
     }
 
     @Override
@@ -124,11 +129,9 @@ public class TrafficMonitoringActivity extends BaseActivity {
         //6.0 以上动态申请权限
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M && checkSelfPermission(Manifest.permission.SEND_SMS) != PackageManager.PERMISSION_GRANTED) {
             requestPermissions(new String[]{Manifest.permission.SEND_SMS}, PERMISSIONS_REQUEST_SEND_SMS);
-            //After this point you wait for callback in onRequestPermissionsResult(int, String[], int[]) overriden method
         } else {
             sendMsgByMode();
         }
-
     }
 
     private void sendMsgByMode() {
@@ -215,14 +218,74 @@ public class TrafficMonitoringActivity extends BaseActivity {
             }
 
             mSp.edit()
-                    .putString(KEY_TOTAL_FLOW, Formatter.formatFileSize(context, (total)))
-                    .putString(KEY_USED_FLOW, Formatter.formatFileSize(context, (totalUsed)))
+                    .putLong(KEY_TOTAL_FLOW, total)
+                    .putLong(KEY_USED_FLOW, totalUsed)
                     .putLong(KEY_LAST_UPDATE_TIME, System.currentTimeMillis())
                     .apply();
 
-            mTvMonthTotalTraffic.setText(String.format("本月流量：%s", Formatter.formatFileSize(context, (total))));
-            mTvMonthUsedTraffic.setText(String.format("本月已用：%s", Formatter.formatFileSize(context, totalUsed)));
+            updateUi(total, totalUsed);
 
+        }
+    }
+
+    private void updateUi(long total, long totalUsed) {
+        //本月总流量
+        mTvMonthTotalTraffic.setText(Formatter.formatFileSize(getApplicationContext(), (total)));
+        //本月已经使用的流量
+        mTvMonthUsedTraffic.setText(Formatter.formatFileSize(getApplicationContext(), totalUsed));
+
+        //当前剩余总流量
+        String str = Formatter.formatFileSize(getApplicationContext(), Math.abs(total - totalUsed));
+        mTvCurrentLeft.setText(str.replaceAll("[^(0-9)]", ""));
+        mTvUnitLeft.setText(str.replaceAll("[^(a-zA-Z)]", ""));//单位
+
+
+        if (total >= totalUsed) {
+            mTvHintStatus.setText("—— 日常剩余 ——");
+        } else {
+            mTvHintStatus.setText("—— 日常超出 ——");
+        }
+
+        //更新时间
+        long lastUpdateTime = mSp.getLong(KEY_LAST_UPDATE_TIME, 0);
+        if (lastUpdateTime == 0) {
+            mTvLastUpdateTime.setText("从未更新");
+        } else {
+            Date date = new Date(lastUpdateTime);
+            mTvLastUpdateTime.setText(String.format("%s校正", DateUtil.getDateDiff(date)));
+        }
+
+
+        //6.0+ 可以获取当天的流量使用情况
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M && hasPermissionToReadNetworkStats()) {
+            NetworkStatsManager statsManager = (NetworkStatsManager) getApplicationContext().getSystemService(NETWORK_STATS_SERVICE);
+            //获取当前零点的时间
+            Calendar cal = Calendar.getInstance();
+            cal.set(Calendar.HOUR_OF_DAY, 0);
+            cal.set(Calendar.SECOND, 0);
+            cal.set(Calendar.MINUTE, 0);
+            cal.set(Calendar.MILLISECOND, 0);
+            long startTime = cal.getTimeInMillis();
+            cal.set(Calendar.HOUR_OF_DAY, 24);
+            long todayUsed = 0;
+            try {
+                NetworkStats networkStats = statsManager.querySummary(ConnectivityManager.TYPE_MOBILE, "", startTime, cal.getTimeInMillis());
+                NetworkStats.Bucket bucket = null;
+                if (networkStats.hasNextBucket()) {
+                    networkStats.getNextBucket(bucket);
+                }
+                if (bucket != null) {
+                    todayUsed = bucket.getRxBytes();
+                }
+            } catch (RemoteException e) {
+                e.printStackTrace();
+            }
+            //今天已经使用的流量
+            mTvTodayTraffic.setText(Formatter.formatFileSize(getApplicationContext(), todayUsed));
+        } else {
+            mTvTodayHint.setText("自开机开始已用");
+            mTvTodayTraffic.setText(Formatter.formatFileSize(getApplicationContext(),
+                    TrafficStats.getMobileRxBytes() + TrafficStats.getMobileTxBytes()));
         }
     }
 
@@ -304,4 +367,28 @@ public class TrafficMonitoringActivity extends BaseActivity {
             e.printStackTrace();
         }
     }
+
+    /**
+     * 是否有权限读取网络状态
+     */
+    private boolean hasPermissionToReadNetworkStats() {
+        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.M) {
+            return true;
+        }
+        final AppOpsManager appOps = (AppOpsManager) getApplicationContext().getSystemService(Context.APP_OPS_SERVICE);
+        int mode = appOps.checkOpNoThrow(AppOpsManager.OPSTR_GET_USAGE_STATS, android.os.Process.myUid(), getPackageName());
+        if (mode == AppOpsManager.MODE_ALLOWED) {
+            return true;
+        }
+
+        requestReadNetworkStats();
+        return false;
+    }
+
+    // 打开“有权查看使用情况的应用”页面
+    private void requestReadNetworkStats() {
+        Intent intent = new Intent(Settings.ACTION_USAGE_ACCESS_SETTINGS);
+        startActivity(intent);
+    }
+
 }

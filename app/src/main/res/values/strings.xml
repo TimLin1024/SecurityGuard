@@ -50,5 +50,6 @@
     <string name="correct_now">立即校正</string>
     <string name="today_used">今日已用</string>
     <string name="month_used">本月已用</string>
+    <string name="month_bill_suite">本月套餐</string>
 
 </resources>

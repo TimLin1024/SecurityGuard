@@ -9,17 +9,30 @@
     android:fitsSystemWindows="true"
     tools:context="com.android.rdc.mobilesafe.ui.TrafficMonitoringActivity">
 
+    <android.support.constraint.Guideline
+        android:id="@+id/guideline1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintGuide_percent="0.33"/>
+
+    <android.support.constraint.Guideline
+        android:id="@+id/guideline2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintGuide_percent="0.66"/>
+
     <View
         android:id="@+id/view_bg"
         android:layout_width="match_parent"
         android:layout_height="400dp"
-        android:background="#fa22b1ef"
+        android:background="@color/traffic_bg_blue"
+        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_weight="2"
-        tools:layout_editor_absoluteX="0dp"
-        tools:layout_editor_absoluteY="0dp"/>
+        app:layout_constraintVertical_weight="2"/>
 
     <TextView
         android:id="@+id/tv_current_left"
@@ -27,7 +40,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="100dp"
         android:textColor="@color/white"
-        android:textSize="33sp"
+        android:textSize="48sp"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toTopOf="parent"
@@ -59,11 +72,14 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="30dp"
         android:background="@drawable/bg_lite_blue_round_rect"
+        android:clickable="true"
+        android:enabled="true"
+        android:focusable="true"
         android:gravity="center"
         android:padding="3dp"
         android:paddingBottom="5dp"
-        android:paddingEnd="10dp"
-        android:paddingStart="10dp"
+        android:paddingEnd="20dp"
+        android:paddingStart="20dp"
         android:paddingTop="5dp"
         android:text="@string/correct_now"
         android:textColor="@color/white"
@@ -90,6 +106,7 @@
         android:layout_margin="5dp"
         app:layout_constraintBottom_toTopOf="@+id/tv_today_hint"
         app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toLeftOf="@id/guideline1"
         tools:text="64.58MB"/>
 
     <TextView
@@ -97,8 +114,8 @@
         style="@style/TvHint"
         android:text="@string/today_used"
         app:layout_constraintBottom_toBottomOf="@id/view_bg"
-        app:layout_constraintLeft_toLeftOf="@id/tv_today_traffic"
-        app:layout_constraintRight_toRightOf="@id/tv_today_traffic"/>
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toLeftOf="@id/guideline1"/>
 
 
     <TextView
@@ -106,34 +123,53 @@
         style="@style/Tv16sp"
         android:layout_margin="5dp"
         app:layout_constraintBottom_toTopOf="@id/tv_month_hint"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintLeft_toRightOf="@id/guideline1"
+        app:layout_constraintRight_toLeftOf="@id/guideline2"
         tools:text="11.49GB"/>
 
     <TextView
         android:id="@+id/tv_month_hint"
         style="@style/TvHint"
+        android:text="@string/month_bill_suite"
         app:layout_constraintBottom_toBottomOf="@id/view_bg"
-        app:layout_constraintLeft_toLeftOf="@id/tv_month_total_traffic"
-        app:layout_constraintRight_toRightOf="@id/tv_month_total_traffic"
-        tools:text="本月套餐："/>
+        app:layout_constraintLeft_toRightOf="@id/guideline1"
+        app:layout_constraintRight_toLeftOf="@id/guideline2"/>
 
 
     <TextView
         android:id="@+id/tv_month_used_traffic"
         style="@style/Tv16sp"
         android:layout_margin="5dp"
-        android:layout_marginEnd="20dp"
-        app:layout_constraintBottom_toTopOf="@+id/tv_today_hint"
+        app:layout_constraintBottom_toTopOf="@+id/tv_month_hint"
+        app:layout_constraintLeft_toRightOf="@id/guideline2"
         app:layout_constraintRight_toRightOf="parent"
         tools:text="5GB"/>
 
     <TextView
         android:id="@+id/tv_account_hint"
         style="@style/TvHint"
-        android:layout_marginEnd="10dp"
         android:text="@string/month_used"
         app:layout_constraintBottom_toBottomOf="@id/view_bg"
-        app:layout_constraintLeft_toLeftOf="@id/tv_month_used_traffic"
-        app:layout_constraintRight_toRightOf="@id/tv_month_used_traffic"/>
+        app:layout_constraintLeft_toRightOf="@id/guideline2"
+        app:layout_constraintRight_toRightOf="parent"/>
+
+    <View
+        android:layout_width="0.05dp"
+        android:layout_height="20dp"
+        android:background="@color/graye5"
+        app:layout_constraintBottom_toBottomOf="@id/tv_month_hint"
+        app:layout_constraintLeft_toLeftOf="@id/guideline1"
+        app:layout_constraintRight_toLeftOf="@id/guideline1"
+        app:layout_constraintTop_toTopOf="@id/tv_month_total_traffic"/>
+
+    <View
+        android:layout_width="0.05dp"
+        android:layout_height="20dp"
+        android:background="@color/graye5"
+        app:layout_constraintBottom_toBottomOf="@id/tv_month_hint"
+        app:layout_constraintLeft_toLeftOf="@id/guideline2"
+        app:layout_constraintRight_toLeftOf="@id/guideline2"
+        app:layout_constraintTop_toTopOf="@id/tv_month_total_traffic"/>
+
+
 </android.support.constraint.ConstraintLayout>

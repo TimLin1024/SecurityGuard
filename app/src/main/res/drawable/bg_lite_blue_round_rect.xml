@@ -1,21 +1,20 @@
 <?xml version="1.0" encoding="utf-8"?>
 <selector xmlns:android="http://schemas.android.com/apk/res/android">
-    <item>
-        <shape android:shape="rectangle">
-            <stroke android:width="0.5dp" android:color="@color/white"/>
-            <solid android:color="@color/transparent"/>
-            <corners android:radius="3dp"/>
-            <size android:width="30dp" android:height="10dp"/>
-        </shape>
-    </item>
-
+    <!--注意顺序，selector 匹配是从上往下的。有状态的在前，默认状态在最下面-->
     <item android:state_pressed="true">
         <shape android:shape="rectangle">
             <stroke android:width="0.5dp" android:color="@color/white"/>
-            <solid android:color="#5affffff"/>
+            <solid android:color="#b3ffffff"/>
             <corners android:radius="6dp"/>
             <size android:width="30dp" android:height="10dp"/>
         </shape>
     </item>
-
+    <item>
+        <shape android:shape="rectangle">
+            <stroke android:width="0.5dp" android:color="@color/white"/>
+            <solid android:color="#24ffffff"/>
+            <corners android:radius="3dp"/>
+            <size android:width="30dp" android:height="10dp"/>
+        </shape>
+    </item>
 </selector>

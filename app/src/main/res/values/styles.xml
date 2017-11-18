@@ -7,6 +7,12 @@
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
         <item name="colorAccent">@color/colorAccent</item>
     </style>
+    <style name="TrafficActivityTheme" parent="AppTheme">
+        <!-- Customize your theme here. -->
+        <item name="colorPrimary">@color/traffic_bg_blue</item>
+        <item name="colorPrimaryDark">@color/traffic_bg_blue</item>
+        <item name="colorAccent">@color/colorAccent</item>
+    </style>
 
     <!--toolbar-->
     <style name="ToolbarStyle" parent="@style/ThemeOverlay.AppCompat.ActionBar">
