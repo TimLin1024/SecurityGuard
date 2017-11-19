@@ -23,6 +23,7 @@
         android:orientation="vertical"
         app:layout_constraintGuide_percent="0.66"/>
 
+
     <View
         android:id="@+id/view_bg"
         android:layout_width="match_parent"
@@ -171,5 +172,30 @@
         app:layout_constraintRight_toLeftOf="@id/guideline2"
         app:layout_constraintTop_toTopOf="@id/tv_month_total_traffic"/>
 
+    <ImageView
+        android:id="@+id/iv_back"
+        style="@style/IvToolbarIcon"
+        android:layout_marginStart="10dp"
+        android:layout_marginTop="8dp"
+        android:src="@drawable/ic_arrow_left"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintTop_toTopOf="@id/view_bg"/>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="7dp"
+        android:text="@string/traffic_query"
+        android:textColor="@color/white"
+        app:layout_constraintBottom_toBottomOf="@id/iv_back"
+        app:layout_constraintLeft_toRightOf="@id/iv_back"
+        app:layout_constraintTop_toTopOf="@id/iv_back"/>
+
+    <ImageView
+        android:id="@+id/iv_setting"
+        style="@style/IvToolbarIcon"
+        android:src="@drawable/ic_setting_white"
+        app:layout_constraintRight_toRightOf="parent"/>
 
 </android.support.constraint.ConstraintLayout>
+`

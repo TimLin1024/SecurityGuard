@@ -51,5 +51,6 @@
     <string name="today_used">今日已用</string>
     <string name="month_used">本月已用</string>
     <string name="month_bill_suite">本月套餐</string>
+    <string name="traffic_query">流量查询</string>
 
 </resources>
