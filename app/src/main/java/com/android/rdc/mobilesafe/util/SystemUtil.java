@@ -122,6 +122,4 @@ public final class SystemUtil {
         }
         return result;
     }
-
-
 }

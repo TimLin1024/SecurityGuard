@@ -1,43 +1,49 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.v4.widget.NestedScrollView
+<RelativeLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:orientation="vertical">
+    android:layout_gravity="bottom"
+    android:layout_marginEnd="10dp"
+    android:layout_marginStart="10dp"
+    android:divider="@drawable/divider_horizontal">
 
-    <RelativeLayout
-        xmlns:android="http://schemas.android.com/apk/res/android"
+    <TextView
+        android:id="@+id/tv_title"
+        style="@style/Base.TextAppearance.AppCompat.Medium"
+        android:layout_width="match_parent"
+        android:layout_height="45dp"
+        android:layout_gravity="center_horizontal"
+        android:background="@color/white"
+        android:gravity="center"
+        android:text="@string/city"/>
+
+    <android.support.v4.widget.NestedScrollView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginEnd="10dp"
-        android:layout_marginStart="10dp"
-        android:divider="@drawable/divider_horizontal"
-        android:orientation="vertical"
-        android:showDividers="middle">
+        android:layout_below="@id/tv_title"
+        android:layout_gravity="bottom"
+        android:orientation="vertical">
 
-        <TextView
-            android:id="@+id/tv_title"
-            style="@style/Base.TextAppearance.AppCompat.Medium"
-            android:layout_width="match_parent"
-            android:layout_height="45dp"
-            android:layout_gravity="center_horizontal"
-            android:gravity="center"
-            android:text="@string/city"/>
-
-        <android.support.v7.widget.RecyclerView
-            android:id="@+id/rv"
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_below="@id/tv_title"/>
+            android:orientation="vertical"
+            android:showDividers="middle">
 
-        <Button
-            android:id="@+id/btn_cancel"
-            android:layout_width="match_parent"
-            android:layout_height="45dp"
-            android:layout_below="@id/rv"
-            android:background="@drawable/selector_gray_rect"
-            android:gravity="center"
-            android:text="@string/cancel"/>
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/rv"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/tv_title"/>
 
-    </RelativeLayout>
-</android.support.v4.widget.NestedScrollView>
+            <Button
+                android:id="@+id/btn_cancel"
+                android:layout_width="match_parent"
+                android:layout_height="45dp"
+                android:background="@drawable/selector_gray_rect"
+                android:gravity="center"
+                android:text="@string/cancel"/>
+        </LinearLayout>
+    </android.support.v4.widget.NestedScrollView>
+</RelativeLayout>

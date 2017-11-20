@@ -71,6 +71,7 @@ public class TrafficMonitoringActivity extends BaseActivity {
     private SharedPreferences mSp;
     private CorrectFlowReceiver mCorrectFlowReceiver;
 
+
     //主要要完成 信息的获取，以及更新，首先要能够拿到短信（获取到手机号码），
     // 然后再进行处理（联通的已经完成），最后显示出来（界面待修改）
     @Override
@@ -87,22 +88,13 @@ public class TrafficMonitoringActivity extends BaseActivity {
             finish();
         }
         //检查短信短信接收权限
-        if (ContextCompat.checkSelfPermission(getApplicationContext(), Manifest.permission.RECEIVE_SMS) != PackageManager.PERMISSION_GRANTED) {
+        if (ContextCompat.checkSelfPermission(getApplicationContext(), Manifest.permission.RECEIVE_SMS)
+                != PackageManager.PERMISSION_GRANTED) {
             ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.RECEIVE_SMS}, PERMISSIONS_REQUEST_RECEIVE_SMS);
         } else {
             registerSmsReceiver();
-//            registerSmsDatabaseChangeObserver(getApplicationContext());
         }
 
-    }
-
-    @Override
-    protected void onDestroy() {
-        if (mCorrectFlowReceiver != null) {
-            unregisterReceiver(mCorrectFlowReceiver);
-            Log.d(TAG, "onDestroy: 解除注册");
-        }
-        super.onDestroy();
     }
 
     @Override
@@ -113,6 +105,15 @@ public class TrafficMonitoringActivity extends BaseActivity {
     @Override
     protected void initListener() {
 
+    }
+
+
+    @Override
+    protected void onDestroy() {
+        if (mCorrectFlowReceiver != null) {
+            unregisterReceiver(mCorrectFlowReceiver);
+        }
+        super.onDestroy();
     }
 
     private void sendMsgByMode() {
@@ -269,16 +270,7 @@ public class TrafficMonitoringActivity extends BaseActivity {
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.tv_correct_now:
-                if (!SystemUtil.hasSimCard()) {
-                    showToast("您的手机没有 SIM 卡，请先插入 SIM 卡，再进行查询");
-                    return;
-                }
-                //6.0 以上动态申请权限
-                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M && checkSelfPermission(Manifest.permission.SEND_SMS) != PackageManager.PERMISSION_GRANTED) {
-                    requestPermissions(new String[]{Manifest.permission.SEND_SMS}, PERMISSIONS_REQUEST_SEND_SMS);
-                } else {
-                    sendMsgByMode();
-                }
+                correctFlow();
                 break;
             case R.id.iv_back:
                 finish();
@@ -286,6 +278,19 @@ public class TrafficMonitoringActivity extends BaseActivity {
             case R.id.iv_setting:
                 startActivity(TrafficSettingActivity.class);
                 break;
+        }
+    }
+
+    private void correctFlow() {
+        if (!SystemUtil.hasSimCard()) {
+            showToast("您的手机没有 SIM 卡，请先插入 SIM 卡，再进行查询");
+            return;
+        }
+        //6.0 以上动态申请权限
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M && checkSelfPermission(Manifest.permission.SEND_SMS) != PackageManager.PERMISSION_GRANTED) {
+            requestPermissions(new String[]{Manifest.permission.SEND_SMS}, PERMISSIONS_REQUEST_SEND_SMS);
+        } else {
+            sendMsgByMode();
         }
     }
 }

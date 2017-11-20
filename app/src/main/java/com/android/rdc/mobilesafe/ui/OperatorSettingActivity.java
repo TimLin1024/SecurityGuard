@@ -2,13 +2,13 @@ package com.android.rdc.mobilesafe.ui;
 
 import android.content.SharedPreferences;
 import android.support.design.widget.BottomSheetDialog;
-import android.support.v4.widget.NestedScrollView;
 import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Button;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.android.rdc.mobilesafe.R;
@@ -130,19 +130,19 @@ public class OperatorSettingActivity extends BaseToolBarActivity {
                 break;
             case R.id.ll_province:
                 mSelectType = SelectType.PROVINCE;
-                showProvinceDialog();
+                showBottomDialog();
                 break;
             case R.id.ll_city:
                 mSelectType = SelectType.CITY;
-                showProvinceDialog();
+                showBottomDialog();
                 break;
             case R.id.ll_operator:
                 mSelectType = SelectType.OPERATOR_NAME;
-                showProvinceDialog();
+                showBottomDialog();
                 break;
             case R.id.ll_brand:
                 mSelectType = SelectType.BRAND;
-                showProvinceDialog();
+                showBottomDialog();
                 break;
         }
     }
@@ -191,10 +191,10 @@ public class OperatorSettingActivity extends BaseToolBarActivity {
         }
     }
 
-    private void showProvinceDialog() {
+    private void showBottomDialog() {
         if (mBottomSheetDialog == null) {
             mBottomSheetDialog = new BottomSheetDialog(this);
-            NestedScrollView rlRoot = (NestedScrollView) LayoutInflater.from(this).inflate(R.layout.dialog_list, null);
+            RelativeLayout rlRoot = (RelativeLayout) LayoutInflater.from(this).inflate(R.layout.dialog_list, null);
             mBottomSheetDialog.setContentView(rlRoot);
             mTvDialogTitle = (TextView) rlRoot.findViewById(R.id.tv_title);
             Button btn = (Button) rlRoot.findViewById(R.id.btn_cancel);
