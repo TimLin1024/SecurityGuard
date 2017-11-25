@@ -148,13 +148,10 @@ public class SoftwareManagerAdapter extends BaseRvAdapter<AppInfo> {
 
         }
 
-
         @SuppressLint("SetTextI18n")
         private void updateFreeMemoryOnPhone() {
             long freeSpace = Environment.getDataDirectory().getFreeSpace();
             mTextView.setText("剩余：" + Formatter.formatFileSize(mContext, freeSpace));
         }
     }
-
-
 }

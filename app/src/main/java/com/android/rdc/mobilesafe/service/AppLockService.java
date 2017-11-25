@@ -75,7 +75,6 @@ public class AppLockService extends Service {
                 mRunningTaskInfo = mRunningTaskInfoList.get(0);
                 mPackageName = mRunningTaskInfo.topActivity.getPackageName();
                 Log.e(TAG, "run: mTmpStopProtectPackageName 00" + mTmpStopProtectPackageName);
-                Log.e(TAG, "run: 开启中");
                 if (mPackageList.contains(mPackageName)) {
                     //判断是否需要保护
                     if (!mPackageName.equals(mTmpStopProtectPackageName)) {
