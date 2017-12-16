@@ -25,8 +25,6 @@ import com.android.rdc.mobilesafe.ui.SettingActivity;
 import com.android.rdc.mobilesafe.ui.SoftwareManagerActivity;
 import com.android.rdc.mobilesafe.ui.TrafficMonitoringActivity;
 import com.android.rdc.mobilesafe.ui.widget.GridDividerItemDecoration;
-import com.android.rdc.mobilesafe.ui.widget.RoundProgress;
-import com.android.rdc.mobilesafe.ui.widget.RoundRectDialog;
 
 import java.util.List;
 
@@ -37,8 +35,6 @@ public class HomeActivity extends BaseActivity {
 
     @BindView(R.id.rv_home)
     RecyclerView mRvHome;
-    @BindView(R.id.round_progress)
-    RoundProgress mRoundProgress;
     @BindView(R.id.iv_setting)
     ImageView mIvSetting;
 
@@ -68,7 +64,7 @@ public class HomeActivity extends BaseActivity {
                         if (activity.mCurrentProgress > 100) {
                             activity.mCurrentProgress = 100;
                         }
-                        activity.mRoundProgress.updateProcess(activity.mCurrentProgress);
+//                        activity.mRoundProgress.updateProcess(activity.mCurrentProgress);
                         this.sendEmptyMessageAtTime(MSG_UPDATE_PROGRESS, 200);
                     }
                     break;
@@ -121,7 +117,6 @@ public class HomeActivity extends BaseActivity {
     }
 
 
-
     @Override
     protected void initListener() {
         mHomeRvAdapter.setOnRvItemClickListener(new BaseRvAdapter.OnRvItemClickListener() {
@@ -157,15 +152,8 @@ public class HomeActivity extends BaseActivity {
                 startActivity(TrafficMonitoringActivity.class);
                 break;
             case R.drawable.settings://设置
-                new RoundRectDialog.Builder(this)
-                        .setTitle("停止病毒扫描")
-                        .setMsg("是否停止扫描？")
-                        .setNegativeButton("取消", null)
-                        .setPositiveButton("确定", (dialog, which) -> {
-                            finish();
-                        })
-                        .show();
                 break;
+            default:
         }
     }
 
@@ -183,8 +171,4 @@ public class HomeActivity extends BaseActivity {
         return super.onKeyDown(keyCode, event);
     }
 
-    @Override
-    public void onBackPressed() {
-
-    }
 }

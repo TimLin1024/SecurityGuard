@@ -23,13 +23,20 @@
             app:title="">
 
 
-            <com.android.rdc.mobilesafe.ui.widget.RoundProgress
-                android:id="@+id/round_progress"
-                android:layout_width="250dp"
-                android:layout_height="250dp"
-                android:layout_gravity="center"
-                android:layout_marginTop="10dp"/>
-
+            <!--<com.android.rdc.mobilesafe.ui.widget.RoundProgress-->
+                <!--android:id="@+id/round_progress"-->
+                <!--android:layout_width="250dp"-->
+                <!--android:layout_height="250dp"-->
+                <!--android:layout_gravity="center"-->
+                <!--android:layout_marginTop="10dp"/>-->
+            <com.wx.airpurgeview.AirPurgeLayoutView
+                android:id="@+id/airpurge_view"
+                android:layout_width="match_parent"
+                android:layout_height="300dp"
+                app:main_color="@color/colorPrimary"
+                app:toptitle="安全"
+                app:centertitle="521"
+                app:bottomtitle="空气优"/>
 
             <android.support.v7.widget.Toolbar
                 android:id="@+id/toolbar"

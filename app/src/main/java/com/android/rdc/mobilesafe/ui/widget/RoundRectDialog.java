@@ -41,7 +41,7 @@ public class RoundRectDialog extends Dialog {
     }
 
     private RoundRectDialog(@NonNull Context context, @StyleRes int themeResId) {
-        super(context, R.style.dialog_custom);//引入自定义对话框形式
+        super(context, R.style.RoundRectDialogStyle);//引入自定义对话框形式
     }
 
     @Override
@@ -57,8 +57,8 @@ public class RoundRectDialog extends Dialog {
         WindowManager.LayoutParams lp = win.getAttributes();
         Point screenSizePoint = DisplayUtil.getScreenSize(getContext());
         lp.width = screenSizePoint.x - DensityUtil.density2px(getContext(), 20);//宽度为屏幕宽度 - 20
-        lp.height = DensityUtil.density2px(getContext(), 180);
-        lp.gravity = Gravity.BOTTOM;
+        lp.height = DensityUtil.density2px(getContext(), 180);//
+        lp.gravity = Gravity.BOTTOM;//显示在底部
         win.setAttributes(lp);
     }
 

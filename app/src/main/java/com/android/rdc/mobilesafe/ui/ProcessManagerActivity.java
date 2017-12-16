@@ -52,8 +52,6 @@ public class ProcessManagerActivity extends BaseToolBarActivity {
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-
-
         return super.onCreateOptionsMenu(menu);
     }
 
@@ -70,37 +68,31 @@ public class ProcessManagerActivity extends BaseToolBarActivity {
         mUserTaskList = new ArrayList<>(32);
         mSystemTaskList = new ArrayList<>(32);
         ProgressDialogUtil.showDefaultDialog(this);
-        new Thread(new Runnable() {
-            @Override
-            public void run() {
-                mRunningTaskInfoList = TaskInfoParser.parseTaskInfo(getApplicationContext());
-                for (TaskInfo taskInfo : mRunningTaskInfoList) {
-                    if (taskInfo.isUserApp()) {
-                        mUserTaskList.add(taskInfo);
-                    } else {
-                        mSystemTaskList.add(taskInfo);
-                    }
+        new Thread(() -> {
+            mRunningTaskInfoList = TaskInfoParser.parseTaskInfo(getApplicationContext());
+            for (TaskInfo taskInfo : mRunningTaskInfoList) {
+                if (taskInfo.isUserApp()) {
+                    mUserTaskList.add(taskInfo);
+                } else {
+                    mSystemTaskList.add(taskInfo);
                 }
-                runOnUiThread(new Runnable() {
-                    @Override
-                    public void run() {
-                        //更新显示内容
-                        mRunningProcessCount = mRunningTaskInfoList.size();
-                        mTvRunningProcessMem.setText(
-                                String.format("可用/总内存：%s/%s",
-                                        Formatter.formatFileSize(ProcessManagerActivity.this, SystemUtil.getAvailableMem(ProcessManagerActivity.this)),
-                                        Formatter.formatFileSize(ProcessManagerActivity.this, SystemUtil.getTotalMem()))
-                        );
-
-                        mTvRunningProcessNum.setText(String.format(Locale.CHINA, "运行中的进程：%d 个", mRunningProcessCount));
-                        mAdapter = new ProcessManageAdapter(mSystemTaskList, mUserTaskList, ProcessManagerActivity.this/*getApplicationContext()*/);
-                        mRvRunningProcess.setLayoutManager(new LinearLayoutManager(ProcessManagerActivity.this));
-                        mRvRunningProcess.addItemDecoration(new DividerItemDecoration(ProcessManagerActivity.this, DividerItemDecoration.VERTICAL));
-                        mRvRunningProcess.setAdapter(mAdapter);
-                        ProgressDialogUtil.dismiss();
-                    }
-                });
             }
+            runOnUiThread(() -> {
+                //更新显示内容
+                mRunningProcessCount = mRunningTaskInfoList.size();
+                mTvRunningProcessMem.setText(
+                        String.format("可用/总内存：%s/%s",
+                                Formatter.formatFileSize(ProcessManagerActivity.this, SystemUtil.getAvailableMem(ProcessManagerActivity.this)),
+                                Formatter.formatFileSize(ProcessManagerActivity.this, SystemUtil.getTotalMem()))
+                );
+
+                mTvRunningProcessNum.setText(String.format(Locale.CHINA, "运行中的进程：%d 个", mRunningProcessCount));
+                mAdapter = new ProcessManageAdapter(mSystemTaskList, mUserTaskList, ProcessManagerActivity.this/*getApplicationContext()*/);
+                mRvRunningProcess.setLayoutManager(new LinearLayoutManager(ProcessManagerActivity.this));
+                mRvRunningProcess.addItemDecoration(new DividerItemDecoration(ProcessManagerActivity.this, DividerItemDecoration.VERTICAL));
+                mRvRunningProcess.setAdapter(mAdapter);
+                ProgressDialogUtil.dismiss();
+            });
         }).start();
 
 

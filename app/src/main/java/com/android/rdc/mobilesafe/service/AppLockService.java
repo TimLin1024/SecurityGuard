@@ -24,7 +24,7 @@ import static com.android.rdc.mobilesafe.constant.Constant.KEY_EXTRA_PACKAGE_NAM
 
 public class AppLockService extends Service {
     private static final String TAG = "AppLockService";
-    private boolean flag;//是否启动
+    private boolean mFlag;//是否启动
     private ActivityManager mActivityManager;
     private List<ActivityManager.RunningTaskInfo> mRunningTaskInfoList;
     private ActivityManager.RunningTaskInfo mRunningTaskInfo;
@@ -66,10 +66,10 @@ public class AppLockService extends Service {
 
     private void startAppLockService() {
         new Thread(() -> {
-            flag = true;
+            mFlag = true;
             Log.e(TAG, "run: 服务即将开启");
 //                Toast.makeText(AppLockService.this, "服务即将开启", Toast.LENGTH_SHORT).show();
-            while (flag) {
+            while (mFlag) {
                 // 5.0 以上用不了
                 mRunningTaskInfoList = mActivityManager.getRunningTasks(1);
                 mRunningTaskInfo = mRunningTaskInfoList.get(0);
@@ -98,7 +98,7 @@ public class AppLockService extends Service {
 
     @Override
     public void onDestroy() {
-        flag = false;
+        mFlag = false;
         unregisterReceiver(mAppLockReceiver);
         mAppLockReceiver = null;
         getContentResolver().unregisterContentObserver(mAppLockObserver);
@@ -116,25 +116,21 @@ public class AppLockService extends Service {
                     Log.e(TAG, "onReceive: mTmpStopProtectPackageName =  " + mTmpStopProtectPackageName);
                     break;
                 case Intent.ACTION_SCREEN_ON:
-                    if (!flag) {
+                    if (!mFlag) {
                         startAppLockService();
                     }
                     break;
                 case Intent.ACTION_SCREEN_OFF:
                     mTmpStopProtectPackageName = null;
-                    flag = false;
+                    mFlag = false;
                     break;
             }
-
-
         }
     }
 
     class AppLockObserver extends ContentObserver {
         /**
-         * Creates a content observer.
-         *
-         * @param handler The handler to run {@link #onChange} on, or null if none.
+         * 参数 Handler 用于指定调用 onChange 方法的线程
          */
         public AppLockObserver(Handler handler) {
             super(handler);
@@ -146,5 +142,4 @@ public class AppLockService extends Service {
             super.onChange(selfChange);
         }
     }
-
 }

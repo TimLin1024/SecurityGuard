@@ -34,7 +34,7 @@
     </style>
 
     <!-- 自定义对话框样式 -->
-    <style name="dialog_custom" parent="android:style/Theme.Light">
+    <style name="RoundRectDialogStyle" parent="android:style/Theme.Light">
         <!--背景颜色及和透明程度-->
         <item name="android:windowBackground">@android:color/transparent</item>
         <!--<item name="android:windowBackground">@drawable/bg_dialog</item>-->
@@ -44,7 +44,7 @@
         <item name="android:windowFrame">@null</item>
         <!--是否浮现在activity之上-->
         <item name="android:windowIsFloating">true</item>
-        <!--是否模糊-->
+        <!--背景是否模糊-->
         <item name="android:backgroundDimEnabled">true</item>
     </style>
     <!-- TextView 16sp样式 -->

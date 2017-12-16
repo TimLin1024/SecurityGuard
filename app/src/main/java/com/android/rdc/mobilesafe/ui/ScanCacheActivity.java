@@ -38,7 +38,6 @@ import butterknife.OnClick;
  * 扫描缓存
  */
 public class ScanCacheActivity extends BaseActivity {
-
     @BindView(R.id.tv_total_cache)
     TextView mTvTotalCache;
     @BindView(R.id.tv_unit_type)
@@ -114,7 +113,7 @@ public class ScanCacheActivity extends BaseActivity {
         mRv.setLayoutManager(new LinearLayoutManager(this));
         mRv.addItemDecoration(new DividerItemDecoration(this, DividerItemDecoration.VERTICAL));
 
-        mPackageManager = getPackageManager();
+        mPackageManager = getApplicationContext().getPackageManager();
 
         mAnimationDrawable = (AnimationDrawable) mIvAnimation.getBackground();
         mAnimationDrawable.setOneShot(false);
@@ -133,7 +132,7 @@ public class ScanCacheActivity extends BaseActivity {
             List<PackageInfo> packageInfoList = mPackageManager.getInstalledPackages(0);
             for (PackageInfo packageInfo : packageInfoList) {
                 getCacheSize(packageInfo);
-                // TODO: 2017/9/29 0029 为什么要睡眠
+                // TODO:0029 为什么要睡眠
                 try {
                     Thread.sleep(60);
                 } catch (InterruptedException e) {
@@ -175,8 +174,8 @@ public class ScanCacheActivity extends BaseActivity {
 
     @Override
     protected void onDestroy() {
-        mAnimationDrawable.stop();
-        mExecutorService.shutdown();
+        mAnimationDrawable.stop();//停止动画
+        mExecutorService.shutdown();//关闭线程池
         super.onDestroy();
     }
 
@@ -195,7 +194,7 @@ public class ScanCacheActivity extends BaseActivity {
             mActivityReference = new WeakReference<>(cacheActivity);
         }
 
-        // TODO: 2017/9/29 0029 怎么知道获取的缓存大小是哪一个 app 的呢？
+        // TODO:  怎么知道获取的缓存大小是哪一个 app 的呢？
         @Override
         public void onGetStatsCompleted(PackageStats pStats, boolean succeeded) throws RemoteException {
             ScanCacheActivity activity = mActivityReference.get();
