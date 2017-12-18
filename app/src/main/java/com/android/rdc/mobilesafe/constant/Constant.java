@@ -5,7 +5,7 @@ public class Constant {
      * 配置信息
      */
     public static final String SP_NAME_CONFIG = "config";
-    public static final String BLACK_NUM_ON = "BLACK_NUM_ON";
+    public static final String BLACK_NUM_ON = "BLACK_NUM_ON";//黑名单拦截是否开启
 
     public static final String URI_APP_LOCK_DB = "content://com.android.rdc.mobilesafe.applock";// 程序锁数据库 uri
     public static final String KEY_LOCK_PWD = "password";//密码

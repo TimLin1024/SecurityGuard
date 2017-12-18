@@ -25,6 +25,7 @@ import com.android.rdc.mobilesafe.ui.SettingActivity;
 import com.android.rdc.mobilesafe.ui.SoftwareManagerActivity;
 import com.android.rdc.mobilesafe.ui.TrafficMonitoringActivity;
 import com.android.rdc.mobilesafe.ui.widget.GridDividerItemDecoration;
+import com.wx.airpurgeview.AirPurgeLayoutView;
 
 import java.util.List;
 
@@ -37,6 +38,8 @@ public class HomeActivity extends BaseActivity {
     RecyclerView mRvHome;
     @BindView(R.id.iv_setting)
     ImageView mIvSetting;
+    @BindView(R.id.air_purge_view)
+    AirPurgeLayoutView mAirPurgeView;
 
     private static final int MSG_UPDATE_PROGRESS = 101;
     private int mCurrentProgress;
@@ -104,18 +107,25 @@ public class HomeActivity extends BaseActivity {
 
     @Override
     protected void initView() {
+        initRv();
+        mAirPurgeView.onOpenGranule(true);
+        mAirPurgeView.setBackgroundColor(getResources().getColor(R.color.colorPrimary));//设置背景颜色
+
+        mHandler.postDelayed(() -> {
+            mAirPurgeView.onOpenGranule(false);
+        }, 3000);//模拟扫描 3 s
+        mHandler.sendEmptyMessage(MSG_UPDATE_PROGRESS);
+    }
+
+    private void initRv() {
         mHomeRvAdapter = new HomeRvAdapter();
         mHomeRvAdapter.setDataList(mHomeItemList);
         mRvHome.setAdapter(mHomeRvAdapter);
         mRvHome.setLayoutManager(new GridLayoutManager(this, 3));
         mRvHome.addItemDecoration(new GridDividerItemDecoration(10, 10));
-
         LinearSnapHelper linearSnapHelper = new LinearSnapHelper();
         linearSnapHelper.attachToRecyclerView(mRvHome);
-
-        mHandler.sendEmptyMessage(MSG_UPDATE_PROGRESS);
     }
-
 
     @Override
     protected void initListener() {

@@ -14,7 +14,7 @@ import java.util.List;
 
 public class AppLockDao {
     private Context mContext;
-    // TODO: 使用 ContentResolver 暴露数据，在 已加锁页面，未加锁页面、程序锁界面 使用该 uri 进行注册内容观察者
+    // 使用 ContentResolver 暴露数据，在 已加锁页面，未加锁页面、程序锁界面 使用该 uri 进行注册内容观察者
     private Uri mUri = Uri.parse(Constant.URI_APP_LOCK_DB);
     private static final String COLUMN_NAME = "packagename";
     private static final String TABLE_NAME = "applock";
