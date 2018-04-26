@@ -2,6 +2,8 @@ package com.android.rdc.mobilesafe.ui.widget;
 
 import android.content.Context;
 import android.content.res.TypedArray;
+import android.os.Build;
+import android.support.annotation.RequiresApi;
 import android.util.AttributeSet;
 import android.view.View;
 import android.widget.CompoundButton;
@@ -11,6 +13,7 @@ import android.widget.ToggleButton;
 
 import com.android.rdc.mobilesafe.R;
 
+@Deprecated
 public class SettingView extends RelativeLayout {
 
     private String mTitle = "";
@@ -27,6 +30,7 @@ public class SettingView extends RelativeLayout {
         init(context);
     }
 
+    @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
     public SettingView(Context context, AttributeSet attrs, int defStyleAttr, int defStyleRes) {
         super(context, attrs, defStyleAttr, defStyleRes);
         init(context);
@@ -46,7 +50,7 @@ public class SettingView extends RelativeLayout {
 
 
     private void init(Context context) {
-        View view = View.inflate(context,R.layout.setting_view,null);
+        View view = View.inflate(context, R.layout.setting_view, null);
         this.addView(view);
         mTvSettingStatus = $(R.id.tv_setting_status);
         mTvSettingTitle = $(R.id.tv_setting_title);

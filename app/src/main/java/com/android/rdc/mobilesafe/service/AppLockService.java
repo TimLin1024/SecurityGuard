@@ -13,9 +13,9 @@ import android.os.IBinder;
 import android.support.annotation.Nullable;
 import android.util.Log;
 
-import com.android.rdc.mobilesafe.ui.EnterPwdActivity;
-import com.android.rdc.mobilesafe.dao.AppLockDao;
 import com.android.rdc.mobilesafe.constant.Constant;
+import com.android.rdc.mobilesafe.dao.AppLockDao;
+import com.android.rdc.mobilesafe.ui.EnterPwdActivity;
 
 import java.util.List;
 

@@ -126,7 +126,7 @@ public class LockFragment extends BaseFragment {
         mTvLock.setText(String.format(Locale.CHINA, "已加锁应用共有：%d 个", mLockAppInfoList.size()));
     }
 
-    @Subscribe(threadMode = ThreadMode.MAIN,priority = 100)
+    @Subscribe(threadMode = ThreadMode.MAIN, priority = 100)
     public void onAppDataFetch(List<AppInfo> appInfoList) {
         mAllAppInfoList = appInfoList;
         fillData();

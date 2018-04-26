@@ -20,7 +20,7 @@ public final class TaskInfoParser {
 
     /**
      * 获取所有正在运行的进程
-     * */
+     */
     public static List<TaskInfo> parseTaskInfo(Context context) {
         ActivityManager am = (ActivityManager) context.getSystemService(Context.ACTIVITY_SERVICE);
         PackageManager pm = context.getPackageManager();

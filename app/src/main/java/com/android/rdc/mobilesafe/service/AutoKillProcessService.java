@@ -34,7 +34,6 @@ public class AutoKillProcessService extends Service {
         if (mScreenLockReceiver != null) {
             unregisterReceiver(mScreenLockReceiver);
         }
-        mScreenLockReceiver = null;
     }
 
     @Nullable
@@ -50,7 +49,10 @@ public class AutoKillProcessService extends Service {
             ActivityManager am = (ActivityManager) context.getSystemService(ACTIVITY_SERVICE);
             List<TaskInfo> taskInfoList = TaskInfoParser.parseTaskInfo(AutoKillProcessService.this);
             for (TaskInfo taskInfo : taskInfoList) {//清除所有用户进程
-                if (taskInfo.isUserApp() && !taskInfo.getPackageName().contains("SecurityMax")) {
+                if (taskInfo.isUserApp() &&
+                        !taskInfo.getPackageName().contains("SecurityMax")
+                        && am != null) {
+
                     am.killBackgroundProcesses((taskInfo.getPackageName()));
                 }
             }

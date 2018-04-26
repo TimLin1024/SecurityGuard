@@ -39,7 +39,7 @@ public class InterceptCallReceiver extends BroadcastReceiver {
         //  因此将 ITelephony.aidl 文件(位于 internal 包中) copy 到相应目录下面。
         //  ITelephony.aidl 文件关联到另外一个 aidl 文件，导致出错
         BlackNumberDao dao = new BlackNumberDao(context);
-        if (!intent.getAction().equals(Intent.ACTION_NEW_OUTGOING_CALL)) {
+        if (!Intent.ACTION_NEW_OUTGOING_CALL.equals(intent.getAction())) {
             String mIncomingNumber;
             TelephonyManager telephonyManager = (TelephonyManager) context
                     .getSystemService(Service.TELEPHONY_SERVICE);

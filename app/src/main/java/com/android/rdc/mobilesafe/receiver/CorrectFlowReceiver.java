@@ -31,7 +31,13 @@ public class CorrectFlowReceiver extends BroadcastReceiver {
     @Override
     public void onReceive(Context context, Intent intent) {
         Log.d(TAG, "onReceive: " + "接收到信息了");
+        if (intent.getExtras() == null) {
+            return;
+        }
         Object[] objs = (Object[]) intent.getExtras().get("pdus");
+        if (objs == null) {
+            return;
+        }
         StringBuilder body = new StringBuilder();
         String address = "";
         for (Object obj : objs) {
