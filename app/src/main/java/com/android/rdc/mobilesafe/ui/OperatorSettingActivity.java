@@ -196,10 +196,10 @@ public class OperatorSettingActivity extends BaseToolBarActivity {
             mBottomSheetDialog = new BottomSheetDialog(this);
             RelativeLayout rlRoot = (RelativeLayout) LayoutInflater.from(this).inflate(R.layout.dialog_list, null);
             mBottomSheetDialog.setContentView(rlRoot);
-            mTvDialogTitle = (TextView) rlRoot.findViewById(R.id.tv_title);
-            Button btn = (Button) rlRoot.findViewById(R.id.btn_cancel);
+            mTvDialogTitle = rlRoot.findViewById(R.id.tv_title);
+            Button btn = rlRoot.findViewById(R.id.btn_cancel);
             btn.setOnClickListener(view -> mBottomSheetDialog.dismiss());
-            RecyclerView rvListDialog = (RecyclerView) rlRoot.findViewById(R.id.rv);
+            RecyclerView rvListDialog = rlRoot.findViewById(R.id.rv);
             rvListDialog.setLayoutManager(new LinearLayoutManager(this));
             rvListDialog.setHasFixedSize(true);
             rvListDialog.addItemDecoration(new DividerItemDecoration(this, DividerItemDecoration.VERTICAL));

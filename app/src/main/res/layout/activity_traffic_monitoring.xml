@@ -147,7 +147,6 @@
         tools:text="5GB"/>
 
     <TextView
-        android:id="@+id/tv_account_hint"
         style="@style/TvHint"
         android:text="@string/month_used"
         app:layout_constraintBottom_toBottomOf="@id/view_bg"

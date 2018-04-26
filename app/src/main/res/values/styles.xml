@@ -7,6 +7,7 @@
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
         <item name="colorAccent">@color/colorAccent</item>
     </style>
+
     <style name="TrafficActivityTheme" parent="AppTheme">
         <!-- Customize your theme here. -->
         <item name="colorPrimary">@color/traffic_bg_blue</item>
@@ -14,16 +15,12 @@
         <item name="colorAccent">@color/colorAccent</item>
     </style>
 
+    <style name="SplashTheme" parent="AppTheme">
+        <item name="android:windowBackground">@drawable/launch_bg</item>
+    </style>
     <!--toolbar-->
     <style name="ToolbarStyle" parent="@style/ThemeOverlay.AppCompat.ActionBar">
         <item name="android:textColorPrimary">@color/white</item>
-    </style>
-
-    <style name="llStyle">
-        <item name="android:layout_width">0dp</item>
-        <item name="android:layout_height">wrap_content</item>
-        <item name="android:layout_weight">1</item>
-        <item name="android:gravity">center</item>
     </style>
 
 
@@ -55,10 +52,6 @@
     </style>
 
     <!-- TextView 14sp样式 -->
-    <style name="Tv12sp" parent="WrapContent">
-        <item name="android:textSize">12sp</item>
-        <item name="android:gravity">center_vertical</item>
-    </style>
     <!-- TextView 14sp样式 -->
     <style name="Tv14sp" parent="WrapContent">
         <item name="android:textSize">14sp</item>
@@ -66,23 +59,8 @@
     </style>
 
     <!-- 宽度为0dp,高度为包裹内容，权重为1 -->
-    <style name="zero_widthwrapcontent">
-        <item name="android:layout_width">0dp</item>
-        <item name="android:layout_height">wrap_content</item>
-        <item name="android:layout_weight">1</item>
-    </style>
 
     <!-- 黄色14sp,图片间距为5dp的textview -->
-    <style name="TvYellow14sp" parent="zero_widthwrapcontent">
-        <item name="android:textSize">14sp</item>
-        <item name="android:drawablePadding">3dp</item>
-        <item name="android:gravity">center</item>
-        <item name="android:textColor">@color/bright_yellow</item>
-    </style>
-
-    <style name="AppTheme.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar"/>
-
-    <style name="AppTheme.PopupOverlay" parent="ThemeOverlay.AppCompat.Light"/>
 
     <style name="TvAppOperation">
         <item name="android:layout_width">0dp</item>
@@ -90,7 +68,7 @@
         <item name="android:layout_weight">1</item>
         <item name="android:gravity">center</item>
         <item name="android:paddingTop">8dp</item>
-        <item name="android:background">?attr/selectableItemBackground</item>
+        <item name="android:background">?android:attr/selectableItemBackground</item>
     </style>
 
     <style name="SettingSwitchStyle">
@@ -108,18 +86,6 @@
         <item name="android:scaleType">centerCrop</item>
         <item name="android:padding">8dp</item>
         <item name="android:background">@drawable/bg_round_with_stroke</item>
-    </style>
-
-    <style name="RoundCbStyle">
-        <item name="android:layout_width">25dp</item>
-        <item name="android:layout_height">25dp</item>
-        <item name="android:background">@drawable/selector_round_cb</item>
-        <item name="android:button">@null</item>
-        <item name="android:gravity">center</item>
-    </style>
-
-    <style name="Cb" parent="Base.TextAppearance.AppCompat.Button">
-
     </style>
 
     <style name="TvTitleStyle">
@@ -181,7 +147,7 @@
     <style name="LlOperatorItem">
         <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">55dp</item>
-        <item name="android:background">?attr/selectableItemBackground</item>
+        <item name="android:background">?android:attr/selectableItemBackground</item>
         <item name="android:gravity">center_vertical</item>
     </style>
 
@@ -209,11 +175,12 @@
     </style>
 
     <style name="IvToolbarIcon">
-        <item name="android:background">?attr/selectableItemBackground</item>
+        <item name="android:background">?android:attr/selectableItemBackground</item>
         <item name="android:layout_width">40dp</item>
         <item name="android:layout_height">40dp</item>
         <item name="android:padding">8dp</item>
         <item name="android:scaleType">centerCrop</item>
     </style>
+
 </resources>
 

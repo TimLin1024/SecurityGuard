@@ -62,7 +62,7 @@ public class CleanCacheResultActivity extends BaseActivity {
                     long mem = (long) msg.obj;
                     String[] str = Formatter.formatFileSize(cleanCacheResultActivity, mem).split(" ");
                     cleanCacheResultActivity.mTvTotalCacheClean.setText(str[0]);
-                    cleanCacheResultActivity.mTvUnitType.setText(str[1]);
+                    cleanCacheResultActivity.mTvUnitType.setText(str.length > 1 ? str[1] : "");
             }
         }
     }
