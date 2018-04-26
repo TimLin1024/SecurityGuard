@@ -18,8 +18,6 @@ public final class DateUtil {
 
     /**
      * pattern yyyy-MM-dd HH:mm:ss
-     *
-     * @return
      */
     public static String getDateDiff(Date date/*, String pattern*/) {
         String pattern = "yyyy-MM-dd HH:mm:ss";
@@ -44,7 +42,7 @@ public final class DateUtil {
         long min = ((intervalTime / (60 * 1000)) - days * 24 * 60 - hours * 60);//
         long s = (intervalTime / 1000 - days * 24 * 60 * 60 - hours * 60 * 60 - min * 60);
         if (days > 0) {
-            if (days > 0 && days < 2) {
+            if (days < 2) {
                 result = "前天" + hour + "点" + minute + "分";
             } else {
                 result = /*yearNum % 100 + "年"*/ +month + "月 " + day + "日" + hour + "点" + minute + "分";
@@ -56,7 +54,7 @@ public final class DateUtil {
                 result = hours + "小时 前";
             }
         } else if (min > 0) {
-            if (min > 0 && min < 15) {
+            if (min < 15) {
                 result = "刚刚";
             } else {
                 result = min + "分 前";

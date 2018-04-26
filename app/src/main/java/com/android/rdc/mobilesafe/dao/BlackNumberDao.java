@@ -6,8 +6,8 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 
-import com.android.rdc.mobilesafe.db.BlackNumberOpenHelper;
 import com.android.rdc.mobilesafe.bean.BlackContactInfo;
+import com.android.rdc.mobilesafe.db.BlackNumberOpenHelper;
 
 import java.util.ArrayList;
 import java.util.List;

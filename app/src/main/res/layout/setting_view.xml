@@ -29,7 +29,6 @@
         android:layout_alignParentEnd="true"
         android:layout_centerVertical="true"
         android:layout_marginEnd="27dp"
-        android:background="@drawable/selector_toggle_btn_blue"
         tools:textOff=""
         tools:textOn=""/>
 

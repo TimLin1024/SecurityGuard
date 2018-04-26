@@ -15,19 +15,19 @@ public class SmsDatabaseChaneObserver extends ContentObserver {
     private static final String TAG = "SmsDatabaseChaneObserve";
 
     // 只检查收件箱
-    public static final Uri MMSSMS_ALL_MESSAGE_URI = Uri.parse("content://sms/inbox");
-    public static final String SORT_FIELD_STRING = "_id asc";  // 排序
-    public static final String DB_FIELD_ID = "_id";
-    public static final String DB_FIELD_ADDRESS = "address";
-    public static final String DB_FIELD_PERSON = "person";
-    public static final String DB_FIELD_BODY = "body";
-    public static final String DB_FIELD_DATE = "date";
-    public static final String DB_FIELD_TYPE = "type";
-    public static final String DB_FIELD_THREAD_ID = "thread_id";
-    public static final String[] ALL_DB_FIELD_NAME = {
+    private static final Uri MMSSMS_ALL_MESSAGE_URI = Uri.parse("content://sms/inbox");
+    private static final String SORT_FIELD_STRING = "_id asc";  // 排序
+    private static final String DB_FIELD_ID = "_id";
+    private static final String DB_FIELD_ADDRESS = "address";
+    private static final String DB_FIELD_PERSON = "person";
+    private static final String DB_FIELD_BODY = "body";
+    private static final String DB_FIELD_DATE = "date";
+    private static final String DB_FIELD_TYPE = "type";
+    private static final String DB_FIELD_THREAD_ID = "thread_id";
+    private static final String[] ALL_DB_FIELD_NAME = {
             DB_FIELD_ID, DB_FIELD_ADDRESS, DB_FIELD_PERSON, DB_FIELD_BODY,
             DB_FIELD_DATE, DB_FIELD_TYPE, DB_FIELD_THREAD_ID};
-    public static int mMessageCount = -1;
+    private static int mMessageCount = -1;
 
     private static final long DELTA_TIME = 60 * 1000;
     private ContentResolver mResolver;

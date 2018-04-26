@@ -29,7 +29,7 @@ public class ViewPagerAdapter extends FragmentStatePagerAdapter {
 
     /**
      * 标题
-     * */
+     */
     @Override
     public CharSequence getPageTitle(int position) {
         return mTabTitles[position];

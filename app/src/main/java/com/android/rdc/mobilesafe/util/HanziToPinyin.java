@@ -32,9 +32,8 @@ import java.util.Locale;
  * ICU.
  * <p>
  * Currently this file is aligned to zh.txt in ICU 4.6
- *
+ * <p>
  * 汉字转拼音的工具类
- *
  */
 public class HanziToPinyin {
     private static final String TAG = "HanziToPinyin";

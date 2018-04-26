@@ -207,7 +207,7 @@ public class ScanVirusActivity extends BaseToolBarActivity {
                     mVirusList.add(scanAppInfo);
                     mVirusAppCount++;
                 }
-                
+
                 // 每次循环中，发送一个消息到主线程，状态为正在扫描，同时发送正在被扫描的应用信息 ，以及扫描的进度
                 Message message = mHandler.obtainMessage(SCANNING);
                 message.arg1 = mProcess;
