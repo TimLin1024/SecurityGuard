@@ -9,7 +9,6 @@
 
 
     <android.support.constraint.Guideline
-        android:id="@+id/guideline_h1"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="horizontal"
@@ -23,7 +22,6 @@
         app:layout_constraintGuide_begin="100dp"/>
 
     <android.support.constraint.Guideline
-        android:id="@+id/guideline_h3"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="horizontal"

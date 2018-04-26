@@ -88,11 +88,11 @@ public class SoftwareManagerAdapter extends BaseRvAdapter<AppInfo> {
                 if (appInfo.isSelected()) {
                     if (mLlOperation == null) {
                         View v = mViewStub.inflate();
-                        mLlOperation = (LinearLayout) v.findViewById(R.id.ll_operation);
-                        TextView tvStartApp = (TextView) v.findViewById(R.id.tv_start_app);
-                        TextView tvUninstallApp = (TextView) v.findViewById(R.id.tv_uninstall_app);
-                        TextView tvShareApp = (TextView) v.findViewById(R.id.tv_share_app);
-                        TextView tvSettingApp = (TextView) v.findViewById(R.id.tv_setting_app);
+                        mLlOperation = v.findViewById(R.id.ll_operation);
+                        TextView tvStartApp = v.findViewById(R.id.tv_start_app);
+                        TextView tvUninstallApp = v.findViewById(R.id.tv_uninstall_app);
+                        TextView tvShareApp = v.findViewById(R.id.tv_share_app);
+                        TextView tvSettingApp = v.findViewById(R.id.tv_setting_app);
 
                         tvStartApp.setOnClickListener(this);
                         tvUninstallApp.setOnClickListener(this);
@@ -139,7 +139,7 @@ public class SoftwareManagerAdapter extends BaseRvAdapter<AppInfo> {
 
         TvHolder(View itemView) {
             super(itemView);
-            mTextView = (TextView) itemView.findViewById(R.id.tv_free_mem);
+            mTextView = itemView.findViewById(R.id.tv_free_mem);
             updateFreeMemoryOnPhone();
         }
 

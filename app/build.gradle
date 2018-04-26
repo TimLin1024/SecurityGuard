@@ -1,14 +1,13 @@
 apply plugin: 'com.android.application'
-//apply plugin: 'com.jakewharton.hugo'
 android {
-    compileSdkVersion 25
+    compileSdkVersion 26
     buildToolsVersion '26.0.2'
     aaptOptions.cruncherEnabled = false
     aaptOptions.useNewCruncher = false
     defaultConfig {
         applicationId "com.android.rdc.mobilesafe"
         minSdkVersion 17
-        targetSdkVersion 25
+        targetSdkVersion 26
         versionCode 1
         versionName "1.0"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
@@ -27,7 +26,7 @@ android {
 }
 
 dependencies {
-    compile fileTree(include: ['*.jar'], dir: 'libs')
+    implementation fileTree(include: ['*.jar'], dir: 'libs')
     androidTestCompile('com.android.support.test.espresso:espresso-core:2.2.2', {
         exclude group: 'com.android.support', module: 'support-annotations'
     })
@@ -35,26 +34,26 @@ dependencies {
     //butter knife
     //在线 crash 分析
     //方便查看数据库
-    compile 'com.android.support:appcompat-v7:25.4.0'
-    compile 'com.android.support:design:25.4.0'
-    compile 'com.android.support:support-v4:25.4.0'
-    compile 'com.android.support:recyclerview-v7:25.4.0'
-    compile 'com.android.support.constraint:constraint-layout:1.0.2'
-    compile 'com.jakewharton:butterknife:8.8.1'
+    implementation 'com.android.support:appcompat-v7:26.1.0'
+    implementation 'com.android.support:design:26.1.0'
+    implementation 'com.android.support:support-v4:26.1.0'
+    implementation 'com.android.support:recyclerview-v7:26.1.0'
+    implementation 'com.android.support.constraint:constraint-layout:1.1.0'
+    implementation 'com.jakewharton:butterknife:8.8.1'
     annotationProcessor 'com.jakewharton:butterknife-compiler:8.8.1'
-    compile 'com.tencent.bugly:crashreport:2.6.5'
-    compile 'com.facebook.stetho:stetho:1.5.0'
-    compile 'com.android.support:support-vector-drawable:25.4.0'
-    compile 'com.squareup.okhttp3:okhttp:3.9.0'
-    compile 'org.greenrobot:eventbus:3.1.0-RC'
-    compile 'com.github.bumptech.glide:glide:4.2.0'
-    testCompile 'junit:junit:4.12'
-    annotationProcessor 'com.github.bumptech.glide:compiler:4.2.0'
-    compile 'com.jaredrummler:android-shell:1.0.0'
-    compile 'com.facebook.stetho:stetho-okhttp3:1.5.0'
-    compile 'com.contrarywind:Android-PickerView:3.2.6'
-    compile 'com.wx.library:airpurgeview:1.0'
+    implementation 'com.tencent.bugly:crashreport:2.6.5'
+    implementation 'com.facebook.stetho:stetho:1.5.0'
+    implementation 'com.android.support:support-vector-drawable:26.1.0'
+    implementation 'com.squareup.okhttp3:okhttp:3.10.0'
+    implementation 'org.greenrobot:eventbus:3.1.1'
+    implementation 'com.github.bumptech.glide:glide:4.3.1'
+    testImplementation 'junit:junit:4.12'
+    annotationProcessor 'com.github.bumptech.glide:compiler:4.3.1'
+    implementation 'com.jaredrummler:android-shell:1.0.0'
+    implementation 'com.facebook.stetho:stetho-okhttp3:1.5.0'
+    implementation 'com.contrarywind:Android-PickerView:3.2.6'
+    implementation 'com.wx.library:airpurgeview:1.0'
     implementation 'com.google.code.gson:gson:2.8.2'
-    debugCompile 'com.squareup.leakcanary:leakcanary-android:1.5.4'
+    debugImplementation 'com.squareup.leakcanary:leakcanary-android:1.5.4'
     releaseImplementation 'com.squareup.leakcanary:leakcanary-android-no-op:1.5.4'
 }

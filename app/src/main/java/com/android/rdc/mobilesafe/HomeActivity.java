@@ -85,7 +85,6 @@ public class HomeActivity extends BaseActivity {
 
     @Override
     protected void onNewIntent(Intent intent) {
-        super.onNewIntent(intent);
         //关闭应用逻辑判断
         if (intent != null) {
             boolean exitApp = intent.getBooleanExtra(KEY_EXIT_APP, false);

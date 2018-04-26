@@ -1,29 +1,21 @@
 package com.android.rdc.mobilesafe.ui;
 
-import com.android.rdc.mobilesafe.R;
-import com.android.rdc.mobilesafe.base.BaseActivity;
+import android.content.Intent;
+import android.os.Bundle;
+import android.os.Handler;
+import android.support.annotation.Nullable;
+import android.support.v7.app.AppCompatActivity;
+
+import com.android.rdc.mobilesafe.HomeActivity;
 
 
-public class SplashActivity extends BaseActivity {
-
-
+public class SplashActivity extends AppCompatActivity {
     @Override
-    protected int setResId() {
-        return R.layout.activity_splash;
-    }
-
-    @Override
-    protected void initData() {
-
-    }
-
-    @Override
-    protected void initView() {
-
-    }
-
-    @Override
-    protected void initListener() {
-
+    protected void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        new Handler().postDelayed(() -> {
+            startActivity(new Intent(SplashActivity.this, HomeActivity.class));
+            finish();
+        }, 500);
     }
 }

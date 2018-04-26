@@ -84,8 +84,9 @@ public class ScanCacheActivity extends BaseActivity {
                     PackageInfo packageInfo = (PackageInfo) msg.obj;
                     scanCacheActivity.mTvScanningFile.setText(String.format("正在扫描%s", packageInfo.packageName));
                     String[] str = Formatter.formatFileSize(scanCacheActivity, scanCacheActivity.mCacheMem).split(" ");
+
                     scanCacheActivity.mTvTotalCache.setText(str[0]);
-                    scanCacheActivity.mTvUnitType.setText(str[1]);
+                    scanCacheActivity.mTvUnitType.setText(str.length > 1 ? str[1] : "");
 //                    mTvUnitType
 //                    mCacheInfoList.addAll()
 //                    mCacheInfoList.add(packageInfo);

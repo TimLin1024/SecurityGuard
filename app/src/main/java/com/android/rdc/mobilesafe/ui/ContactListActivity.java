@@ -133,10 +133,10 @@ public class ContactListActivity extends BaseToolBarActivity {
             View view = LayoutInflater.from(this).inflate(R.layout.dialog_bottom_sheet, null);
             mBottomSheetDialog.setContentView(view);
 
-            TextView tvCancel = (TextView) view.findViewById(R.id.tv_cancel);
-            TextView tvSure = (TextView) view.findViewById(R.id.tv_sure);
-            final CheckBox cbInterceptPhone = (CheckBox) view.findViewById(R.id.cb_intercept_phone);
-            final CheckBox cbInterceptSms = (CheckBox) view.findViewById(R.id.cb_intercept_sms);
+            TextView tvCancel = view.findViewById(R.id.tv_cancel);
+            TextView tvSure = view.findViewById(R.id.tv_sure);
+            final CheckBox cbInterceptPhone = view.findViewById(R.id.cb_intercept_phone);
+            final CheckBox cbInterceptSms = view.findViewById(R.id.cb_intercept_sms);
 
             final BottomSheetDialog finalBottomSheetDialog1 = mBottomSheetDialog;
             tvCancel.setOnClickListener(v -> finalBottomSheetDialog1.dismiss());

@@ -29,7 +29,7 @@ public class DialogRvAdapter extends BaseSimpleRvAdapter {
 
         public TextViewHolder(View itemView) {
             super(itemView);
-            mTvText = (TextView) itemView.findViewById(R.id.tv_text);
+            mTvText = itemView.findViewById(R.id.tv_text);
         }
 
         @Override

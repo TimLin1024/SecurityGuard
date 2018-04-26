@@ -19,7 +19,7 @@ public class AntiVirusDao {
         Log.d(TAG, "checkVirus: " + path);// "/data/data/com.android.rdc.应用名/files/antivirus.db"
         SQLiteDatabase sqLiteDatabase = SQLiteDatabase.openDatabase(path, null,
                 SQLiteDatabase.OPEN_READONLY);
-        //desc 是 description 的意思，这样的缩写不太规范。但是，给定的数据表无法修改
+        //desc 是 description 的意思，是表中的某一列。desc 在 AS 中会被识别为「降序关键字」，导致报错。但是，给定的数据表无法修改
         Cursor cursor = sqLiteDatabase.rawQuery("SELECT desc FROM datable WHERE md5=?", new String[]{md5});
         if (cursor.moveToNext()) {
             desc = cursor.getString(0);
